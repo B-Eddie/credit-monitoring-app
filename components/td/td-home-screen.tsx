@@ -17,7 +17,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 
 interface TDHomeScreenProps {
@@ -27,6 +27,11 @@ interface TDHomeScreenProps {
 export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
   const [showBalance, setShowBalance] = useState(true);
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="pb-12">
@@ -38,14 +43,18 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
           </p>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              onClick={() => mounted && setTheme(theme === "dark" ? "light" : "dark")}
               className="flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors p-2 btn-press"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? (
-                <Sun className="w-5 h-5" />
+              {mounted ? (
+                theme === "dark" ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )
               ) : (
-                <Moon className="w-5 h-5" />
+                <span className="w-5 h-5 inline-block" aria-hidden />
               )}
             </button>
             <button
@@ -154,14 +163,14 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
         >
           <div className="rounded-3xl p-7 border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group relative overflow-hidden card-interactive">
             {/* Decorative gradient orb */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-breathe" />
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-breathe pointer-events-none" />
 
-            <div className="flex items-start gap-5 mb-8 relative">
+            <div className="flex items-start gap-5 mb-8 relative z-10">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] flex items-center justify-center glow-green flex-shrink-0 animate-pulse-glow">
                 <Sparkles className="w-8 h-8 text-[#0A0F14]" />
               </div>
-              <div className="flex-1 pt-1">
-                <div className="flex items-center gap-3 mb-2">
+              <div className="flex-1 pt-1 min-w-0">
+                <div className="flex items-center gap-3 mb-2 flex-wrap">
                   <span className="font-bold text-foreground text-xl tracking-tight">
                     Clean Slate AI
                   </span>
@@ -173,25 +182,25 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
                   AI-powered credit monitoring & dispute resolution
                 </p>
               </div>
-              <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1" />
+              <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1 flex-shrink-0" />
             </div>
 
-            <div className="flex items-center gap-10 relative">
-              <div>
+            <div className="flex items-end gap-6 sm:gap-10 relative z-10">
+              <div className="flex-shrink-0">
                 <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
                   Credit Score
                 </p>
-                <p className="text-5xl font-bold text-foreground tracking-tight">
+                <p className="text-4xl sm:text-5xl font-bold text-foreground tracking-tight">
                   742
                 </p>
               </div>
-              <div className="h-16 w-px bg-border" />
-              <div>
+              <div className="h-16 w-px bg-border flex-shrink-0" />
+              <div className="flex-shrink-0">
                 <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
                   Health
                 </p>
-                <p className="text-5xl font-bold text-primary tracking-tight">
-                  94<span className="text-3xl">%</span>
+                <p className="text-4xl sm:text-5xl font-bold text-primary tracking-tight">
+                  94<span className="text-2xl sm:text-3xl">%</span>
                 </p>
               </div>
             </div>

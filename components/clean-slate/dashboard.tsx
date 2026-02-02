@@ -490,7 +490,7 @@ function CreditScoreGauge({
           </linearGradient>
         </defs>
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-end pb-2">
+      <div className="absolute inset-0 flex flex-col items-center justify-end">
         <span className="text-6xl font-bold text-foreground tabular-nums">
           {hidden ? "•••" : score}
         </span>

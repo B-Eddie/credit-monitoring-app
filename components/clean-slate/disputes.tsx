@@ -271,10 +271,10 @@ export function CleanSlateDisputes() {
         <section className="px-8 pb-10 animate-fade-in stagger-4">
           <div className="glass-card rounded-3xl p-6 border border-primary/20">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center flex-shrink-0">
                 <Sparkles className="w-6 h-6 text-primary-foreground" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-semibold text-foreground">
                   AI Quick Actions
                 </p>
@@ -283,20 +283,22 @@ export function CleanSlateDisputes() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Button
                 variant="outline"
-                className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press"
+                className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press justify-center"
+                onClick={() => alert('Generating AI dispute letters for all active disputes...')}
               >
-                <Bot className="w-4 h-4 mr-2" />
-                Auto-Generate Letters
+                <Bot className="w-4 h-4 mr-2 flex-shrink-0" />
+                <span className="truncate">Auto-Generate Letters</span>
               </Button>
               <Button
                 variant="outline"
-                className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press"
+                className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press justify-center"
+                onClick={() => alert('Submitting all pending disputes to bureaus...')}
               >
-                <Send className="w-4 h-4 mr-2" />
-                Submit All Pending
+                <Send className="w-4 h-4 mr-2 flex-shrink-0" />
+                <span className="truncate">Submit All Pending</span>
               </Button>
             </div>
           </div>
@@ -306,26 +308,30 @@ export function CleanSlateDisputes() {
       {/* Quick Actions */}
       <section className="px-8 pb-10 animate-fade-in stagger-5">
         <h3 className="font-semibold text-foreground mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <ActionCard
             icon={<Upload className="w-6 h-6" />}
             title="Upload Documents"
             description="Add supporting files"
+            onClick={() => alert('Opening document upload...')}
           />
           <ActionCard
             icon={<MessageSquare className="w-6 h-6" />}
             title="Message Specialist"
             description="Get expert help"
+            onClick={() => alert('Opening chat with specialist...')}
           />
           <ActionCard
             icon={<Phone className="w-6 h-6" />}
             title="Call Support"
             description="1-800-TD-HELP"
+            onClick={() => window.open('tel:1-800-843-4357')}
           />
           <ActionCard
             icon={<FileSpreadsheet className="w-6 h-6" />}
             title="View Templates"
             description="Dispute letter templates"
+            onClick={() => alert('Opening dispute letter templates...')}
           />
         </div>
       </section>
@@ -483,19 +489,24 @@ function ActionCard({
   icon,
   title,
   description,
+  onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   description: string;
+  onClick?: () => void;
 }) {
   return (
-    <button className="glass-card rounded-2xl p-5 flex items-center gap-4 hover:bg-secondary/50 transition-colors group text-left">
+    <button 
+      onClick={onClick}
+      className="glass-card rounded-2xl p-5 flex items-center gap-4 hover:bg-secondary/50 transition-colors group text-left btn-press"
+    >
       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/15 transition-colors flex-shrink-0">
         {icon}
       </div>
-      <div>
+      <div className="min-w-0">
         <p className="font-semibold text-foreground text-sm">{title}</p>
-        <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 truncate">{description}</p>
       </div>
     </button>
   );
