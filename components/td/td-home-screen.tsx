@@ -43,7 +43,9 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
           </p>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => mounted && setTheme(theme === "dark" ? "light" : "dark")}
+              onClick={() =>
+                mounted && setTheme(theme === "dark" ? "light" : "dark")
+              }
               className="flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors p-2 btn-press"
               aria-label="Toggle theme"
             >

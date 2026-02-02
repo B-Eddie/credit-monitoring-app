@@ -287,7 +287,11 @@ export function CleanSlateDisputes() {
               <Button
                 variant="outline"
                 className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press justify-center"
-                onClick={() => alert('Generating AI dispute letters for all active disputes...')}
+                onClick={() =>
+                  alert(
+                    "Generating AI dispute letters for all active disputes...",
+                  )
+                }
               >
                 <Bot className="w-4 h-4 mr-2 flex-shrink-0" />
                 <span className="truncate">Auto-Generate Letters</span>
@@ -295,7 +299,9 @@ export function CleanSlateDisputes() {
               <Button
                 variant="outline"
                 className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press justify-center"
-                onClick={() => alert('Submitting all pending disputes to bureaus...')}
+                onClick={() =>
+                  alert("Submitting all pending disputes to bureaus...")
+                }
               >
                 <Send className="w-4 h-4 mr-2 flex-shrink-0" />
                 <span className="truncate">Submit All Pending</span>
@@ -313,25 +319,25 @@ export function CleanSlateDisputes() {
             icon={<Upload className="w-6 h-6" />}
             title="Upload Documents"
             description="Add supporting files"
-            onClick={() => alert('Opening document upload...')}
+            onClick={() => alert("Opening document upload...")}
           />
           <ActionCard
             icon={<MessageSquare className="w-6 h-6" />}
             title="Message Specialist"
             description="Get expert help"
-            onClick={() => alert('Opening chat with specialist...')}
+            onClick={() => alert("Opening chat with specialist...")}
           />
           <ActionCard
             icon={<Phone className="w-6 h-6" />}
             title="Call Support"
             description="1-800-TD-HELP"
-            onClick={() => window.open('tel:1-800-843-4357')}
+            onClick={() => window.open("tel:1-800-843-4357")}
           />
           <ActionCard
             icon={<FileSpreadsheet className="w-6 h-6" />}
             title="View Templates"
             description="Dispute letter templates"
-            onClick={() => alert('Opening dispute letter templates...')}
+            onClick={() => alert("Opening dispute letter templates...")}
           />
         </div>
       </section>
@@ -497,7 +503,7 @@ function ActionCard({
   onClick?: () => void;
 }) {
   return (
-    <button 
+    <button
       onClick={onClick}
       className="glass-card rounded-2xl p-5 flex items-center gap-4 hover:bg-secondary/50 transition-colors group text-left btn-press"
     >
@@ -506,7 +512,9 @@ function ActionCard({
       </div>
       <div className="min-w-0">
         <p className="font-semibold text-foreground text-sm">{title}</p>
-        <p className="text-xs text-muted-foreground mt-0.5 truncate">{description}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 truncate">
+          {description}
+        </p>
       </div>
     </button>
   );
