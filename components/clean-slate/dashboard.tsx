@@ -60,7 +60,8 @@ const discrepancies: Discrepancy[] = [
     type: "Duplicate Account",
     bureau: "TransUnion",
     severity: "medium",
-    description: "Same credit card appearing twice with different account numbers",
+    description:
+      "Same credit card appearing twice with different account numbers",
     detectedDate: "Dec 12, 2024",
     status: "reviewing",
   },
@@ -139,7 +140,9 @@ export function CleanSlateDashboard() {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 text-sm">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-muted-foreground">Live monitoring active</span>
+              <span className="text-muted-foreground">
+                Live monitoring active
+              </span>
             </div>
           </div>
           <button
@@ -157,7 +160,9 @@ export function CleanSlateDashboard() {
         <div className="glass-card rounded-3xl p-8 relative border border-primary/20 animate-fade-in">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-semibold text-foreground">Credit Score</h2>
+              <h2 className="text-lg font-semibold text-foreground">
+                Credit Score
+              </h2>
               <button
                 onClick={() => setShowScoreDetails(!showScoreDetails)}
                 className="p-2 rounded-full hover:bg-secondary/50 transition-colors"
@@ -182,18 +187,30 @@ export function CleanSlateDashboard() {
             />
             <div className="flex items-center gap-6 mt-6">
               <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">Range</p>
-                <p className="text-sm font-semibold text-foreground mt-1">300-900</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                  Range
+                </p>
+                <p className="text-sm font-semibold text-foreground mt-1">
+                  300-900
+                </p>
               </div>
               <div className="w-px h-8 bg-border" />
               <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">Next Update</p>
-                <p className="text-sm font-semibold text-foreground mt-1">22 hours</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                  Next Update
+                </p>
+                <p className="text-sm font-semibold text-foreground mt-1">
+                  22 hours
+                </p>
               </div>
               <div className="w-px h-8 bg-border" />
               <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">Since Jan</p>
-                <p className="text-sm font-semibold text-primary mt-1">+44 pts</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider">
+                  Since Jan
+                </p>
+                <p className="text-sm font-semibold text-primary mt-1">
+                  +44 pts
+                </p>
               </div>
             </div>
           </div>
@@ -207,7 +224,9 @@ export function CleanSlateDashboard() {
                 </div>
                 <div>
                   <p className="font-semibold text-foreground">Good Standing</p>
-                  <p className="text-sm text-muted-foreground">Top 35% of Canadians</p>
+                  <p className="text-sm text-muted-foreground">
+                    Top 35% of Canadians
+                  </p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-muted-foreground" />
@@ -219,7 +238,9 @@ export function CleanSlateDashboard() {
       {/* Bureau Comparison */}
       <section className="px-8 pb-10 animate-fade-in stagger-1">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="font-semibold text-foreground text-lg">Bureau Scores</h3>
+          <h3 className="font-semibold text-foreground text-lg">
+            Bureau Scores
+          </h3>
           <button className="text-sm text-primary font-medium flex items-center gap-1 btn-press">
             Compare
             <ChevronRight className="w-4 h-4" />
@@ -254,8 +275,12 @@ export function CleanSlateDashboard() {
                 <Activity className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h3 className="font-semibold text-foreground text-lg">Credit Health</h3>
-                <p className="text-sm text-muted-foreground">Overall assessment</p>
+                <h3 className="font-semibold text-foreground text-lg">
+                  Credit Health
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Overall assessment
+                </p>
               </div>
             </div>
             <div className="text-right">
@@ -285,7 +310,10 @@ export function CleanSlateDashboard() {
       <section className="px-8 pb-10 animate-fade-in stagger-3">
         <div className="flex items-center justify-between mb-5">
           <h3 className="font-semibold text-foreground text-lg">Score Trend</h3>
-          <Badge variant="outline" className="text-xs border-border text-muted-foreground">
+          <Badge
+            variant="outline"
+            className="text-xs border-border text-muted-foreground"
+          >
             Last 6 months
           </Badge>
         </div>
@@ -298,9 +326,12 @@ export function CleanSlateDashboard() {
       <section className="px-8 pb-10 animate-fade-in stagger-4">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <h3 className="font-semibold text-foreground text-lg">Active Discrepancies</h3>
+            <h3 className="font-semibold text-foreground text-lg">
+              Active Discrepancies
+            </h3>
             <Badge className="bg-destructive/15 text-destructive border-0 text-xs h-6 px-3">
-              {discrepancies.filter((d) => d.status !== "resolved").length} found
+              {discrepancies.filter((d) => d.status !== "resolved").length}{" "}
+              found
             </Badge>
           </div>
           <button className="text-sm text-primary font-medium flex items-center gap-1 btn-press">
@@ -311,7 +342,11 @@ export function CleanSlateDashboard() {
 
         <div className="space-y-4">
           {discrepancies.slice(0, 2).map((discrepancy, index) => (
-            <DiscrepancyCard key={discrepancy.id} discrepancy={discrepancy} delay={index} />
+            <DiscrepancyCard
+              key={discrepancy.id}
+              discrepancy={discrepancy}
+              delay={index}
+            />
           ))}
         </div>
 
@@ -350,7 +385,9 @@ export function CleanSlateDashboard() {
 
       {/* Credit Recommendations */}
       <section className="px-8 pb-10 animate-fade-in stagger-6">
-        <h3 className="font-semibold text-foreground text-lg mb-5">AI Recommendations</h3>
+        <h3 className="font-semibold text-foreground text-lg mb-5">
+          AI Recommendations
+        </h3>
         <div className="space-y-4">
           <RecommendationCard
             icon={<CreditCard className="w-6 h-6" />}
@@ -381,10 +418,13 @@ export function CleanSlateDashboard() {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 <p className="font-bold text-foreground text-lg">Fraud Alert</p>
-                <Badge className="bg-destructive text-destructive-foreground text-xs">Urgent</Badge>
+                <Badge className="bg-destructive text-destructive-foreground text-xs">
+                  Urgent
+                </Badge>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                1 unauthorized hard inquiry detected from "QuickLoans Inc." on Dec 10, 2024
+                1 unauthorized hard inquiry detected from "QuickLoans Inc." on
+                Dec 10, 2024
               </p>
               <div className="flex gap-3 mt-5">
                 <Button
@@ -412,7 +452,13 @@ export function CleanSlateDashboard() {
 
 // Components
 
-function CreditScoreGauge({ score, hidden }: { score: number; hidden?: boolean }) {
+function CreditScoreGauge({
+  score,
+  hidden,
+}: {
+  score: number;
+  hidden?: boolean;
+}) {
   const percentage = hidden ? 0 : ((score - 300) / (900 - 300)) * 100;
 
   return (
@@ -481,7 +527,11 @@ function BureauScoreCard({
         <span
           className={`text-xs flex items-center gap-1 font-semibold ${change >= 0 ? "text-primary" : "text-destructive"}`}
         >
-          {change >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+          {change >= 0 ? (
+            <TrendingUp className="w-3 h-3" />
+          ) : (
+            <TrendingDown className="w-3 h-3" />
+          )}
           {change >= 0 ? "+" : ""}
           {change}
         </span>
@@ -496,9 +546,18 @@ function BureauScoreCard({
 
 function CreditFactorRow({ factor }: { factor: CreditFactor }) {
   const impactConfig = {
-    positive: { color: "text-primary", icon: <CircleCheck className="w-4 h-4" /> },
-    negative: { color: "text-destructive", icon: <AlertCircle className="w-4 h-4" /> },
-    neutral: { color: "text-muted-foreground", icon: <Info className="w-4 h-4" /> },
+    positive: {
+      color: "text-primary",
+      icon: <CircleCheck className="w-4 h-4" />,
+    },
+    negative: {
+      color: "text-destructive",
+      icon: <AlertCircle className="w-4 h-4" />,
+    },
+    neutral: {
+      color: "text-muted-foreground",
+      icon: <Info className="w-4 h-4" />,
+    },
   };
 
   const config = impactConfig[factor.impact];
@@ -509,9 +568,13 @@ function CreditFactorRow({ factor }: { factor: CreditFactor }) {
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
           <p className="font-medium text-foreground text-sm">{factor.name}</p>
-          <span className="text-xs text-muted-foreground">{factor.weight}%</span>
+          <span className="text-xs text-muted-foreground">
+            {factor.weight}%
+          </span>
         </div>
-        <p className="text-xs text-muted-foreground truncate">{factor.description}</p>
+        <p className="text-xs text-muted-foreground truncate">
+          {factor.description}
+        </p>
       </div>
     </div>
   );
@@ -543,11 +606,29 @@ function TrendChart({ data }: { data: { month: string; score: number }[] }) {
   );
 }
 
-function DiscrepancyCard({ discrepancy, delay = 0 }: { discrepancy: Discrepancy; delay?: number }) {
+function DiscrepancyCard({
+  discrepancy,
+  delay = 0,
+}: {
+  discrepancy: Discrepancy;
+  delay?: number;
+}) {
   const severityConfig = {
-    high: { bg: "bg-destructive/10", border: "border-destructive/30", badge: "bg-destructive text-destructive-foreground" },
-    medium: { bg: "bg-[#FFB800]/10", border: "border-[#FFB800]/30", badge: "bg-[#FFB800] text-black" },
-    low: { bg: "bg-[#00D4FF]/10", border: "border-[#00D4FF]/30", badge: "bg-[#00D4FF] text-black" },
+    high: {
+      bg: "bg-destructive/10",
+      border: "border-destructive/30",
+      badge: "bg-destructive text-destructive-foreground",
+    },
+    medium: {
+      bg: "bg-[#FFB800]/10",
+      border: "border-[#FFB800]/30",
+      badge: "bg-[#FFB800] text-black",
+    },
+    low: {
+      bg: "bg-[#00D4FF]/10",
+      border: "border-[#00D4FF]/30",
+      badge: "bg-[#00D4FF] text-black",
+    },
   };
 
   const statusConfig = {
@@ -568,12 +649,16 @@ function DiscrepancyCard({ discrepancy, delay = 0 }: { discrepancy: Discrepancy;
       <div className="flex items-start justify-between gap-4 mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="font-semibold text-foreground">{discrepancy.type}</span>
+            <span className="font-semibold text-foreground">
+              {discrepancy.type}
+            </span>
             <Badge className={`${config.badge} text-xs h-5 px-2 font-medium`}>
               {discrepancy.severity.toUpperCase()}
             </Badge>
           </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">{discrepancy.description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {discrepancy.description}
+          </p>
         </div>
         <Badge className="bg-secondary text-muted-foreground border-0 text-xs h-6 px-2 flex-shrink-0">
           {discrepancy.bureau}
@@ -640,14 +725,18 @@ function RecommendationCard({
   };
 
   return (
-    <div className={`glass-card rounded-2xl p-5 border-l-4 ${priorityConfig[priority]} card-interactive`}>
+    <div
+      className={`glass-card rounded-2xl p-5 border-l-4 ${priorityConfig[priority]} card-interactive`}
+    >
       <div className="flex items-start gap-4">
         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
           {icon}
         </div>
         <div className="flex-1">
           <p className="font-semibold text-foreground mb-1">{title}</p>
-          <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {description}
+          </p>
           <div className="flex items-center gap-4 mt-3">
             <Badge className="bg-primary/15 text-primary border-0 text-xs h-6 px-3">
               {impact}

@@ -12,7 +12,13 @@ import { CleanSlateNotifications } from "@/components/clean-slate/notifications"
 import { CleanSlateSettings } from "@/components/clean-slate/settings";
 
 export type MainTab = "home" | "accounts" | "payments" | "services" | "more";
-export type CleanSlateTab = "dashboard" | "disputes" | "reports" | "support" | "notifications" | "settings";
+export type CleanSlateTab =
+  | "dashboard"
+  | "disputes"
+  | "reports"
+  | "support"
+  | "notifications"
+  | "settings";
 
 export default function TDBankApp() {
   const [mainTab, setMainTab] = useState<MainTab>("home");

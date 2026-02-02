@@ -72,7 +72,8 @@ const articles: Article[] = [
   {
     id: "ART-001",
     title: "Understanding Your Credit Score",
-    description: "Learn what factors affect your credit score and how to improve it",
+    description:
+      "Learn what factors affect your credit score and how to improve it",
     readTime: "5 min read",
     category: "Basics",
     featured: true,
@@ -135,32 +136,38 @@ const videos: VideoTutorial[] = [
 const glossaryTerms: GlossaryTerm[] = [
   {
     term: "Credit Score",
-    definition: "A numerical representation (300-900 in Canada) of your creditworthiness based on your credit history.",
+    definition:
+      "A numerical representation (300-900 in Canada) of your creditworthiness based on your credit history.",
     category: "Basics",
   },
   {
     term: "Hard Inquiry",
-    definition: "A credit check that occurs when you apply for credit. It can temporarily lower your score by a few points.",
+    definition:
+      "A credit check that occurs when you apply for credit. It can temporarily lower your score by a few points.",
     category: "Inquiries",
   },
   {
     term: "Credit Utilization",
-    definition: "The percentage of your available credit that you're using. Keeping it under 30% is recommended.",
+    definition:
+      "The percentage of your available credit that you're using. Keeping it under 30% is recommended.",
     category: "Basics",
   },
   {
     term: "Dispute",
-    definition: "A formal request to investigate and correct inaccurate information on your credit report.",
+    definition:
+      "A formal request to investigate and correct inaccurate information on your credit report.",
     category: "Disputes",
   },
   {
     term: "Credit Bureau",
-    definition: "Organizations (Equifax, TransUnion) that collect and maintain consumer credit information.",
+    definition:
+      "Organizations (Equifax, TransUnion) that collect and maintain consumer credit information.",
     category: "Basics",
   },
   {
     term: "Soft Inquiry",
-    definition: "A credit check that doesn't affect your score, such as checking your own credit or pre-approval offers.",
+    definition:
+      "A credit check that doesn't affect your score, such as checking your own credit or pre-approval offers.",
     category: "Inquiries",
   },
 ];
@@ -169,7 +176,8 @@ const initialMessages: Message[] = [
   {
     id: "1",
     type: "bot",
-    content: "Hi! I'm Clean Slate AI, your personal credit assistant. How can I help you today?",
+    content:
+      "Hi! I'm Clean Slate AI, your personal credit assistant. How can I help you today?",
     timestamp: "Just now",
     suggestions: [
       "Check my score",
@@ -181,7 +189,9 @@ const initialMessages: Message[] = [
 ];
 
 export function CleanSlateSupport() {
-  const [activeTab, setActiveTab] = useState<"chat" | "learn" | "glossary">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "learn" | "glossary">(
+    "chat",
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState("");
@@ -214,33 +224,46 @@ export function CleanSlateSupport() {
 
     // Simulate AI response
     setTimeout(() => {
-      const botResponses: Record<string, { content: string; suggestions?: string[] }> = {
+      const botResponses: Record<
+        string,
+        { content: string; suggestions?: string[] }
+      > = {
         "check my score": {
-          content: "Your current credit score is 742, which is in the 'Good' range! You've improved by 10 points this month. Would you like me to break down the factors affecting your score?",
+          content:
+            "Your current credit score is 742, which is in the 'Good' range! You've improved by 10 points this month. Would you like me to break down the factors affecting your score?",
           suggestions: ["Yes, show factors", "How to improve?", "View history"],
         },
         "start a dispute": {
-          content: "I can help you start a dispute! I found 3 potential discrepancies on your report. The most impactful one is an incorrect balance on your TD Visa. Would you like me to generate a dispute letter for this?",
-          suggestions: ["Generate letter", "Show all issues", "Explain process"],
+          content:
+            "I can help you start a dispute! I found 3 potential discrepancies on your report. The most impactful one is an incorrect balance on your TD Visa. Would you like me to generate a dispute letter for this?",
+          suggestions: [
+            "Generate letter",
+            "Show all issues",
+            "Explain process",
+          ],
         },
         "explain utilization": {
-          content: "Credit utilization is the percentage of your available credit you're using. Your current utilization is 42%, which is a bit high. Keeping it under 30% can boost your score. Paying down $500 on your TD Visa would bring it to 28%!",
+          content:
+            "Credit utilization is the percentage of your available credit you're using. Your current utilization is 42%, which is a bit high. Keeping it under 30% can boost your score. Paying down $500 on your TD Visa would bring it to 28%!",
           suggestions: ["Payment tips", "Calculate impact", "Set reminder"],
         },
         "talk to human": {
-          content: "I understand. I'll connect you with a credit specialist. They're available Mon-Fri 9am-8pm EST. Would you prefer a call or live chat?",
+          content:
+            "I understand. I'll connect you with a credit specialist. They're available Mon-Fri 9am-8pm EST. Would you prefer a call or live chat?",
           suggestions: ["Request call", "Live chat", "Schedule later"],
         },
         default: {
-          content: "I'd be happy to help with that! Could you tell me more about what you're looking for? I can assist with checking your score, filing disputes, understanding credit terms, or connecting you with a specialist.",
+          content:
+            "I'd be happy to help with that! Could you tell me more about what you're looking for? I can assist with checking your score, filing disputes, understanding credit terms, or connecting you with a specialist.",
           suggestions: ["Check my score", "File dispute", "Learn more"],
         },
       };
 
       const lowerText = text.toLowerCase();
-      const response = Object.entries(botResponses).find(([key]) =>
-        lowerText.includes(key)
-      )?.[1] || botResponses.default;
+      const response =
+        Object.entries(botResponses).find(([key]) =>
+          lowerText.includes(key),
+        )?.[1] || botResponses.default;
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -258,7 +281,7 @@ export function CleanSlateSupport() {
   const filteredTerms = glossaryTerms.filter(
     (term) =>
       term.term.toLowerCase().includes(glossarySearch.toLowerCase()) ||
-      term.definition.toLowerCase().includes(glossarySearch.toLowerCase())
+      term.definition.toLowerCase().includes(glossarySearch.toLowerCase()),
   );
 
   return (
@@ -345,7 +368,9 @@ export function CleanSlateSupport() {
                   <Sparkles className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold text-foreground">Clean Slate AI</p>
+                  <p className="font-semibold text-foreground">
+                    Clean Slate AI
+                  </p>
                   <p className="text-xs text-primary flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                     Online • Typically replies instantly
@@ -365,7 +390,11 @@ export function CleanSlateSupport() {
             {/* Messages */}
             <div className="h-80 overflow-y-auto p-5 space-y-4">
               {messages.map((message) => (
-                <ChatMessage key={message.id} message={message} onSuggestionClick={handleSendMessage} />
+                <ChatMessage
+                  key={message.id}
+                  message={message}
+                  onSuggestionClick={handleSendMessage}
+                />
               ))}
               {isTyping && (
                 <div className="flex items-start gap-3">
@@ -375,8 +404,14 @@ export function CleanSlateSupport() {
                   <div className="glass-card rounded-2xl rounded-tl-none p-4">
                     <div className="flex gap-1.5">
                       <span className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" />
-                      <span className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "0.1s" }} />
-                      <span className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "0.2s" }} />
+                      <span
+                        className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce"
+                        style={{ animationDelay: "0.1s" }}
+                      />
+                      <span
+                        className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -394,7 +429,9 @@ export function CleanSlateSupport() {
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage(inputValue)}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" && handleSendMessage(inputValue)
+                  }
                   placeholder="Type a message..."
                   className="flex-1 h-12 px-4 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                 />
@@ -411,7 +448,9 @@ export function CleanSlateSupport() {
 
           {/* Quick Contact */}
           <div className="mt-6 space-y-3">
-            <h3 className="font-semibold text-foreground mb-4">Need Human Help?</h3>
+            <h3 className="font-semibold text-foreground mb-4">
+              Need Human Help?
+            </h3>
             <div className="grid grid-cols-2 gap-3">
               <ContactCard
                 icon={<MessageSquare className="w-5 h-5" />}
@@ -450,7 +489,12 @@ export function CleanSlateSupport() {
               {articles
                 .filter((a) => a.featured)
                 .map((article, index) => (
-                  <ArticleCard key={article.id} article={article} featured delay={index} />
+                  <ArticleCard
+                    key={article.id}
+                    article={article}
+                    featured
+                    delay={index}
+                  />
                 ))}
             </div>
           </section>
@@ -478,19 +522,41 @@ export function CleanSlateSupport() {
               {articles
                 .filter((a) => !a.featured)
                 .map((article, index) => (
-                  <ArticleCard key={article.id} article={article} delay={index} />
+                  <ArticleCard
+                    key={article.id}
+                    article={article}
+                    delay={index}
+                  />
                 ))}
             </div>
           </section>
 
           {/* Categories */}
           <section className="px-8 pb-8 animate-fade-in stagger-5">
-            <h3 className="font-semibold text-foreground mb-4">Browse by Topic</h3>
+            <h3 className="font-semibold text-foreground mb-4">
+              Browse by Topic
+            </h3>
             <div className="grid grid-cols-2 gap-3">
-              <CategoryCard icon={<CreditCard className="w-5 h-5" />} title="Credit Basics" count={12} />
-              <CategoryCard icon={<FileText className="w-5 h-5" />} title="Disputes" count={8} />
-              <CategoryCard icon={<TrendingUp className="w-5 h-5" />} title="Improving Score" count={15} />
-              <CategoryCard icon={<Shield className="w-5 h-5" />} title="Security" count={6} />
+              <CategoryCard
+                icon={<CreditCard className="w-5 h-5" />}
+                title="Credit Basics"
+                count={12}
+              />
+              <CategoryCard
+                icon={<FileText className="w-5 h-5" />}
+                title="Disputes"
+                count={8}
+              />
+              <CategoryCard
+                icon={<TrendingUp className="w-5 h-5" />}
+                title="Improving Score"
+                count={15}
+              />
+              <CategoryCard
+                icon={<Shield className="w-5 h-5" />}
+                title="Security"
+                count={6}
+              />
             </div>
           </section>
         </>
@@ -518,7 +584,9 @@ export function CleanSlateSupport() {
                 key={term.term}
                 term={term}
                 expanded={expandedTerm === term.term}
-                onClick={() => setExpandedTerm(expandedTerm === term.term ? null : term.term)}
+                onClick={() =>
+                  setExpandedTerm(expandedTerm === term.term ? null : term.term)
+                }
                 delay={index}
               />
             ))}
@@ -528,7 +596,9 @@ export function CleanSlateSupport() {
             <div className="text-center py-12">
               <HelpCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-foreground font-medium">No terms found</p>
-              <p className="text-sm text-muted-foreground mt-1">Try a different search</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Try a different search
+              </p>
             </div>
           )}
         </section>
@@ -549,7 +619,9 @@ function ChatMessage({
   const isBot = message.type === "bot";
 
   return (
-    <div className={`flex items-start gap-3 ${!isBot ? "flex-row-reverse" : ""}`}>
+    <div
+      className={`flex items-start gap-3 ${!isBot ? "flex-row-reverse" : ""}`}
+    >
       {isBot && (
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center flex-shrink-0">
           <Bot className="w-4 h-4 text-primary-foreground" />
@@ -562,7 +634,9 @@ function ChatMessage({
             : "bg-primary text-primary-foreground rounded-2xl rounded-tr-none"
         } p-4`}
       >
-        <p className={`text-sm leading-relaxed ${isBot ? "text-foreground" : ""}`}>
+        <p
+          className={`text-sm leading-relaxed ${isBot ? "text-foreground" : ""}`}
+        >
           {message.content}
         </p>
         {message.suggestions && (
@@ -586,7 +660,9 @@ function ChatMessage({
             <button className="p-1.5 hover:bg-secondary rounded-lg transition-colors">
               <ThumbsDown className="w-4 h-4 text-muted-foreground" />
             </button>
-            <span className="text-xs text-muted-foreground ml-auto">{message.timestamp}</span>
+            <span className="text-xs text-muted-foreground ml-auto">
+              {message.timestamp}
+            </span>
           </div>
         )}
       </div>
@@ -611,7 +687,9 @@ function ContactCard({
         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/15 transition-colors">
           {icon}
         </div>
-        {available && <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />}
+        {available && (
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+        )}
       </div>
       <p className="font-semibold text-foreground text-sm">{title}</p>
       <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
@@ -638,19 +716,27 @@ function ArticleCard({
       <div className="flex items-start gap-4">
         <div
           className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-            featured ? "bg-gradient-to-br from-primary to-[#00B8A9]" : "bg-primary/10"
+            featured
+              ? "bg-gradient-to-br from-primary to-[#00B8A9]"
+              : "bg-primary/10"
           }`}
         >
-          <BookOpen className={`w-5 h-5 ${featured ? "text-primary-foreground" : "text-primary"}`} />
+          <BookOpen
+            className={`w-5 h-5 ${featured ? "text-primary-foreground" : "text-primary"}`}
+          />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <p className="font-semibold text-foreground text-sm">{article.title}</p>
+            <p className="font-semibold text-foreground text-sm">
+              {article.title}
+            </p>
             {featured && (
               <Star className="w-4 h-4 text-[#FFB800] fill-[#FFB800]" />
             )}
           </div>
-          <p className="text-xs text-muted-foreground line-clamp-2">{article.description}</p>
+          <p className="text-xs text-muted-foreground line-clamp-2">
+            {article.description}
+          </p>
           <div className="flex items-center gap-3 mt-2">
             <Badge className="bg-secondary text-muted-foreground border-0 text-xs h-5 px-2">
               {article.category}
@@ -667,7 +753,13 @@ function ArticleCard({
   );
 }
 
-function VideoCard({ video, delay = 0 }: { video: VideoTutorial; delay?: number }) {
+function VideoCard({
+  video,
+  delay = 0,
+}: {
+  video: VideoTutorial;
+  delay?: number;
+}) {
   return (
     <button
       className="flex-shrink-0 w-48 glass-card rounded-2xl overflow-hidden card-interactive animate-fade-in"
@@ -682,7 +774,9 @@ function VideoCard({ video, delay = 0 }: { video: VideoTutorial; delay?: number 
         </span>
       </div>
       <div className="p-4">
-        <p className="font-medium text-foreground text-sm line-clamp-2">{video.title}</p>
+        <p className="font-medium text-foreground text-sm line-clamp-2">
+          {video.title}
+        </p>
         <Badge className="bg-secondary text-muted-foreground border-0 text-xs h-5 px-2 mt-2">
           {video.category}
         </Badge>

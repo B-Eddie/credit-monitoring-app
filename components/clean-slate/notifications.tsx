@@ -42,7 +42,8 @@ const notifications: Notification[] = [
     id: "NOT-001",
     type: "fraud",
     title: "Unauthorized Inquiry Detected",
-    message: "A hard inquiry from 'QuickLoans Inc.' was detected on your Equifax report. Review and dispute if unauthorized.",
+    message:
+      "A hard inquiry from 'QuickLoans Inc.' was detected on your Equifax report. Review and dispute if unauthorized.",
     timestamp: "2 hours ago",
     read: false,
     actionable: true,
@@ -52,7 +53,8 @@ const notifications: Notification[] = [
     id: "NOT-002",
     type: "score",
     title: "Score Increased! 🎉",
-    message: "Your credit score increased by 10 points to 742. Keep up the great work!",
+    message:
+      "Your credit score increased by 10 points to 742. Keep up the great work!",
     timestamp: "Today",
     read: false,
     actionable: false,
@@ -62,7 +64,8 @@ const notifications: Notification[] = [
     id: "NOT-003",
     type: "dispute",
     title: "Dispute Update",
-    message: "Your dispute DSP-2024-001 is now under investigation by Equifax. Expected resolution: 28 days.",
+    message:
+      "Your dispute DSP-2024-001 is now under investigation by Equifax. Expected resolution: 28 days.",
     timestamp: "Yesterday",
     read: false,
     actionable: true,
@@ -72,7 +75,8 @@ const notifications: Notification[] = [
     id: "NOT-004",
     type: "tip",
     title: "Credit Tip",
-    message: "Paying down your TD Visa by $500 could improve your utilization ratio and boost your score by ~12 points.",
+    message:
+      "Paying down your TD Visa by $500 could improve your utilization ratio and boost your score by ~12 points.",
     timestamp: "2 days ago",
     read: true,
     actionable: false,
@@ -82,7 +86,8 @@ const notifications: Notification[] = [
     id: "NOT-005",
     type: "report",
     title: "Monthly Report Ready",
-    message: "Your December 2024 credit report is now available. View your score trends and any changes.",
+    message:
+      "Your December 2024 credit report is now available. View your score trends and any changes.",
     timestamp: "Dec 1",
     read: true,
     actionable: true,
@@ -92,7 +97,8 @@ const notifications: Notification[] = [
     id: "NOT-006",
     type: "dispute",
     title: "Dispute Resolved",
-    message: "Great news! Your late payment dispute has been resolved in your favor. The error has been removed.",
+    message:
+      "Great news! Your late payment dispute has been resolved in your favor. The error has been removed.",
     timestamp: "Nov 28",
     read: true,
     actionable: false,
@@ -108,7 +114,7 @@ export function CleanSlateNotifications() {
 
   const markAsRead = (id: string) => {
     setNotificationList((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
   };
 
@@ -121,7 +127,7 @@ export function CleanSlateNotifications() {
   };
 
   const filteredNotifications = notificationList.filter(
-    (n) => !filter || n.type === filter
+    (n) => !filter || n.type === filter,
   );
 
   return (
@@ -130,7 +136,9 @@ export function CleanSlateNotifications() {
       <section className="px-8 pt-8 pb-6 animate-fade-in">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Notifications</h1>
+            <h1 className="text-2xl font-bold text-foreground">
+              Notifications
+            </h1>
             <p className="text-sm text-muted-foreground mt-1">
               {unreadCount > 0 ? `${unreadCount} unread` : "All caught up!"}
             </p>
@@ -205,7 +213,9 @@ export function CleanSlateNotifications() {
             </div>
             <p className="text-foreground font-medium">No notifications</p>
             <p className="text-sm text-muted-foreground mt-1">
-              {filter ? "No notifications in this category" : "You're all caught up!"}
+              {filter
+                ? "No notifications in this category"
+                : "You're all caught up!"}
             </p>
           </div>
         )}
@@ -213,7 +223,9 @@ export function CleanSlateNotifications() {
 
       {/* Notification Settings */}
       <section className="px-8 pb-10 animate-fade-in stagger-2">
-        <h3 className="font-semibold text-foreground mb-4">Notification Preferences</h3>
+        <h3 className="font-semibold text-foreground mb-4">
+          Notification Preferences
+        </h3>
         <div className="glass-card rounded-2xl border border-border/50 divide-y divide-border/50">
           <NotificationSetting
             icon={<AlertTriangle className="w-5 h-5" />}
@@ -353,12 +365,16 @@ function NotificationCard({
       style={{ animationDelay: `${delay * 0.05}s` }}
     >
       <div className="flex items-start gap-4">
-        <div className={`w-10 h-10 rounded-xl ${config.bg} flex items-center justify-center ${config.color} flex-shrink-0`}>
+        <div
+          className={`w-10 h-10 rounded-xl ${config.bg} flex items-center justify-center ${config.color} flex-shrink-0`}
+        >
           {config.icon}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-1">
-            <p className={`font-semibold text-sm ${notification.read ? "text-muted-foreground" : "text-foreground"}`}>
+            <p
+              className={`font-semibold text-sm ${notification.read ? "text-muted-foreground" : "text-foreground"}`}
+            >
               {notification.title}
             </p>
             {notification.priority === "high" && (

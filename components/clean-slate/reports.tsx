@@ -65,7 +65,11 @@ const reports: Report[] = [
     change: 10,
     discrepancies: 3,
     status: "available",
-    highlights: ["Score increased +10 points", "1 new inquiry detected", "Utilization at 42%"],
+    highlights: [
+      "Score increased +10 points",
+      "1 new inquiry detected",
+      "Utilization at 42%",
+    ],
   },
   {
     id: "RPT-2024-11",
@@ -76,7 +80,11 @@ const reports: Report[] = [
     change: 14,
     discrepancies: 1,
     status: "available",
-    highlights: ["Score increased +14 points", "Late payment error resolved", "Credit age improved"],
+    highlights: [
+      "Score increased +14 points",
+      "Late payment error resolved",
+      "Credit age improved",
+    ],
   },
   {
     id: "RPT-2024-10",
@@ -87,7 +95,11 @@ const reports: Report[] = [
     change: 6,
     discrepancies: 2,
     status: "available",
-    highlights: ["Score increased +6 points", "2 disputes filed", "Duplicate account found"],
+    highlights: [
+      "Score increased +6 points",
+      "2 disputes filed",
+      "Duplicate account found",
+    ],
   },
   {
     id: "RPT-2024-09",
@@ -267,8 +279,13 @@ export function CleanSlateReports() {
           {/* Monthly Comparison */}
           <section className="px-8 pb-8 animate-fade-in stagger-3">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">Score Comparison</h3>
-              <Badge variant="outline" className="text-xs border-border text-muted-foreground">
+              <h3 className="font-semibold text-foreground">
+                Score Comparison
+              </h3>
+              <Badge
+                variant="outline"
+                className="text-xs border-border text-muted-foreground"
+              >
                 Last 3 months
               </Badge>
             </div>
@@ -320,7 +337,9 @@ export function CleanSlateReports() {
 
           {/* Export Options */}
           <section className="px-8 pb-8 animate-fade-in stagger-5">
-            <h3 className="font-semibold text-foreground mb-4">Export Options</h3>
+            <h3 className="font-semibold text-foreground mb-4">
+              Export Options
+            </h3>
             <div className="grid grid-cols-2 gap-4">
               <ExportCard
                 icon={<FileText className="w-6 h-6" />}
@@ -385,7 +404,9 @@ export function CleanSlateReports() {
           <section className="px-8 pb-8 animate-fade-in stagger-4">
             <div className="space-y-3">
               {auditLogs
-                .filter((log) => !filterCategory || log.category === filterCategory)
+                .filter(
+                  (log) => !filterCategory || log.category === filterCategory,
+                )
                 .map((log, index) => (
                   <AuditLogCard key={log.id} log={log} delay={index} />
                 ))}
@@ -400,9 +421,12 @@ export function CleanSlateReports() {
                   <Shield className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground mb-1">Full Transparency</p>
+                  <p className="font-semibold text-foreground mb-1">
+                    Full Transparency
+                  </p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Every action taken on your behalf is logged here. We never modify your credit report without your explicit consent.
+                    Every action taken on your behalf is logged here. We never
+                    modify your credit report without your explicit consent.
                   </p>
                 </div>
               </div>
@@ -442,7 +466,9 @@ function ComparisonBar({
           style={{ height: `${height}%` }}
         />
       </div>
-      <span className={`text-xs ${current ? "text-primary font-medium" : "text-muted-foreground"}`}>
+      <span
+        className={`text-xs ${current ? "text-primary font-medium" : "text-muted-foreground"}`}
+      >
         {month}
       </span>
     </div>
@@ -575,17 +601,43 @@ function FilterPill({
 
 function AuditLogCard({ log, delay = 0 }: { log: AuditLog; delay?: number }) {
   const categoryConfig = {
-    dispute: { icon: <FileText className="w-4 h-4" />, color: "text-[#00D4FF]", bg: "bg-[#00D4FF]/15" },
-    alert: { icon: <AlertTriangle className="w-4 h-4" />, color: "text-[#FFB800]", bg: "bg-[#FFB800]/15" },
-    report: { icon: <BarChart3 className="w-4 h-4" />, color: "text-primary", bg: "bg-primary/15" },
-    account: { icon: <User className="w-4 h-4" />, color: "text-muted-foreground", bg: "bg-secondary" },
-    security: { icon: <Lock className="w-4 h-4" />, color: "text-destructive", bg: "bg-destructive/15" },
+    dispute: {
+      icon: <FileText className="w-4 h-4" />,
+      color: "text-[#00D4FF]",
+      bg: "bg-[#00D4FF]/15",
+    },
+    alert: {
+      icon: <AlertTriangle className="w-4 h-4" />,
+      color: "text-[#FFB800]",
+      bg: "bg-[#FFB800]/15",
+    },
+    report: {
+      icon: <BarChart3 className="w-4 h-4" />,
+      color: "text-primary",
+      bg: "bg-primary/15",
+    },
+    account: {
+      icon: <User className="w-4 h-4" />,
+      color: "text-muted-foreground",
+      bg: "bg-secondary",
+    },
+    security: {
+      icon: <Lock className="w-4 h-4" />,
+      color: "text-destructive",
+      bg: "bg-destructive/15",
+    },
   };
 
   const statusConfig = {
-    success: { icon: <CheckCircle2 className="w-4 h-4" />, color: "text-primary" },
+    success: {
+      icon: <CheckCircle2 className="w-4 h-4" />,
+      color: "text-primary",
+    },
     pending: { icon: <Clock className="w-4 h-4" />, color: "text-[#FFB800]" },
-    failed: { icon: <AlertTriangle className="w-4 h-4" />, color: "text-destructive" },
+    failed: {
+      icon: <AlertTriangle className="w-4 h-4" />,
+      color: "text-destructive",
+    },
   };
 
   const category = categoryConfig[log.category];
@@ -597,7 +649,9 @@ function AuditLogCard({ log, delay = 0 }: { log: AuditLog; delay?: number }) {
       style={{ animationDelay: `${delay * 0.05}s` }}
     >
       <div className="flex items-start gap-4">
-        <div className={`w-10 h-10 rounded-xl ${category.bg} flex items-center justify-center ${category.color} flex-shrink-0`}>
+        <div
+          className={`w-10 h-10 rounded-xl ${category.bg} flex items-center justify-center ${category.color} flex-shrink-0`}
+        >
           {category.icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -678,11 +732,15 @@ function ReportDetail({
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-sm text-muted-foreground mb-1">Credit Score</p>
-              <p className="text-5xl font-bold text-foreground">{report.score}</p>
+              <p className="text-5xl font-bold text-foreground">
+                {report.score}
+              </p>
             </div>
             <div
               className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-                report.change >= 0 ? "bg-primary/15 text-primary" : "bg-destructive/15 text-destructive"
+                report.change >= 0
+                  ? "bg-primary/15 text-primary"
+                  : "bg-destructive/15 text-destructive"
               }`}
             >
               {report.change >= 0 ? (

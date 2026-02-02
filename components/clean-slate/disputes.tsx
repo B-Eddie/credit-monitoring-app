@@ -37,7 +37,12 @@ interface Dispute {
   id: string;
   type: string;
   bureau: string;
-  status: "submitted" | "investigating" | "resolved" | "rejected" | "pending_docs";
+  status:
+    | "submitted"
+    | "investigating"
+    | "resolved"
+    | "rejected"
+    | "pending_docs";
   description: string;
   submittedDate: string;
   daysRemaining: number;
@@ -60,7 +65,8 @@ const disputes: Dispute[] = [
     type: "Incorrect Balance",
     bureau: "Equifax",
     status: "investigating",
-    description: "TD Visa showing $2,400 balance instead of actual $1,200 paid balance. Statement attached.",
+    description:
+      "TD Visa showing $2,400 balance instead of actual $1,200 paid balance. Statement attached.",
     submittedDate: "Dec 15, 2024",
     daysRemaining: 28,
     lastUpdate: "Dec 18, 2024",
@@ -78,7 +84,8 @@ const disputes: Dispute[] = [
     type: "Unauthorized Inquiry",
     bureau: "Equifax",
     status: "submitted",
-    description: "Hard inquiry from 'QuickLoans Inc.' not authorized. Never applied for any loan with this company.",
+    description:
+      "Hard inquiry from 'QuickLoans Inc.' not authorized. Never applied for any loan with this company.",
     submittedDate: "Dec 10, 2024",
     daysRemaining: 35,
     lastUpdate: "Dec 10, 2024",
@@ -94,7 +101,8 @@ const disputes: Dispute[] = [
     type: "Duplicate Account",
     bureau: "TransUnion",
     status: "pending_docs",
-    description: "Same TD credit card appearing twice with different account numbers. Need identity verification.",
+    description:
+      "Same TD credit card appearing twice with different account numbers. Need identity verification.",
     submittedDate: "Dec 8, 2024",
     daysRemaining: 0,
     lastUpdate: "Dec 16, 2024",
@@ -114,7 +122,8 @@ const resolvedDisputes: Dispute[] = [
     type: "Late Payment Error",
     bureau: "Equifax",
     status: "resolved",
-    description: "Payment marked as late but was paid on time. Bank statement provided.",
+    description:
+      "Payment marked as late but was paid on time. Bank statement provided.",
     submittedDate: "Nov 5, 2024",
     daysRemaining: 0,
     lastUpdate: "Nov 28, 2024",
@@ -129,7 +138,8 @@ const resolvedDisputes: Dispute[] = [
     type: "Wrong Account Info",
     bureau: "TransUnion",
     status: "resolved",
-    description: "Account showing wrong credit limit. Updated to correct amount.",
+    description:
+      "Account showing wrong credit limit. Updated to correct amount.",
     submittedDate: "Oct 20, 2024",
     daysRemaining: 0,
     lastUpdate: "Nov 15, 2024",
@@ -161,7 +171,7 @@ export function CleanSlateDisputes() {
   }
 
   const activeDisputes = disputes.filter(
-    (d) => d.status !== "resolved" && d.status !== "rejected"
+    (d) => d.status !== "resolved" && d.status !== "rejected",
   );
 
   return (
@@ -203,7 +213,11 @@ export function CleanSlateDisputes() {
       {/* Summary Cards */}
       <section className="px-8 pb-8 animate-fade-in stagger-1">
         <div className="grid grid-cols-4 gap-3">
-          <SummaryCard value={activeDisputes.length.toString()} label="Active" color="text-[#00D4FF]" />
+          <SummaryCard
+            value={activeDisputes.length.toString()}
+            label="Active"
+            color="text-[#00D4FF]"
+          />
           <SummaryCard value="1" label="Pending" color="text-[#FFB800]" />
           <SummaryCard value="12" label="Resolved" color="text-primary" />
           <SummaryCard value="94%" label="Success" color="text-foreground" />
@@ -247,7 +261,7 @@ export function CleanSlateDisputes() {
                 onClick={() => setSelectedDispute(dispute)}
                 delay={index}
               />
-            )
+            ),
           )}
         </div>
       </section>
@@ -261,7 +275,9 @@ export function CleanSlateDisputes() {
                 <Sparkles className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <p className="font-semibold text-foreground">AI Quick Actions</p>
+                <p className="font-semibold text-foreground">
+                  AI Quick Actions
+                </p>
                 <p className="text-sm text-muted-foreground">
                   Let AI handle your disputes automatically
                 </p>
@@ -324,7 +340,9 @@ export function CleanSlateDisputes() {
             <div>
               <p className="font-semibold text-foreground mb-1">Pro Tip</p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Disputes with supporting documents are 3x more likely to be resolved in your favor. Always attach bank statements and payment confirmations.
+                Disputes with supporting documents are 3x more likely to be
+                resolved in your favor. Always attach bank statements and
+                payment confirmations.
               </p>
             </div>
           </div>
@@ -336,7 +354,15 @@ export function CleanSlateDisputes() {
 
 // Sub-components
 
-function SummaryCard({ value, label, color }: { value: string; label: string; color: string }) {
+function SummaryCard({
+  value,
+  label,
+  color,
+}: {
+  value: string;
+  label: string;
+  color: string;
+}) {
   return (
     <div className="glass-card rounded-2xl p-4 text-center">
       <p className={`text-2xl font-bold ${color}`}>{value}</p>
@@ -388,7 +414,8 @@ function DisputeCard({
   };
 
   const stat = statusConfig[dispute.status];
-  const isActive = dispute.status !== "resolved" && dispute.status !== "rejected";
+  const isActive =
+    dispute.status !== "resolved" && dispute.status !== "rejected";
 
   return (
     <button
@@ -399,8 +426,12 @@ function DisputeCard({
       <div className="flex items-start justify-between gap-4 mb-4">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2 flex-wrap">
-            <span className="font-semibold text-foreground">{dispute.type}</span>
-            <Badge className={`${stat.bg} ${stat.color} border-0 text-xs h-6 gap-1.5 px-3 font-medium`}>
+            <span className="font-semibold text-foreground">
+              {dispute.type}
+            </span>
+            <Badge
+              className={`${stat.bg} ${stat.color} border-0 text-xs h-6 gap-1.5 px-3 font-medium`}
+            >
               {stat.icon}
               {stat.label}
             </Badge>
@@ -533,14 +564,20 @@ function DisputeDetail({
                   {index < dispute.timeline.length - 1 && (
                     <div
                       className={`w-0.5 h-8 ${
-                        event.status === "completed" ? "bg-primary" : "bg-secondary"
+                        event.status === "completed"
+                          ? "bg-primary"
+                          : "bg-secondary"
                       }`}
                     />
                   )}
                 </div>
                 <div className="flex-1 pb-4">
-                  <p className="font-medium text-foreground text-sm">{event.event}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{event.date}</p>
+                  <p className="font-medium text-foreground text-sm">
+                    {event.event}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {event.date}
+                  </p>
                 </div>
               </div>
             ))}
@@ -572,7 +609,9 @@ function DisputeDetail({
             </div>
             {dispute.assignedTo && (
               <div>
-                <p className="text-xs text-muted-foreground mb-1">Assigned To</p>
+                <p className="text-xs text-muted-foreground mb-1">
+                  Assigned To
+                </p>
                 <p className="text-sm font-medium text-foreground flex items-center gap-2">
                   <User className="w-4 h-4" />
                   {dispute.assignedTo}
@@ -664,11 +703,31 @@ function NewDisputeFlow({ onBack }: { onBack: () => void }) {
   const [description, setDescription] = useState("");
 
   const disputeTypes = [
-    { id: "balance", label: "Incorrect Balance", icon: <FileText className="w-5 h-5" /> },
-    { id: "inquiry", label: "Unauthorized Inquiry", icon: <AlertTriangle className="w-5 h-5" /> },
-    { id: "duplicate", label: "Duplicate Account", icon: <RefreshCw className="w-5 h-5" /> },
-    { id: "late", label: "Late Payment Error", icon: <Clock className="w-5 h-5" /> },
-    { id: "identity", label: "Identity Theft", icon: <Shield className="w-5 h-5" /> },
+    {
+      id: "balance",
+      label: "Incorrect Balance",
+      icon: <FileText className="w-5 h-5" />,
+    },
+    {
+      id: "inquiry",
+      label: "Unauthorized Inquiry",
+      icon: <AlertTriangle className="w-5 h-5" />,
+    },
+    {
+      id: "duplicate",
+      label: "Duplicate Account",
+      icon: <RefreshCw className="w-5 h-5" />,
+    },
+    {
+      id: "late",
+      label: "Late Payment Error",
+      icon: <Clock className="w-5 h-5" />,
+    },
+    {
+      id: "identity",
+      label: "Identity Theft",
+      icon: <Shield className="w-5 h-5" />,
+    },
     { id: "other", label: "Other", icon: <Mail className="w-5 h-5" /> },
   ];
 
@@ -738,7 +797,9 @@ function NewDisputeFlow({ onBack }: { onBack: () => void }) {
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   {type.icon}
                 </div>
-                <span className="font-medium text-foreground">{type.label}</span>
+                <span className="font-medium text-foreground">
+                  {type.label}
+                </span>
                 <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
               </button>
             ))}
@@ -766,7 +827,9 @@ function NewDisputeFlow({ onBack }: { onBack: () => void }) {
                 <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
                   <Building2 className="w-6 h-6 text-foreground" />
                 </div>
-                <span className="font-medium text-foreground">{bureau.label}</span>
+                <span className="font-medium text-foreground">
+                  {bureau.label}
+                </span>
                 <ChevronRight className="w-5 h-5 text-muted-foreground ml-auto" />
               </button>
             ))}
@@ -806,17 +869,22 @@ function NewDisputeFlow({ onBack }: { onBack: () => void }) {
           <div className="glass-card rounded-2xl p-5 border border-primary/20 mb-6">
             <div className="flex items-center gap-3 mb-3">
               <Sparkles className="w-5 h-5 text-primary" />
-              <span className="font-medium text-foreground text-sm">AI Suggestion</span>
+              <span className="font-medium text-foreground text-sm">
+                AI Suggestion
+              </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              "My TD Visa account is showing an incorrect balance of $2,400. I made a payment of $1,200 on December 10, 2024, which should reflect on my account. Please find the attached bank statement as proof of payment."
+              "My TD Visa account is showing an incorrect balance of $2,400. I
+              made a payment of $1,200 on December 10, 2024, which should
+              reflect on my account. Please find the attached bank statement as
+              proof of payment."
             </p>
             <Button
               variant="outline"
               size="sm"
               onClick={() =>
                 setDescription(
-                  "My TD Visa account is showing an incorrect balance of $2,400. I made a payment of $1,200 on December 10, 2024, which should reflect on my account. Please find the attached bank statement as proof of payment."
+                  "My TD Visa account is showing an incorrect balance of $2,400. I made a payment of $1,200 on December 10, 2024, which should reflect on my account. Please find the attached bank statement as proof of payment.",
                 )
               }
               className="mt-4 h-9 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm btn-press"
@@ -828,7 +896,9 @@ function NewDisputeFlow({ onBack }: { onBack: () => void }) {
           {/* Upload */}
           <div className="border-2 border-dashed border-border rounded-2xl p-8 text-center mb-6">
             <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-            <p className="text-sm text-foreground font-medium">Upload Documents</p>
+            <p className="text-sm text-foreground font-medium">
+              Upload Documents
+            </p>
             <p className="text-xs text-muted-foreground mt-1">
               PDF, PNG, JPG up to 10MB
             </p>
@@ -865,21 +935,32 @@ function NewDisputeFlow({ onBack }: { onBack: () => void }) {
               Dispute Submitted!
             </h2>
             <p className="text-muted-foreground mb-8 max-w-[280px]">
-              Your dispute has been submitted to {selectedBureau}. We'll notify you of any updates.
+              Your dispute has been submitted to {selectedBureau}. We'll notify
+              you of any updates.
             </p>
 
             <div className="glass-card rounded-2xl p-6 w-full mb-8">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-muted-foreground">Reference ID</span>
-                <span className="font-mono font-medium text-foreground">DSP-2024-004</span>
+                <span className="text-sm text-muted-foreground">
+                  Reference ID
+                </span>
+                <span className="font-mono font-medium text-foreground">
+                  DSP-2024-004
+                </span>
               </div>
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-muted-foreground">Expected Resolution</span>
-                <span className="font-medium text-foreground">Jan 20, 2025</span>
+                <span className="text-sm text-muted-foreground">
+                  Expected Resolution
+                </span>
+                <span className="font-medium text-foreground">
+                  Jan 20, 2025
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Status</span>
-                <Badge className="bg-[#00D4FF]/15 text-[#00D4FF] border-0">Processing</Badge>
+                <Badge className="bg-[#00D4FF]/15 text-[#00D4FF] border-0">
+                  Processing
+                </Badge>
               </div>
             </div>
 

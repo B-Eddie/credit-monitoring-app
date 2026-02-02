@@ -39,12 +39,16 @@ import { useTheme } from "next-themes";
 
 export function CleanSlateSettings() {
   const { theme, setTheme } = useTheme();
-  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
+  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">(
+    "medium",
+  );
   const [highContrast, setHighContrast] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [screenReader, setScreenReader] = useState(false);
   const [voiceCommands, setVoiceCommands] = useState(false);
-  const [expandedSection, setExpandedSection] = useState<string | null>("accessibility");
+  const [expandedSection, setExpandedSection] = useState<string | null>(
+    "accessibility",
+  );
 
   return (
     <div className="pb-32 bg-background">
@@ -91,7 +95,9 @@ export function CleanSlateSettings() {
       <section className="px-8 pb-6 animate-fade-in stagger-2">
         <button
           onClick={() =>
-            setExpandedSection(expandedSection === "accessibility" ? null : "accessibility")
+            setExpandedSection(
+              expandedSection === "accessibility" ? null : "accessibility",
+            )
           }
           className="w-full flex items-center justify-between text-sm font-medium text-muted-foreground uppercase tracking-wider mb-3"
         >
@@ -118,8 +124,12 @@ export function CleanSlateSettings() {
                     <Sun className="w-5 h-5 text-primary" />
                   )}
                   <div>
-                    <p className="font-medium text-foreground text-sm">Appearance</p>
-                    <p className="text-xs text-muted-foreground">Light or dark theme</p>
+                    <p className="font-medium text-foreground text-sm">
+                      Appearance
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Light or dark theme
+                    </p>
                   </div>
                 </div>
               </div>
@@ -155,8 +165,12 @@ export function CleanSlateSettings() {
                 <div className="flex items-center gap-3">
                   <Type className="w-5 h-5 text-primary" />
                   <div>
-                    <p className="font-medium text-foreground text-sm">Text Size</p>
-                    <p className="text-xs text-muted-foreground">Adjust text size for readability</p>
+                    <p className="font-medium text-foreground text-sm">
+                      Text Size
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Adjust text size for readability
+                    </p>
                   </div>
                 </div>
               </div>
@@ -334,9 +348,12 @@ export function CleanSlateSettings() {
             <Shield className="w-7 h-7 text-primary-foreground" />
           </div>
           <p className="font-semibold text-foreground">Clean Slate AI</p>
-          <p className="text-xs text-muted-foreground mt-1">Version 1.0.0 (Demo)</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Version 1.0.0 (Demo)
+          </p>
           <p className="text-xs text-muted-foreground mt-3">
-            Powered by TD Bank • Your data is protected with bank-level encryption
+            Powered by TD Bank • Your data is protected with bank-level
+            encryption
           </p>
         </div>
       </section>
