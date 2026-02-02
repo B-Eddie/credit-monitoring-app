@@ -94,7 +94,9 @@ export function TDBottomNav({
               )}
               <div
                 className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 ${
-                  isActive ? "bg-primary/15 border border-primary/30 scale-105" : "hover:bg-secondary"
+                  isActive
+                    ? "bg-primary/15 border border-primary/30 scale-105"
+                    : "hover:bg-secondary"
                 }`}
               >
                 {tab.icon}

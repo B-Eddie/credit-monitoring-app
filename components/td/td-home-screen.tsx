@@ -79,14 +79,26 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
       {/* Quick Actions - Primary */}
       <section className="px-8 pb-10">
         <div className="grid grid-cols-4 gap-6">
-          <QuickAction icon={<Send className="w-6 h-6" />} label="Send" delay={0} />
-          <QuickAction icon={<QrCode className="w-6 h-6" />} label="Scan" delay={1} />
+          <QuickAction
+            icon={<Send className="w-6 h-6" />}
+            label="Send"
+            delay={0}
+          />
+          <QuickAction
+            icon={<QrCode className="w-6 h-6" />}
+            label="Scan"
+            delay={1}
+          />
           <QuickAction
             icon={<Receipt className="w-6 h-6" />}
             label="Pay Bills"
             delay={2}
           />
-          <QuickAction icon={<Plus className="w-6 h-6" />} label="More" delay={3} />
+          <QuickAction
+            icon={<Plus className="w-6 h-6" />}
+            label="More"
+            delay={3}
+          />
         </div>
       </section>
 
@@ -136,7 +148,10 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
 
       {/* Clean Slate AI Feature Card */}
       <section className="px-8 pb-10 animate-fade-in stagger-4">
-        <button onClick={onOpenCleanSlate} className="w-full text-left btn-press">
+        <button
+          onClick={onOpenCleanSlate}
+          className="w-full text-left btn-press"
+        >
           <div className="rounded-3xl p-7 border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group relative overflow-hidden card-interactive">
             {/* Decorative gradient orb */}
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-breathe" />
@@ -269,7 +284,7 @@ function InsightCard({
   delay?: number;
 }) {
   return (
-    <div 
+    <div
       className="glass-card rounded-2xl p-5 card-interactive animate-fade-in-scale"
       style={{ animationDelay: `${delay * 0.1}s` }}
     >
@@ -277,7 +292,9 @@ function InsightCard({
         {title}
       </p>
       <p className="text-2xl font-bold text-foreground mb-2">{value}</p>
-      <p className={`text-xs ${positive ? "text-primary" : "text-muted-foreground"}`}>
+      <p
+        className={`text-xs ${positive ? "text-primary" : "text-muted-foreground"}`}
+      >
         {subtitle}
       </p>
     </div>
@@ -393,7 +410,7 @@ function TransactionItem({
   delay?: number;
 }) {
   return (
-    <div 
+    <div
       className="glass-card rounded-2xl p-5 flex items-center justify-between hover:bg-accent/50 transition-all duration-200 card-interactive animate-fade-in-up"
       style={{ animationDelay: `${delay * 0.08}s` }}
     >
@@ -410,7 +427,9 @@ function TransactionItem({
           )}
         </div>
         <div>
-          <p className="font-semibold text-foreground text-[15px]">{merchant}</p>
+          <p className="font-semibold text-foreground text-[15px]">
+            {merchant}
+          </p>
           <p className="text-sm text-muted-foreground mt-1">{date}</p>
         </div>
       </div>

@@ -99,7 +99,13 @@ export function TDHeader({
               className={`flex-1 py-5 text-sm font-semibold transition-all relative btn-press animate-fade-in`}
               style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <span className={cleanSlateTab === tab.id ? "text-primary" : "text-muted-foreground hover:text-foreground"}>
+              <span
+                className={
+                  cleanSlateTab === tab.id
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }
+              >
                 {tab.label}
               </span>
               {cleanSlateTab === tab.id && (

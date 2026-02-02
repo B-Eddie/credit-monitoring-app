@@ -161,7 +161,9 @@ export function CleanSlateDashboard() {
       {/* Active Discrepancies */}
       <section className="px-8 pb-10 animate-fade-in stagger-5">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="font-bold text-foreground text-lg">Active Discrepancies</h2>
+          <h2 className="font-bold text-foreground text-lg">
+            Active Discrepancies
+          </h2>
           <Badge className="bg-destructive/15 text-destructive border-0 px-4 py-1.5 font-semibold animate-pulse">
             2 New
           </Badge>
@@ -235,7 +237,9 @@ export function CleanSlateDashboard() {
               <Zap className="w-8 h-8 text-[#0A0F14]" />
             </div>
             <div className="flex-1">
-              <p className="font-bold text-foreground text-lg">Improve Your Score</p>
+              <p className="font-bold text-foreground text-lg">
+                Improve Your Score
+              </p>
               <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
                 Pay down your TD Visa by $500 to improve your utilization ratio
               </p>
@@ -336,7 +340,7 @@ function BureauScore({
   delay?: number;
 }) {
   return (
-    <div 
+    <div
       className="glass-card rounded-2xl p-6 card-interactive animate-fade-in-scale"
       style={{ animationDelay: `${delay * 0.1}s` }}
     >
@@ -371,7 +375,7 @@ function StatCard({
   delay?: number;
 }) {
   return (
-    <div 
+    <div
       className="glass-card rounded-2xl p-5 text-center card-interactive animate-pop-in"
       style={{ animationDelay: `${delay * 0.08}s` }}
     >

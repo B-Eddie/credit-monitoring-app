@@ -31,8 +31,14 @@ export default function TDBankApp() {
     <div className="min-h-screen bg-background flex flex-col max-w-md mx-auto relative overflow-hidden">
       {/* Ambient background glow - adapts to theme */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px] pointer-events-none animate-breathe" />
-      <div className="absolute bottom-1/3 right-0 w-[400px] h-[400px] bg-[#00E5CC]/5 rounded-full blur-[120px] pointer-events-none animate-breathe" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-[#00B8A9]/5 rounded-full blur-[100px] pointer-events-none animate-breathe" style={{ animationDelay: '2s' }} />
+      <div
+        className="absolute bottom-1/3 right-0 w-[400px] h-[400px] bg-[#00E5CC]/5 rounded-full blur-[120px] pointer-events-none animate-breathe"
+        style={{ animationDelay: "1s" }}
+      />
+      <div
+        className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-[#00B8A9]/5 rounded-full blur-[100px] pointer-events-none animate-breathe"
+        style={{ animationDelay: "2s" }}
+      />
 
       {/* Mobile frame simulation */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden relative z-10">
