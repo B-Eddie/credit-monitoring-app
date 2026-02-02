@@ -8,6 +8,7 @@ import {
   MessageSquare,
   Sparkles,
   User,
+  Settings,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { CleanSlateTab } from "@/app/page";
@@ -26,10 +27,10 @@ export function TDHeader({
   setCleanSlateTab,
 }: TDHeaderProps) {
   const cleanSlateTabs: { id: CleanSlateTab; label: string }[] = [
-    { id: "dashboard", label: "Dashboard" },
+    { id: "dashboard", label: "Home" },
     { id: "disputes", label: "Disputes" },
     { id: "reports", label: "Reports" },
-    { id: "support", label: "Support" },
+    { id: "support", label: "Help" },
   ];
 
   return (
@@ -53,16 +54,40 @@ export function TDHeader({
         </div>
 
         {isCleanSlateOpen ? (
-          <div className="flex items-center gap-4 animate-fade-in">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] flex items-center justify-center glow-green animate-pulse-glow">
-              <Sparkles className="w-6 h-6 text-[#0A0F14]" />
-            </div>
-            <div>
-              <span className="font-bold text-xl tracking-tight text-foreground">
+          <div className="flex items-center gap-3 animate-fade-in">
+            <div className="flex items-center gap-3 mr-2">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] flex items-center justify-center glow-green">
+                <Sparkles className="w-5 h-5 text-[#0A0F14]" />
+              </div>
+              <span className="font-bold text-lg tracking-tight text-foreground">
                 Clean Slate
               </span>
-              <p className="text-xs text-muted-foreground">AI Credit Monitor</p>
             </div>
+            <button
+              onClick={() => setCleanSlateTab("notifications")}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors border btn-press relative ${
+                cleanSlateTab === "notifications"
+                  ? "bg-primary/20 border-primary/30 text-primary"
+                  : "bg-secondary border-border text-muted-foreground hover:text-foreground"
+              }`}
+              aria-label="Notifications"
+            >
+              <Bell className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
+                3
+              </span>
+            </button>
+            <button
+              onClick={() => setCleanSlateTab("settings")}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors border btn-press ${
+                cleanSlateTab === "settings"
+                  ? "bg-primary/20 border-primary/30 text-primary"
+                  : "bg-secondary border-border text-muted-foreground hover:text-foreground"
+              }`}
+              aria-label="Settings"
+            >
+              <Settings className="w-5 h-5" />
+            </button>
           </div>
         ) : (
           <div className="flex items-center gap-4">

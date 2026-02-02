@@ -8,9 +8,11 @@ import { CleanSlateDashboard } from "@/components/clean-slate/dashboard";
 import { CleanSlateDisputes } from "@/components/clean-slate/disputes";
 import { CleanSlateReports } from "@/components/clean-slate/reports";
 import { CleanSlateSupport } from "@/components/clean-slate/support";
+import { CleanSlateNotifications } from "@/components/clean-slate/notifications";
+import { CleanSlateSettings } from "@/components/clean-slate/settings";
 
 export type MainTab = "home" | "accounts" | "payments" | "services" | "more";
-export type CleanSlateTab = "dashboard" | "disputes" | "reports" | "support";
+export type CleanSlateTab = "dashboard" | "disputes" | "reports" | "support" | "notifications" | "settings";
 
 export default function TDBankApp() {
   const [mainTab, setMainTab] = useState<MainTab>("home");
@@ -56,6 +58,8 @@ export default function TDBankApp() {
               {cleanSlateTab === "disputes" && <CleanSlateDisputes />}
               {cleanSlateTab === "reports" && <CleanSlateReports />}
               {cleanSlateTab === "support" && <CleanSlateSupport />}
+              {cleanSlateTab === "notifications" && <CleanSlateNotifications />}
+              {cleanSlateTab === "settings" && <CleanSlateSettings />}
             </div>
           ) : (
             <TDHomeScreen onOpenCleanSlate={handleOpenCleanSlate} />
