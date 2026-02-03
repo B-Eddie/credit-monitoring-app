@@ -310,8 +310,12 @@ export function CleanSlateSupport() {
       <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm px-4 py-4">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Help</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Get support & learn</p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              Help
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Get support & learn
+            </p>
           </div>
           <button
             onClick={() => window.open("tel:1-800-843-4357")}
@@ -355,8 +359,12 @@ export function CleanSlateSupport() {
           >
             <MessageSquare className="w-5 h-5 text-[#008A00]" />
             <div className="text-left">
-              <p className="font-semibold text-sm text-gray-900 dark:text-white">Live Chat</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Talk to human</p>
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                Live Chat
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Talk to human
+              </p>
             </div>
           </button>
         </div>
@@ -405,7 +413,9 @@ export function CleanSlateSupport() {
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900 dark:text-white text-sm">Clean Slate AI</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-sm">
+                    Clean Slate AI
+                  </p>
                   <p className="text-xs text-[#008A00] flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#008A00] animate-pulse" />
                     Online
@@ -478,15 +488,21 @@ export function CleanSlateSupport() {
               <button
                 key={article.id}
                 className={`w-full flex items-center gap-3 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-left ${
-                  index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                  index !== 0
+                    ? "border-t border-gray-100 dark:border-gray-800"
+                    : ""
                 }`}
               >
                 <div className="w-10 h-10 rounded-xl bg-[#008A00]/10 flex items-center justify-center">
                   <BookOpen className="w-5 h-5 text-[#008A00]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 dark:text-white text-sm">{article.title}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{article.description}</p>
+                  <p className="font-medium text-gray-900 dark:text-white text-sm">
+                    {article.title}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {article.description}
+                  </p>
                 </div>
                 <div className="text-xs text-gray-400">{article.readTime}</div>
                 <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -502,11 +518,17 @@ export function CleanSlateSupport() {
               <div
                 key={term.term}
                 className={`p-4 ${
-                  index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                  index !== 0
+                    ? "border-t border-gray-100 dark:border-gray-800"
+                    : ""
                 }`}
               >
-                <p className="font-medium text-gray-900 dark:text-white text-sm">{term.term}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{term.definition}</p>
+                <p className="font-medium text-gray-900 dark:text-white text-sm">
+                  {term.term}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {term.definition}
+                </p>
               </div>
             ))}
           </div>
@@ -528,7 +550,7 @@ export function CleanSlateSupport() {
               Connect with a TD Bank specialist
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {liveChatStep === 0 && (
               <div className="flex flex-col items-center justify-center py-12">
@@ -536,7 +558,9 @@ export function CleanSlateSupport() {
                   <Headphones className="w-8 h-8 text-[#008A00]" />
                 </div>
                 <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
-                <p className="font-semibold text-gray-900 dark:text-white">Finding available agents...</p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Finding available agents...
+                </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
                   Estimated wait: less than 2 minutes
                 </p>
@@ -549,7 +573,9 @@ export function CleanSlateSupport() {
                   <User className="w-8 h-8 text-[#008A00]" />
                 </div>
                 <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
-                <p className="font-semibold text-gray-900 dark:text-white">Connecting to agent...</p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Connecting to agent...
+                </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
                   Sarah M. is joining the chat
                 </p>
@@ -560,8 +586,12 @@ export function CleanSlateSupport() {
               <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
                 <div className="bg-[#008A00]/10 rounded-2xl p-4 text-center">
                   <CheckCircle2 className="w-12 h-12 text-[#008A00] mx-auto mb-3" />
-                  <p className="font-semibold text-gray-900 dark:text-white text-lg">Connected!</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">You&apos;re now chatting with Sarah M.</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">
+                    Connected!
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    You&apos;re now chatting with Sarah M.
+                  </p>
                 </div>
 
                 {/* Agent Info */}
@@ -571,11 +601,18 @@ export function CleanSlateSupport() {
                       SM
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Sarah M.</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Credit Specialist • 5 years</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        Sarah M.
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Credit Specialist • 5 years
+                      </p>
                       <div className="flex items-center gap-1 mt-1">
                         {[1, 2, 3, 4, 5].map((star) => (
-                          <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          <Star
+                            key={star}
+                            className="w-3 h-3 fill-yellow-400 text-yellow-400"
+                          />
                         ))}
                         <span className="text-xs text-gray-400 ml-1">4.9</span>
                       </div>
@@ -586,23 +623,34 @@ export function CleanSlateSupport() {
                 {/* Initial Agent Message */}
                 <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
                   <p className="text-sm text-gray-900 dark:text-white">
-                    Hi there! I&apos;m Sarah, your dedicated Clean Slate support specialist. How can I help you today with your credit monitoring?
+                    Hi there! I&apos;m Sarah, your dedicated Clean Slate support
+                    specialist. How can I help you today with your credit
+                    monitoring?
                   </p>
                   <p className="text-xs text-gray-400 mt-2">Just now</p>
                 </div>
 
                 {/* Quick Topics */}
                 <div className="space-y-2">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Quick topics:</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Quick topics:
+                  </p>
                   <div className="flex flex-wrap gap-2">
-                    {["Dispute help", "Score questions", "Account issue", "Billing"].map((topic) => (
-                      <button 
+                    {[
+                      "Dispute help",
+                      "Score questions",
+                      "Account issue",
+                      "Billing",
+                    ].map((topic) => (
+                      <button
                         key={topic}
                         className="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                         onClick={() => {
                           setShowLiveChat(false);
                           setLiveChatStep(0);
-                          toast.success("Topic sent!", { description: `Sarah is typing a response about "${topic}"...` });
+                          toast.success("Topic sent!", {
+                            description: `Sarah is typing a response about "${topic}"...`,
+                          });
                         }}
                       >
                         {topic}
@@ -619,13 +667,15 @@ export function CleanSlateSupport() {
                       placeholder="Type your message..."
                       className="flex-1 bg-transparent border-0 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none text-sm"
                     />
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       className="bg-[#008A00] hover:bg-[#006B00]"
                       onClick={() => {
                         setShowLiveChat(false);
                         setLiveChatStep(0);
-                        toast.success("Message sent!", { description: "Sarah will respond shortly." });
+                        toast.success("Message sent!", {
+                          description: "Sarah will respond shortly.",
+                        });
                       }}
                     >
                       <Send className="w-4 h-4" />
@@ -650,7 +700,9 @@ function ChatMessage({
   onSuggestionClick: (text: string) => void;
 }) {
   return (
-    <div className={`flex ${message.type === "user" ? "justify-end" : "items-start gap-2"}`}>
+    <div
+      className={`flex ${message.type === "user" ? "justify-end" : "items-start gap-2"}`}
+    >
       {message.type === "bot" && (
         <div className="w-7 h-7 rounded-lg bg-[#008A00] flex items-center justify-center flex-shrink-0">
           <Bot className="w-4 h-4 text-white" />
@@ -696,12 +748,18 @@ function ContactCard({
 }) {
   return (
     <button className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${available ? "bg-[#008A00]/10 text-[#008A00]" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}>
+      <div
+        className={`w-10 h-10 rounded-lg flex items-center justify-center ${available ? "bg-[#008A00]/10 text-[#008A00]" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}
+      >
         {icon}
       </div>
       <div className="text-left">
-        <p className="font-medium text-sm text-gray-900 dark:text-white">{title}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+        <p className="font-medium text-sm text-gray-900 dark:text-white">
+          {title}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {description}
+        </p>
       </div>
     </button>
   );

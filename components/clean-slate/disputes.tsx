@@ -291,8 +291,12 @@ export function CleanSlateDisputes() {
           >
             <Send className="w-5 h-5 text-[#008A00]" />
             <div className="text-left">
-              <p className="font-semibold text-sm text-gray-900 dark:text-white">Submit All</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">3 ready to send</p>
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                Submit All
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                3 ready to send
+              </p>
             </div>
           </button>
         </div>
@@ -366,7 +370,7 @@ export function CleanSlateDisputes() {
               AI will create personalized dispute letters for each issue
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {generateStep === 0 && (
               <div className="flex flex-col items-center justify-center py-12">
@@ -374,7 +378,9 @@ export function CleanSlateDisputes() {
                   <Bot className="w-8 h-8 text-[#008A00]" />
                 </div>
                 <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
-                <p className="font-semibold text-gray-900 dark:text-white">Analyzing Your Issues</p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Analyzing Your Issues
+                </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
                   Reviewing credit report discrepancies...
                 </p>
@@ -387,7 +393,9 @@ export function CleanSlateDisputes() {
                   <FileText className="w-8 h-8 text-[#008A00]" />
                 </div>
                 <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
-                <p className="font-semibold text-gray-900 dark:text-white">Drafting Letters</p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Drafting Letters
+                </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
                   Creating legally compliant dispute letters...
                 </p>
@@ -398,22 +406,26 @@ export function CleanSlateDisputes() {
               <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
                 <div className="bg-[#008A00]/10 rounded-2xl p-4 text-center">
                   <CheckCircle2 className="w-12 h-12 text-[#008A00] mx-auto mb-3" />
-                  <p className="font-semibold text-gray-900 dark:text-white text-lg">3 Letters Generated!</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Ready for your review</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">
+                    3 Letters Generated!
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Ready for your review
+                  </p>
                 </div>
 
                 <div className="space-y-3">
-                  <GeneratedLetterCard 
+                  <GeneratedLetterCard
                     bureau="Equifax"
                     issue="Incorrect Balance"
                     summary="Formal request to correct TD Visa balance from $2,400 to actual $1,200"
                   />
-                  <GeneratedLetterCard 
+                  <GeneratedLetterCard
                     bureau="TransUnion"
                     issue="Unauthorized Inquiry"
                     summary="Request to remove unauthorized hard inquiry from QuickLoans Inc."
                   />
-                  <GeneratedLetterCard 
+                  <GeneratedLetterCard
                     bureau="Experian"
                     issue="Late Payment Error"
                     summary="Dispute of incorrectly reported late payment from March 2024"
@@ -421,17 +433,20 @@ export function CleanSlateDisputes() {
                 </div>
 
                 <div className="pt-4 space-y-3">
-                  <Button 
+                  <Button
                     className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                     onClick={() => {
                       setShowAutoGenerate(false);
                       setGenerateStep(0);
-                      toast.success("Letters Saved!", { description: "Your dispute letters are ready in the drafts section." });
+                      toast.success("Letters Saved!", {
+                        description:
+                          "Your dispute letters are ready in the drafts section.",
+                      });
                     }}
                   >
                     Save All Letters
                   </Button>
-                  <Button 
+                  <Button
                     variant="outline"
                     className="w-full h-12 rounded-xl"
                     onClick={() => {
@@ -460,17 +475,20 @@ export function CleanSlateDisputes() {
               Review and submit your pending disputes to credit bureaus
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {submitStep === 0 && (
               <>
                 <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
                   <p className="text-sm text-blue-800 dark:text-blue-200">
-                    <strong>Note:</strong> Bureaus have 30 days to investigate and respond to your disputes.
+                    <strong>Note:</strong> Bureaus have 30 days to investigate
+                    and respond to your disputes.
                   </p>
                 </div>
 
-                <p className="text-sm text-gray-500 dark:text-gray-400">3 disputes ready to submit:</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  3 disputes ready to submit:
+                </p>
 
                 <div className="space-y-3">
                   {disputes.slice(0, 3).map((dispute) => (
@@ -479,14 +497,14 @@ export function CleanSlateDisputes() {
                 </div>
 
                 <div className="pt-4 space-y-3">
-                  <Button 
+                  <Button
                     className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                     onClick={() => setSubmitStep(1)}
                   >
                     <Send className="w-4 h-4 mr-2" />
                     Submit All 3 Disputes
                   </Button>
-                  <Button 
+                  <Button
                     variant="outline"
                     className="w-full h-12 rounded-xl"
                     onClick={() => setShowSubmitAll(false)}
@@ -500,7 +518,9 @@ export function CleanSlateDisputes() {
             {submitStep === 1 && (
               <div className="flex flex-col items-center justify-center py-12">
                 <Loader2 className="w-12 h-12 text-[#008A00] animate-spin mb-4" />
-                <p className="font-semibold text-gray-900 dark:text-white">Submitting Disputes</p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  Submitting Disputes
+                </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
                   Securely sending to credit bureaus...
                 </p>
@@ -512,26 +532,30 @@ export function CleanSlateDisputes() {
               <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
                 <div className="bg-[#008A00]/10 rounded-2xl p-6 text-center">
                   <CheckCheck className="w-16 h-16 text-[#008A00] mx-auto mb-4" />
-                  <p className="font-bold text-gray-900 dark:text-white text-xl">All Disputes Submitted!</p>
+                  <p className="font-bold text-gray-900 dark:text-white text-xl">
+                    All Disputes Submitted!
+                  </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                     Confirmation emails sent to your inbox
                   </p>
                 </div>
 
                 <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-3">What happens next?</p>
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">
+                    What happens next?
+                  </p>
                   <div className="space-y-3">
-                    <TimelineItem 
+                    <TimelineItem
                       step="1"
                       title="Bureaus receive disputes"
                       description="Within 24 hours"
                     />
-                    <TimelineItem 
+                    <TimelineItem
                       step="2"
                       title="Investigation begins"
                       description="Bureaus contact creditors"
                     />
-                    <TimelineItem 
+                    <TimelineItem
                       step="3"
                       title="Resolution"
                       description="Results within 30 days"
@@ -539,12 +563,14 @@ export function CleanSlateDisputes() {
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                   onClick={() => {
                     setShowSubmitAll(false);
                     setSubmitStep(0);
-                    toast.success("Tracking enabled!", { description: "We'll notify you of any updates." });
+                    toast.success("Tracking enabled!", {
+                      description: "We'll notify you of any updates.",
+                    });
                   }}
                 >
                   Track My Disputes
@@ -559,15 +585,29 @@ export function CleanSlateDisputes() {
 }
 
 // Helper components for sheets
-function GeneratedLetterCard({ bureau, issue, summary }: { bureau: string; issue: string; summary: string }) {
+function GeneratedLetterCard({
+  bureau,
+  issue,
+  summary,
+}: {
+  bureau: string;
+  issue: string;
+  summary: string;
+}) {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
       <div className="flex items-center justify-between mb-2">
-        <span className="font-medium text-gray-900 dark:text-white">{bureau}</span>
-        <span className="text-xs px-2 py-1 rounded-full bg-[#008A00]/10 text-[#008A00]">{issue}</span>
+        <span className="font-medium text-gray-900 dark:text-white">
+          {bureau}
+        </span>
+        <span className="text-xs px-2 py-1 rounded-full bg-[#008A00]/10 text-[#008A00]">
+          {issue}
+        </span>
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-400">{summary}</p>
-      <button className="text-sm text-[#008A00] font-medium mt-2">Preview Letter →</button>
+      <button className="text-sm text-[#008A00] font-medium mt-2">
+        Preview Letter →
+      </button>
     </div>
   );
 }
@@ -577,8 +617,12 @@ function SubmitDisputeCard({ dispute }: { dispute: Dispute }) {
     <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
       <div className="flex items-start justify-between">
         <div>
-          <p className="font-medium text-gray-900 dark:text-white">{dispute.type}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{dispute.bureau}</p>
+          <p className="font-medium text-gray-900 dark:text-white">
+            {dispute.type}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {dispute.bureau}
+          </p>
         </div>
         <CheckCircle2 className="w-5 h-5 text-[#008A00]" />
       </div>
@@ -586,15 +630,27 @@ function SubmitDisputeCard({ dispute }: { dispute: Dispute }) {
   );
 }
 
-function TimelineItem({ step, title, description }: { step: string; title: string; description: string }) {
+function TimelineItem({
+  step,
+  title,
+  description,
+}: {
+  step: string;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="flex items-start gap-3">
       <div className="w-6 h-6 rounded-full bg-[#008A00] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
         {step}
       </div>
       <div>
-        <p className="font-medium text-gray-900 dark:text-white text-sm">{title}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+        <p className="font-medium text-gray-900 dark:text-white text-sm">
+          {title}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {description}
+        </p>
       </div>
     </div>
   );

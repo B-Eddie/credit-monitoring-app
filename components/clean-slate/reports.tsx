@@ -222,8 +222,12 @@ export function CleanSlateReports() {
       <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm px-4 py-4">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Reports</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Credit history & insights</p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              Reports
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Credit history & insights
+            </p>
           </div>
           <button className="flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-medium text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
             <Download className="w-4 h-4" />
@@ -247,15 +251,25 @@ export function CleanSlateReports() {
         <div className="grid grid-cols-3 gap-2 mt-4">
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
             <p className="text-lg font-bold text-[#008A00]">+44</p>
-            <p className="text-[10px] text-gray-500 dark:text-gray-400">YTD Points</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              YTD Points
+            </p>
           </div>
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
-            <p className="text-lg font-bold text-gray-900 dark:text-white">12</p>
-            <p className="text-[10px] text-gray-500 dark:text-gray-400">Reports</p>
+            <p className="text-lg font-bold text-gray-900 dark:text-white">
+              12
+            </p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              Reports
+            </p>
           </div>
           <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
-            <p className="text-lg font-bold text-gray-900 dark:text-white">94%</p>
-            <p className="text-[10px] text-gray-500 dark:text-gray-400">Success</p>
+            <p className="text-lg font-bold text-gray-900 dark:text-white">
+              94%
+            </p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              Success
+            </p>
           </div>
         </div>
       </div>
@@ -280,8 +294,12 @@ export function CleanSlateReports() {
           >
             <FileText className="w-5 h-5 text-[#008A00]" />
             <div className="text-left">
-              <p className="font-semibold text-sm text-gray-900 dark:text-white">Latest Report</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">December 2024</p>
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                Latest Report
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                December 2024
+              </p>
             </div>
           </button>
         </div>
@@ -320,19 +338,28 @@ export function CleanSlateReports() {
                   key={report.id}
                   onClick={() => setSelectedReport(report)}
                   className={`w-full flex items-center gap-3 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-left ${
-                    index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                    index !== 0
+                      ? "border-t border-gray-100 dark:border-gray-800"
+                      : ""
                   }`}
                 >
                   <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
                     <FileText className="w-5 h-5 text-gray-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 dark:text-white text-sm">{report.month} {report.year}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{report.highlights[0]}</p>
+                    <p className="font-medium text-gray-900 dark:text-white text-sm">
+                      {report.month} {report.year}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {report.highlights[0]}
+                    </p>
                   </div>
                   <div className="text-right">
-                    <p className={`text-sm font-semibold ${report.change >= 0 ? "text-[#008A00]" : "text-red-500"}`}>
-                      {report.change >= 0 ? "+" : ""}{report.change}
+                    <p
+                      className={`text-sm font-semibold ${report.change >= 0 ? "text-[#008A00]" : "text-red-500"}`}
+                    >
+                      {report.change >= 0 ? "+" : ""}
+                      {report.change}
                     </p>
                     <p className="text-xs text-gray-500">{report.score}</p>
                   </div>
@@ -350,23 +377,39 @@ export function CleanSlateReports() {
               <div
                 key={log.id}
                 className={`flex items-start gap-3 p-4 ${
-                  index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                  index !== 0
+                    ? "border-t border-gray-100 dark:border-gray-800"
+                    : ""
                 }`}
               >
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                  log.category === "dispute" ? "bg-purple-100 dark:bg-purple-900/30" :
-                  log.category === "alert" ? "bg-green-100 dark:bg-green-900/30" :
-                  log.category === "security" ? "bg-red-100 dark:bg-red-900/30" :
-                  "bg-gray-100 dark:bg-gray-800"
-                }`}>
-                  {log.category === "dispute" ? <FileText className="w-4 h-4 text-purple-500" /> :
-                   log.category === "alert" ? <TrendingUp className="w-4 h-4 text-green-500" /> :
-                   log.category === "security" ? <AlertTriangle className="w-4 h-4 text-red-500" /> :
-                   <Activity className="w-4 h-4 text-gray-500" />}
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    log.category === "dispute"
+                      ? "bg-purple-100 dark:bg-purple-900/30"
+                      : log.category === "alert"
+                        ? "bg-green-100 dark:bg-green-900/30"
+                        : log.category === "security"
+                          ? "bg-red-100 dark:bg-red-900/30"
+                          : "bg-gray-100 dark:bg-gray-800"
+                  }`}
+                >
+                  {log.category === "dispute" ? (
+                    <FileText className="w-4 h-4 text-purple-500" />
+                  ) : log.category === "alert" ? (
+                    <TrendingUp className="w-4 h-4 text-green-500" />
+                  ) : log.category === "security" ? (
+                    <AlertTriangle className="w-4 h-4 text-red-500" />
+                  ) : (
+                    <Activity className="w-4 h-4 text-gray-500" />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 dark:text-white text-sm">{log.action}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{log.details}</p>
+                  <p className="font-medium text-gray-900 dark:text-white text-sm">
+                    {log.action}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {log.details}
+                  </p>
                   <p className="text-xs text-gray-400 mt-1">{log.timestamp}</p>
                 </div>
               </div>
@@ -390,7 +433,7 @@ export function CleanSlateReports() {
               Smart analysis of your credit trends and patterns
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {insightsStep < 2 && (
               <div className="flex flex-col items-center justify-center py-12">
@@ -399,10 +442,14 @@ export function CleanSlateReports() {
                 </div>
                 <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
                 <p className="font-semibold text-gray-900 dark:text-white">
-                  {insightsStep === 0 ? "Analyzing 12 months of data..." : "Generating insights..."}
+                  {insightsStep === 0
+                    ? "Analyzing 12 months of data..."
+                    : "Generating insights..."}
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
-                  {insightsStep === 0 ? "Reviewing score changes and patterns" : "Creating personalized recommendations"}
+                  {insightsStep === 0
+                    ? "Reviewing score changes and patterns"
+                    : "Creating personalized recommendations"}
                 </p>
               </div>
             )}
@@ -412,34 +459,39 @@ export function CleanSlateReports() {
                 {/* Score Trend */}
                 <div className="bg-[#008A00]/10 rounded-2xl p-4">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-semibold text-gray-900 dark:text-white">Score Trend</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      Score Trend
+                    </span>
                     <div className="flex items-center gap-1 text-[#008A00]">
                       <TrendingUp className="w-4 h-4" />
                       <span className="font-bold">+44 pts</span>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Your score has increased steadily over the past 6 months. Keep up the great work!
+                    Your score has increased steadily over the past 6 months.
+                    Keep up the great work!
                   </p>
                 </div>
 
                 {/* Key Insights */}
                 <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-3">Key Insights</p>
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">
+                    Key Insights
+                  </p>
                   <div className="space-y-3">
-                    <InsightItem 
+                    <InsightItem
                       icon={<Target className="w-4 h-4" />}
                       title="Utilization improved"
                       description="Down from 45% to 28% this quarter"
                       positive
                     />
-                    <InsightItem 
+                    <InsightItem
                       icon={<Zap className="w-4 h-4" />}
                       title="Payment streak"
                       description="18 consecutive on-time payments"
                       positive
                     />
-                    <InsightItem 
+                    <InsightItem
                       icon={<AlertTriangle className="w-4 h-4" />}
                       title="Hard inquiry detected"
                       description="New inquiry from Dec 2024"
@@ -450,25 +502,33 @@ export function CleanSlateReports() {
 
                 {/* Predictions */}
                 <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-3">Predictions</p>
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">
+                    Predictions
+                  </p>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Next month estimate</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        Next month estimate
+                      </span>
                       <span className="font-bold text-[#008A00]">747 (+5)</span>
                     </div>
                     <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">6 month outlook</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                        6 month outlook
+                      </span>
                       <span className="font-bold text-[#008A00]">770+</span>
                     </div>
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                   onClick={() => {
                     setShowAIInsights(false);
                     setInsightsStep(0);
-                    toast.success("Insights saved!", { description: "Check your email for the full report." });
+                    toast.success("Insights saved!", {
+                      description: "Check your email for the full report.",
+                    });
                   }}
                 >
                   Share Full Report
@@ -491,11 +551,13 @@ export function CleanSlateReports() {
               Your latest credit report summary
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {/* Score Summary */}
             <div className="bg-[#008A00]/10 rounded-2xl p-5 text-center">
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Credit Score</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                Credit Score
+              </p>
               <p className="text-5xl font-bold text-[#008A00]">742</p>
               <div className="flex items-center justify-center gap-1 mt-2 text-[#008A00]">
                 <TrendingUp className="w-4 h-4" />
@@ -505,7 +567,9 @@ export function CleanSlateReports() {
 
             {/* Bureau Breakdown */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-              <p className="font-semibold text-gray-900 dark:text-white mb-3">Bureau Scores</p>
+              <p className="font-semibold text-gray-900 dark:text-white mb-3">
+                Bureau Scores
+              </p>
               <div className="space-y-3">
                 <BureauRow bureau="Equifax" score={738} change={+8} />
                 <BureauRow bureau="TransUnion" score={745} change={+12} />
@@ -515,7 +579,9 @@ export function CleanSlateReports() {
 
             {/* Report Highlights */}
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-              <p className="font-semibold text-gray-900 dark:text-white mb-3">Highlights</p>
+              <p className="font-semibold text-gray-900 dark:text-white mb-3">
+                Highlights
+              </p>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                   <CheckCircle2 className="w-4 h-4 text-[#008A00]" />
@@ -533,17 +599,19 @@ export function CleanSlateReports() {
             </div>
 
             <div className="pt-2 space-y-3">
-              <Button 
+              <Button
                 className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                 onClick={() => {
                   setShowLatestReport(false);
-                  toast.success("Report downloaded!", { description: "Check your downloads folder." });
+                  toast.success("Report downloaded!", {
+                    description: "Check your downloads folder.",
+                  });
                 }}
               >
                 <Download className="w-4 h-4 mr-2" />
                 Download Full Report (PDF)
               </Button>
-              <Button 
+              <Button
                 variant="outline"
                 className="w-full h-12 rounded-xl"
                 onClick={() => setShowLatestReport(false)}
@@ -560,24 +628,50 @@ export function CleanSlateReports() {
 }
 
 // Helper components for sheets
-function InsightItem({ icon, title, description, positive }: { icon: React.ReactNode; title: string; description: string; positive: boolean }) {
+function InsightItem({
+  icon,
+  title,
+  description,
+  positive,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  positive: boolean;
+}) {
   return (
     <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${positive ? 'bg-[#008A00]/10 text-[#008A00]' : 'bg-orange-100 dark:bg-orange-900/30 text-orange-500'}`}>
+      <div
+        className={`w-8 h-8 rounded-lg flex items-center justify-center ${positive ? "bg-[#008A00]/10 text-[#008A00]" : "bg-orange-100 dark:bg-orange-900/30 text-orange-500"}`}
+      >
         {icon}
       </div>
       <div>
-        <p className="font-medium text-gray-900 dark:text-white text-sm">{title}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+        <p className="font-medium text-gray-900 dark:text-white text-sm">
+          {title}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {description}
+        </p>
       </div>
     </div>
   );
 }
 
-function BureauRow({ bureau, score, change }: { bureau: string; score: number; change: number }) {
+function BureauRow({
+  bureau,
+  score,
+  change,
+}: {
+  bureau: string;
+  score: number;
+  change: number;
+}) {
   return (
     <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
-      <span className="text-sm font-medium text-gray-900 dark:text-white">{bureau}</span>
+      <span className="text-sm font-medium text-gray-900 dark:text-white">
+        {bureau}
+      </span>
       <div className="flex items-center gap-3">
         <span className="font-bold text-gray-900 dark:text-white">{score}</span>
         <span className="text-sm text-[#008A00] font-medium">+{change}</span>
@@ -604,15 +698,24 @@ function ReportDetail({
           <ChevronRight className="w-4 h-4 rotate-180" />
           <span className="text-sm">Back</span>
         </button>
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{report.month} {report.year}</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400">Score: {report.score}</p>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+          {report.month} {report.year}
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Score: {report.score}
+        </p>
       </div>
       <div className="px-4 py-4 space-y-4">
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-          <p className="font-semibold text-gray-900 dark:text-white mb-3">Highlights</p>
+          <p className="font-semibold text-gray-900 dark:text-white mb-3">
+            Highlights
+          </p>
           <div className="space-y-2">
             {report.highlights.map((highlight, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+              <div
+                key={i}
+                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300"
+              >
                 <CheckCircle2 className="w-4 h-4 text-[#008A00]" />
                 {highlight}
               </div>

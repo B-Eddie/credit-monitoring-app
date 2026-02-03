@@ -270,8 +270,12 @@ export function CleanSlateDashboard() {
           >
             <Shield className="w-5 h-5 text-[#008A00]" />
             <div className="text-left">
-              <p className="font-semibold text-sm text-gray-900 dark:text-white">Auto Dispute</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Fix 2 issues</p>
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">
+                Auto Dispute
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Fix 2 issues
+              </p>
             </div>
           </button>
         </div>
@@ -413,24 +417,24 @@ export function CleanSlateDashboard() {
               Analyzing your credit report for personalized recommendations
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {/* Analysis Progress */}
             <div className="space-y-3">
-              <AnalysisStep 
-                title="Scanning Credit Report" 
+              <AnalysisStep
+                title="Scanning Credit Report"
                 description="Checking all accounts and payment history"
                 completed={analysisStep >= 1}
                 active={analysisStep === 0}
               />
-              <AnalysisStep 
-                title="Identifying Issues" 
+              <AnalysisStep
+                title="Identifying Issues"
                 description="Found 2 potential discrepancies"
                 completed={analysisStep >= 2}
                 active={analysisStep === 1}
               />
-              <AnalysisStep 
-                title="Generating Recommendations" 
+              <AnalysisStep
+                title="Generating Recommendations"
                 description="Creating personalized action plan"
                 completed={analysisStep >= 3}
                 active={analysisStep === 2}
@@ -443,26 +447,34 @@ export function CleanSlateDashboard() {
                 <div className="bg-[#008A00]/10 rounded-2xl p-4">
                   <div className="flex items-center gap-3 mb-3">
                     <Target className="w-5 h-5 text-[#008A00]" />
-                    <span className="font-semibold text-gray-900 dark:text-white">Score Potential</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      Score Potential
+                    </span>
                   </div>
-                  <p className="text-3xl font-bold text-[#008A00] mb-1">+45 points</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Achievable within 60 days</p>
+                  <p className="text-3xl font-bold text-[#008A00] mb-1">
+                    +45 points
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Achievable within 60 days
+                  </p>
                 </div>
 
                 <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-                  <p className="font-semibold text-gray-900 dark:text-white mb-3">Top Recommendations</p>
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">
+                    Top Recommendations
+                  </p>
                   <div className="space-y-3">
-                    <RecommendationItem 
+                    <RecommendationItem
                       title="Dispute incorrect TD Visa balance"
                       impact="+15 pts"
                       priority="high"
                     />
-                    <RecommendationItem 
+                    <RecommendationItem
                       title="Lower credit utilization to 30%"
                       impact="+20 pts"
                       priority="medium"
                     />
-                    <RecommendationItem 
+                    <RecommendationItem
                       title="Remove unauthorized inquiry"
                       impact="+10 pts"
                       priority="high"
@@ -470,11 +482,13 @@ export function CleanSlateDashboard() {
                   </div>
                 </div>
 
-                <Button 
+                <Button
                   className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                   onClick={() => {
                     setShowAIAnalysis(false);
-                    toast.success("Action plan saved!", { description: "Check your disputes tab to get started." });
+                    toast.success("Action plan saved!", {
+                      description: "Check your disputes tab to get started.",
+                    });
                   }}
                 >
                   Start Action Plan
@@ -497,24 +511,26 @@ export function CleanSlateDashboard() {
               Review and submit disputes for detected issues
             </SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto px-4 space-y-4">
             {disputeStep === 0 && (
               <>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Select issues to dispute:</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Select issues to dispute:
+                </p>
                 <div className="space-y-3">
                   {discrepancies.map((d) => (
                     <DisputeItem key={d.id} discrepancy={d} />
                   ))}
                 </div>
                 <div className="pt-4 space-y-3">
-                  <Button 
+                  <Button
                     className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                     onClick={() => setDisputeStep(1)}
                   >
                     Generate Dispute Letters
                   </Button>
-                  <Button 
+                  <Button
                     variant="outline"
                     className="w-full h-12 rounded-xl"
                     onClick={() => setShowAutoDispute(false)}
@@ -529,8 +545,12 @@ export function CleanSlateDashboard() {
               <div className="space-y-4 animate-in fade-in">
                 <div className="flex flex-col items-center justify-center py-8">
                   <Loader2 className="w-12 h-12 text-[#008A00] animate-spin mb-4" />
-                  <p className="font-semibold text-gray-900 dark:text-white">Generating Dispute Letters</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">AI is crafting personalized letters...</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">
+                    Generating Dispute Letters
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    AI is crafting personalized letters...
+                  </p>
                 </div>
                 {setTimeout(() => setDisputeStep(2), 2500) && null}
               </div>
@@ -540,39 +560,53 @@ export function CleanSlateDashboard() {
               <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
                 <div className="bg-[#008A00]/10 rounded-2xl p-4 text-center">
                   <CheckCircle2 className="w-12 h-12 text-[#008A00] mx-auto mb-3" />
-                  <p className="font-semibold text-gray-900 dark:text-white text-lg">Letters Generated!</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">2 dispute letters ready to send</p>
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">
+                    Letters Generated!
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    2 dispute letters ready to send
+                  </p>
                 </div>
 
                 <div className="space-y-3">
                   <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-gray-900 dark:text-white">Equifax - Incorrect Balance</span>
+                      <span className="font-medium text-gray-900 dark:text-white">
+                        Equifax - Incorrect Balance
+                      </span>
                       <FileText className="w-4 h-4 text-gray-400" />
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Formal dispute letter with supporting evidence request</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Formal dispute letter with supporting evidence request
+                    </p>
                   </div>
                   <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-gray-900 dark:text-white">TransUnion - Unauthorized Inquiry</span>
+                      <span className="font-medium text-gray-900 dark:text-white">
+                        TransUnion - Unauthorized Inquiry
+                      </span>
                       <FileText className="w-4 h-4 text-gray-400" />
                     </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Inquiry removal request with identity verification</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Inquiry removal request with identity verification
+                    </p>
                   </div>
                 </div>
 
                 <div className="pt-4 space-y-3">
-                  <Button 
+                  <Button
                     className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
                     onClick={() => {
                       setShowAutoDispute(false);
                       setDisputeStep(0);
-                      toast.success("Disputes Submitted!", { description: "You'll receive updates within 30 days." });
+                      toast.success("Disputes Submitted!", {
+                        description: "You'll receive updates within 30 days.",
+                      });
                     }}
                   >
                     Submit All Disputes
                   </Button>
-                  <Button 
+                  <Button
                     variant="outline"
                     className="w-full h-12 rounded-xl"
                     onClick={() => {
@@ -593,10 +627,24 @@ export function CleanSlateDashboard() {
 }
 
 // Helper Components
-function AnalysisStep({ title, description, completed, active }: { title: string; description: string; completed: boolean; active: boolean }) {
+function AnalysisStep({
+  title,
+  description,
+  completed,
+  active,
+}: {
+  title: string;
+  description: string;
+  completed: boolean;
+  active: boolean;
+}) {
   return (
-    <div className={`flex items-center gap-3 p-3 rounded-xl transition-all ${active ? 'bg-[#008A00]/10' : 'bg-gray-50 dark:bg-gray-800'}`}>
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${completed ? 'bg-[#008A00]' : active ? 'bg-[#008A00]/20' : 'bg-gray-200 dark:bg-gray-700'}`}>
+    <div
+      className={`flex items-center gap-3 p-3 rounded-xl transition-all ${active ? "bg-[#008A00]/10" : "bg-gray-50 dark:bg-gray-800"}`}
+    >
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center ${completed ? "bg-[#008A00]" : active ? "bg-[#008A00]/20" : "bg-gray-200 dark:bg-gray-700"}`}
+      >
         {completed ? (
           <CheckCircle2 className="w-5 h-5 text-white" />
         ) : active ? (
@@ -606,18 +654,34 @@ function AnalysisStep({ title, description, completed, active }: { title: string
         )}
       </div>
       <div>
-        <p className={`font-medium text-sm ${completed || active ? 'text-gray-900 dark:text-white' : 'text-gray-400'}`}>{title}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+        <p
+          className={`font-medium text-sm ${completed || active ? "text-gray-900 dark:text-white" : "text-gray-400"}`}
+        >
+          {title}
+        </p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {description}
+        </p>
       </div>
     </div>
   );
 }
 
-function RecommendationItem({ title, impact, priority }: { title: string; impact: string; priority: 'high' | 'medium' | 'low' }) {
+function RecommendationItem({
+  title,
+  impact,
+  priority,
+}: {
+  title: string;
+  impact: string;
+  priority: "high" | "medium" | "low";
+}) {
   return (
     <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
       <div className="flex items-center gap-3">
-        <div className={`w-2 h-2 rounded-full ${priority === 'high' ? 'bg-red-500' : priority === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'}`} />
+        <div
+          className={`w-2 h-2 rounded-full ${priority === "high" ? "bg-red-500" : priority === "medium" ? "bg-orange-500" : "bg-yellow-500"}`}
+        />
         <span className="text-sm text-gray-900 dark:text-white">{title}</span>
       </div>
       <span className="text-sm font-semibold text-[#008A00]">{impact}</span>
@@ -628,20 +692,30 @@ function RecommendationItem({ title, impact, priority }: { title: string; impact
 function DisputeItem({ discrepancy }: { discrepancy: Discrepancy }) {
   const [selected, setSelected] = useState(true);
   return (
-    <button 
+    <button
       onClick={() => setSelected(!selected)}
-      className={`w-full text-left p-4 rounded-xl border-2 transition-all ${selected ? 'border-[#008A00] bg-[#008A00]/5' : 'border-gray-200 dark:border-gray-700'}`}
+      className={`w-full text-left p-4 rounded-xl border-2 transition-all ${selected ? "border-[#008A00] bg-[#008A00]/5" : "border-gray-200 dark:border-gray-700"}`}
     >
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className={`w-2 h-2 rounded-full ${discrepancy.severity === 'high' ? 'bg-red-500' : 'bg-orange-500'}`} />
-            <span className="font-medium text-gray-900 dark:text-white">{discrepancy.type}</span>
+            <span
+              className={`w-2 h-2 rounded-full ${discrepancy.severity === "high" ? "bg-red-500" : "bg-orange-500"}`}
+            />
+            <span className="font-medium text-gray-900 dark:text-white">
+              {discrepancy.type}
+            </span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{discrepancy.bureau}</p>
-          <p className="text-xs text-gray-400 mt-1">{discrepancy.description}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {discrepancy.bureau}
+          </p>
+          <p className="text-xs text-gray-400 mt-1">
+            {discrepancy.description}
+          </p>
         </div>
-        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selected ? 'border-[#008A00] bg-[#008A00]' : 'border-gray-300'}`}>
+        <div
+          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selected ? "border-[#008A00] bg-[#008A00]" : "border-gray-300"}`}
+        >
           {selected && <CheckCircle2 className="w-4 h-4 text-white" />}
         </div>
       </div>

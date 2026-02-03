@@ -115,49 +115,67 @@ export default function TDBankApp() {
         <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
           <SheetHeader className="text-left pb-4">
             <SheetTitle className="text-xl">Pay & Transfer</SheetTitle>
-            <SheetDescription>
-              Send money and manage payments
-            </SheetDescription>
+            <SheetDescription>Send money and manage payments</SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto space-y-6 px-1">
             {/* Quick Actions */}
             <div className="grid grid-cols-4 gap-4">
-              <QuickActionItem icon={<ArrowUpRight className="w-6 h-6" />} label="Send" />
-              <QuickActionItem icon={<ArrowDownLeft className="w-6 h-6" />} label="Request" />
-              <QuickActionItem icon={<CreditCard className="w-6 h-6" />} label="Pay Bills" />
-              <QuickActionItem icon={<Smartphone className="w-6 h-6" />} label="Mobile" />
+              <QuickActionItem
+                icon={<ArrowUpRight className="w-6 h-6" />}
+                label="Send"
+              />
+              <QuickActionItem
+                icon={<ArrowDownLeft className="w-6 h-6" />}
+                label="Request"
+              />
+              <QuickActionItem
+                icon={<CreditCard className="w-6 h-6" />}
+                label="Pay Bills"
+              />
+              <QuickActionItem
+                icon={<Smartphone className="w-6 h-6" />}
+                label="Mobile"
+              />
             </div>
 
             {/* Transfer Options */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">Transfer Options</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">
+                Transfer Options
+              </p>
               <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-                <MenuListItem 
+                <MenuListItem
                   icon={<Smartphone className="w-5 h-5" />}
                   title="Interac e-Transfer"
                   subtitle="Send to email or phone"
                   onClick={() => {
                     setShowPayTransfer(false);
-                    toast.success("Opening e-Transfer", { description: "Feature coming soon!" });
+                    toast.success("Opening e-Transfer", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<Building2 className="w-5 h-5" />}
                   title="Transfer Between Accounts"
                   subtitle="Move money instantly"
                   onClick={() => {
                     setShowPayTransfer(false);
-                    toast.success("Opening Transfer", { description: "Feature coming soon!" });
+                    toast.success("Opening Transfer", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<Globe className="w-5 h-5" />}
                   title="TD Global Transfer"
                   subtitle="Send money internationally"
                   onClick={() => {
                     setShowPayTransfer(false);
-                    toast.success("Opening Global Transfer", { description: "Feature coming soon!" });
+                    toast.success("Opening Global Transfer", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
               </div>
@@ -165,24 +183,30 @@ export default function TDBankApp() {
 
             {/* Bill Payments */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">Bill Payments</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">
+                Bill Payments
+              </p>
               <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-                <MenuListItem 
+                <MenuListItem
                   icon={<Receipt className="w-5 h-5" />}
                   title="Pay a Bill"
                   subtitle="One-time or recurring"
                   onClick={() => {
                     setShowPayTransfer(false);
-                    toast.success("Opening Bill Pay", { description: "Feature coming soon!" });
+                    toast.success("Opening Bill Pay", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<FileText className="w-5 h-5" />}
                   title="Manage Payees"
                   subtitle="Add or edit bill payees"
                   onClick={() => {
                     setShowPayTransfer(false);
-                    toast.success("Opening Payees", { description: "Feature coming soon!" });
+                    toast.success("Opening Payees", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
               </div>
@@ -190,11 +214,28 @@ export default function TDBankApp() {
 
             {/* Recent Activity */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">Recent</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">
+                Recent
+              </p>
               <div className="space-y-2">
-                <RecentTransferItem name="John D." amount="-$50.00" type="e-Transfer" time="Today" />
-                <RecentTransferItem name="Hydro One" amount="-$142.30" type="Bill Payment" time="Yesterday" />
-                <RecentTransferItem name="Sarah M." amount="+$25.00" type="e-Transfer" time="Dec 28" />
+                <RecentTransferItem
+                  name="John D."
+                  amount="-$50.00"
+                  type="e-Transfer"
+                  time="Today"
+                />
+                <RecentTransferItem
+                  name="Hydro One"
+                  amount="-$142.30"
+                  type="Bill Payment"
+                  time="Yesterday"
+                />
+                <RecentTransferItem
+                  name="Sarah M."
+                  amount="+$25.00"
+                  type="e-Transfer"
+                  time="Dec 28"
+                />
               </div>
             </div>
           </div>
@@ -206,11 +247,9 @@ export default function TDBankApp() {
         <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
           <SheetHeader className="text-left pb-4">
             <SheetTitle className="text-xl">Menu</SheetTitle>
-            <SheetDescription>
-              Account settings and more
-            </SheetDescription>
+            <SheetDescription>Account settings and more</SheetDescription>
           </SheetHeader>
-          
+
           <div className="flex-1 overflow-auto space-y-6 px-1">
             {/* Profile */}
             <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-2xl">
@@ -218,38 +257,50 @@ export default function TDBankApp() {
                 JD
               </div>
               <div>
-                <p className="font-semibold text-gray-900 dark:text-white">John Doe</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">john.doe@email.com</p>
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  John Doe
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  john.doe@email.com
+                </p>
               </div>
             </div>
 
             {/* Account Settings */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">Account</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">
+                Account
+              </p>
               <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-                <MenuListItem 
+                <MenuListItem
                   icon={<User className="w-5 h-5" />}
                   title="Profile Settings"
                   onClick={() => {
                     setShowMenu(false);
-                    toast.success("Opening Profile", { description: "Feature coming soon!" });
+                    toast.success("Opening Profile", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<Bell className="w-5 h-5" />}
                   title="Notifications"
                   badge="3"
                   onClick={() => {
                     setShowMenu(false);
-                    toast.success("Opening Notifications", { description: "Feature coming soon!" });
+                    toast.success("Opening Notifications", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<Shield className="w-5 h-5" />}
                   title="Security & Privacy"
                   onClick={() => {
                     setShowMenu(false);
-                    toast.success("Opening Security", { description: "Feature coming soon!" });
+                    toast.success("Opening Security", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
               </div>
@@ -257,15 +308,17 @@ export default function TDBankApp() {
 
             {/* Preferences */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">Preferences</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">
+                Preferences
+              </p>
               <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-                <MenuListItem 
+                <MenuListItem
                   icon={<Fingerprint className="w-5 h-5" />}
                   title="Biometric Login"
                   toggle
                   defaultOn
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<Moon className="w-5 h-5" />}
                   title="Dark Mode"
                   toggle
@@ -276,33 +329,41 @@ export default function TDBankApp() {
 
             {/* Support */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">Support</p>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 px-1">
+                Support
+              </p>
               <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-                <MenuListItem 
+                <MenuListItem
                   icon={<HelpCircle className="w-5 h-5" />}
                   title="Help & FAQ"
                   onClick={() => {
                     setShowMenu(false);
-                    toast.success("Opening Help", { description: "Feature coming soon!" });
+                    toast.success("Opening Help", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
-                <MenuListItem 
+                <MenuListItem
                   icon={<MessageSquare className="w-5 h-5" />}
                   title="Contact Us"
                   onClick={() => {
                     setShowMenu(false);
-                    toast.success("Opening Contact", { description: "Feature coming soon!" });
+                    toast.success("Opening Contact", {
+                      description: "Feature coming soon!",
+                    });
                   }}
                 />
               </div>
             </div>
 
             {/* Sign Out */}
-            <button 
+            <button
               className="w-full p-4 bg-red-50 dark:bg-red-900/20 rounded-2xl text-red-600 dark:text-red-400 font-medium flex items-center justify-center gap-2"
               onClick={() => {
                 setShowMenu(false);
-                toast.error("Signed out", { description: "You have been signed out." });
+                toast.error("Signed out", {
+                  description: "You have been signed out.",
+                });
               }}
             >
               <LogOut className="w-5 h-5" />
@@ -316,31 +377,41 @@ export default function TDBankApp() {
 }
 
 // Helper Components
-function QuickActionItem({ icon, label }: { icon: React.ReactNode; label: string }) {
+function QuickActionItem({
+  icon,
+  label,
+}: {
+  icon: React.ReactNode;
+  label: string;
+}) {
   return (
-    <button 
+    <button
       className="flex flex-col items-center gap-2 p-3"
-      onClick={() => toast.success(`${label}`, { description: "Feature coming soon!" })}
+      onClick={() =>
+        toast.success(`${label}`, { description: "Feature coming soon!" })
+      }
     >
       <div className="w-12 h-12 rounded-full bg-[#008A00]/10 flex items-center justify-center text-[#008A00]">
         {icon}
       </div>
-      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{label}</span>
+      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+        {label}
+      </span>
     </button>
   );
 }
 
-function MenuListItem({ 
-  icon, 
-  title, 
-  subtitle, 
-  badge, 
-  toggle, 
+function MenuListItem({
+  icon,
+  title,
+  subtitle,
+  badge,
+  toggle,
   defaultOn,
-  onClick 
-}: { 
-  icon: React.ReactNode; 
-  title: string; 
+  onClick,
+}: {
+  icon: React.ReactNode;
+  title: string;
   subtitle?: string;
   badge?: string;
   toggle?: boolean;
@@ -348,9 +419,9 @@ function MenuListItem({
   onClick?: () => void;
 }) {
   const [isOn, setIsOn] = useState(defaultOn || false);
-  
+
   return (
-    <button 
+    <button
       className="w-full flex items-center gap-3 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-800 last:border-0"
       onClick={toggle ? () => setIsOn(!isOn) : onClick}
     >
@@ -359,14 +430,22 @@ function MenuListItem({
       </div>
       <div className="flex-1 text-left">
         <p className="font-medium text-gray-900 dark:text-white">{title}</p>
-        {subtitle && <p className="text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>}
+        {subtitle && (
+          <p className="text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>
+        )}
       </div>
       {badge && (
-        <span className="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-medium">{badge}</span>
+        <span className="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-medium">
+          {badge}
+        </span>
       )}
       {toggle ? (
-        <div className={`w-12 h-7 rounded-full transition-colors ${isOn ? 'bg-[#008A00]' : 'bg-gray-300 dark:bg-gray-600'} relative`}>
-          <div className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow transition-transform ${isOn ? 'translate-x-6' : 'translate-x-1'}`} />
+        <div
+          className={`w-12 h-7 rounded-full transition-colors ${isOn ? "bg-[#008A00]" : "bg-gray-300 dark:bg-gray-600"} relative`}
+        >
+          <div
+            className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow transition-transform ${isOn ? "translate-x-6" : "translate-x-1"}`}
+          />
         </div>
       ) : (
         <ChevronRight className="w-5 h-5 text-gray-400" />
@@ -375,8 +454,18 @@ function MenuListItem({
   );
 }
 
-function RecentTransferItem({ name, amount, type, time }: { name: string; amount: string; type: string; time: string }) {
-  const isPositive = amount.startsWith('+');
+function RecentTransferItem({
+  name,
+  amount,
+  type,
+  time,
+}: {
+  name: string;
+  amount: string;
+  type: string;
+  time: string;
+}) {
+  const isPositive = amount.startsWith("+");
   return (
     <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800">
       <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400 font-medium">
@@ -384,9 +473,13 @@ function RecentTransferItem({ name, amount, type, time }: { name: string; amount
       </div>
       <div className="flex-1">
         <p className="font-medium text-gray-900 dark:text-white">{name}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{type} • {time}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {type} • {time}
+        </p>
       </div>
-      <span className={`font-semibold ${isPositive ? 'text-[#008A00]' : 'text-gray-900 dark:text-white'}`}>
+      <span
+        className={`font-semibold ${isPositive ? "text-[#008A00]" : "text-gray-900 dark:text-white"}`}
+      >
         {amount}
       </span>
     </div>
