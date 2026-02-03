@@ -2,10 +2,9 @@
 
 import React from "react";
 import {
-  Home,
-  CreditCard,
-  ArrowRightLeft,
-  Grid3X3,
+  Wallet,
+  ArrowLeftRight,
+  Menu,
   LayoutDashboard,
   FileSearch,
   FileText,
@@ -28,19 +27,24 @@ export function TDBottomNav({
   cleanSlateTab,
   setCleanSlateTab,
 }: TDBottomNavProps) {
-  const mainTabs: { id: MainTab; label: string; icon: React.ReactNode }[] = [
-    { id: "home", label: "Home", icon: <Home className="w-6 h-6" /> },
-    {
-      id: "accounts",
-      label: "Accounts",
-      icon: <CreditCard className="w-6 h-6" />,
-    },
+  const mainTabs: {
+    id: MainTab;
+    label: string;
+    icon: React.ReactNode;
+    notificationCount?: number;
+  }[] = [
+    { id: "home", label: "Accounts", icon: <Wallet className="w-6 h-6" /> },
     {
       id: "payments",
-      label: "Transfer",
-      icon: <ArrowRightLeft className="w-6 h-6" />,
+      label: "Pay & Transfer",
+      icon: <ArrowLeftRight className="w-6 h-6" />,
     },
-    { id: "more", label: "More", icon: <Grid3X3 className="w-6 h-6" /> },
+    {
+      id: "more",
+      label: "Menu",
+      icon: <Menu className="w-6 h-6" />,
+      notificationCount: 3,
+    },
   ];
 
   const cleanSlateTabs: {
@@ -65,9 +69,9 @@ export function TDBottomNav({
   const tabs = isCleanSlateOpen ? cleanSlateTabs : mainTabs;
 
   return (
-    <nav className="glass sticky bottom-0 z-50 safe-area-bottom border-t border-border">
-      <div className="flex px-4 py-3">
-        {tabs.map((tab, index) => {
+    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 px-6 py-2 pb-6 z-50">
+      <div className="flex items-center justify-around">
+        {tabs.map((tab) => {
           const isActive = isCleanSlateOpen
             ? cleanSlateTab === tab.id
             : activeTab === tab.id;
@@ -82,28 +86,26 @@ export function TDBottomNav({
                   setActiveTab(tab.id as MainTab);
                 }
               }}
-              className={`flex-1 flex flex-col items-center py-4 gap-2.5 transition-all relative btn-press animate-fade-in-up ${
-                isActive
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+              className={`relative flex flex-col items-center gap-1 py-2 px-4 transition-colors ${
+                isActive ? "text-[#008A00]" : "text-gray-500 dark:text-gray-400"
               }`}
-              style={{ animationDelay: `${index * 0.05}s` }}
             >
-              {isActive && (
-                <div className="absolute inset-x-4 top-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent animate-scale-in" />
-              )}
-              <div
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 ${
-                  isActive
-                    ? "bg-primary/15 border border-primary/30 scale-105"
-                    : "hover:bg-secondary"
-                }`}
-              >
+              <div className="relative">
                 {tab.icon}
+                {"notificationCount" in tab &&
+                  tab.notificationCount &&
+                  tab.notificationCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-[10px] flex items-center justify-center font-medium">
+                      {tab.notificationCount}
+                    </span>
+                  )}
               </div>
-              <span className="text-[11px] font-semibold tracking-wide">
+              <span className={`text-xs ${isActive ? "font-medium" : ""}`}>
                 {tab.label}
               </span>
+              {isActive && (
+                <div className="absolute bottom-0 w-1 h-1 bg-[#008A00] rounded-full" />
+              )}
             </button>
           );
         })}

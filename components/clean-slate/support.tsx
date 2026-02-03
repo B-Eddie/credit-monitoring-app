@@ -1,8 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import {
   Search,
   MessageSquare,
@@ -33,6 +41,9 @@ import {
   Eye,
   Type,
   ChevronDown,
+  Headphones,
+  Loader2,
+  User,
 } from "lucide-react";
 
 // Types
@@ -198,7 +209,16 @@ export function CleanSlateSupport() {
   const [isTyping, setIsTyping] = useState(false);
   const [glossarySearch, setGlossarySearch] = useState("");
   const [expandedTerm, setExpandedTerm] = useState<string | null>(null);
+  const [showLiveChat, setShowLiveChat] = useState(false);
+  const [liveChatStep, setLiveChatStep] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const startLiveChat = () => {
+    setShowLiveChat(true);
+    setLiveChatStep(0);
+    setTimeout(() => setLiveChatStep(1), 2000);
+    setTimeout(() => setLiveChatStep(2), 4000);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -285,110 +305,117 @@ export function CleanSlateSupport() {
   );
 
   return (
-    <div className="pb-32 bg-background">
+    <div className="flex-1 bg-gray-50 dark:bg-gray-950">
       {/* Header */}
-      <section className="px-8 pt-8 pb-6 animate-fade-in">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm px-4 py-4">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Support</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Get help & learn about credit
-            </p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Help</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Get support & learn</p>
           </div>
-          <Button
-            variant="outline"
-            className="h-11 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl font-medium btn-press"
+          <button
+            onClick={() => window.open("tel:1-800-843-4357")}
+            className="flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-medium text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
-            <Phone className="w-5 h-5 mr-2" />
+            <Phone className="w-4 h-4" />
             Call
-          </Button>
+          </button>
         </div>
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder="Search help topics..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 pl-12 pr-4 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-100 dark:bg-gray-800 border-0 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#008A00]/50 text-sm"
           />
         </div>
-      </section>
+      </div>
 
-      {/* Tabs */}
-      <section className="px-8 pb-6 animate-fade-in stagger-1">
-        <div className="flex gap-2 p-1.5 bg-secondary/50 rounded-2xl">
+      {/* Content */}
+      <div className="px-4 py-4 space-y-4">
+        {/* AI Quick Actions */}
+        <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => setActiveTab("chat")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            className="flex items-center gap-3 p-4 bg-[#008A00] text-white rounded-2xl hover:bg-[#006B00] transition-colors"
+          >
+            <Bot className="w-5 h-5" />
+            <div className="text-left">
+              <p className="font-semibold text-sm">AI Assistant</p>
+              <p className="text-xs text-white/70">Ask anything</p>
+            </div>
+          </button>
+          <button
+            onClick={startLiveChat}
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >
+            <MessageSquare className="w-5 h-5 text-[#008A00]" />
+            <div className="text-left">
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">Live Chat</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Talk to human</p>
+            </div>
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 p-1 bg-gray-200 dark:bg-gray-800 rounded-xl">
+          <button
+            onClick={() => setActiveTab("chat")}
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "chat"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
-            <Bot className="w-4 h-4" />
-            AI Chat
+            Chat
           </button>
           <button
             onClick={() => setActiveTab("learn")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "learn"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
-            <BookOpen className="w-4 h-4" />
             Learn
           </button>
           <button
             onClick={() => setActiveTab("glossary")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "glossary"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
-            <HelpCircle className="w-4 h-4" />
-            Glossary
+            Terms
           </button>
         </div>
-      </section>
 
-      {/* AI Chat Tab */}
-      {activeTab === "chat" && (
-        <section className="px-8 animate-fade-in stagger-2">
-          {/* Chat Container */}
-          <div className="glass-card rounded-3xl border border-border/50 overflow-hidden">
+        {/* AI Chat Tab */}
+        {activeTab === "chat" && (
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
             {/* Chat Header */}
-            <div className="p-5 border-b border-border/50 bg-gradient-to-r from-primary/10 to-transparent">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-primary-foreground" />
+            <div className="p-4 border-b border-gray-100 dark:border-gray-800 bg-gradient-to-r from-[#008A00]/10 to-transparent">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#008A00] flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold text-foreground">
-                    Clean Slate AI
+                  <p className="font-semibold text-gray-900 dark:text-white text-sm">Clean Slate AI</p>
+                  <p className="text-xs text-[#008A00] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#008A00] animate-pulse" />
+                    Online
                   </p>
-                  <p className="text-xs text-primary flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                    Online • Typically replies instantly
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <button className="p-2 hover:bg-secondary rounded-lg transition-colors">
-                    <Volume2 className="w-5 h-5 text-muted-foreground" />
-                  </button>
-                  <button className="p-2 hover:bg-secondary rounded-lg transition-colors">
-                    <Accessibility className="w-5 h-5 text-muted-foreground" />
-                  </button>
                 </div>
               </div>
             </div>
 
             {/* Messages */}
-            <div className="h-80 overflow-y-auto p-5 space-y-4">
+            <div className="h-64 overflow-y-auto p-4 space-y-3">
               {messages.map((message) => (
                 <ChatMessage
                   key={message.id}
@@ -420,11 +447,8 @@ export function CleanSlateSupport() {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-border/50">
-              <div className="flex items-center gap-3">
-                <button className="p-3 hover:bg-secondary rounded-xl transition-colors">
-                  <Mic className="w-5 h-5 text-muted-foreground" />
-                </button>
+            <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+              <div className="flex items-center gap-2">
                 <input
                   type="text"
                   value={inputValue}
@@ -433,182 +457,191 @@ export function CleanSlateSupport() {
                     e.key === "Enter" && handleSendMessage(inputValue)
                   }
                   placeholder="Type a message..."
-                  className="flex-1 h-12 px-4 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  className="flex-1 h-10 px-4 rounded-xl bg-gray-100 dark:bg-gray-800 border-0 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#008A00]/50 text-sm"
                 />
-                <Button
+                <button
                   onClick={() => handleSendMessage(inputValue)}
                   disabled={!inputValue.trim()}
-                  className="h-12 w-12 p-0 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl btn-press disabled:opacity-50"
+                  className="h-10 w-10 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl flex items-center justify-center disabled:opacity-50 transition-colors"
                 >
-                  <Send className="w-5 h-5" />
-                </Button>
+                  <Send className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Quick Contact */}
-          <div className="mt-6 space-y-3">
-            <h3 className="font-semibold text-foreground mb-4">
-              Need Human Help?
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              <ContactCard
-                icon={<MessageSquare className="w-5 h-5" />}
-                title="Live Chat"
-                description="Chat with specialist"
-                available
-              />
-              <ContactCard
-                icon={<Phone className="w-5 h-5" />}
-                title="Call Us"
-                description="1-800-TD-HELP"
-                available
-              />
-              <ContactCard
-                icon={<Mail className="w-5 h-5" />}
-                title="Email"
-                description="Response in 24hrs"
-              />
-              <ContactCard
-                icon={<Clock className="w-5 h-5" />}
-                title="Schedule"
-                description="Book a callback"
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Learn Tab */}
-      {activeTab === "learn" && (
-        <>
-          {/* Featured Articles */}
-          <section className="px-8 pb-8 animate-fade-in stagger-2">
-            <h3 className="font-semibold text-foreground mb-4">Featured</h3>
-            <div className="space-y-3">
-              {articles
-                .filter((a) => a.featured)
-                .map((article, index) => (
-                  <ArticleCard
-                    key={article.id}
-                    article={article}
-                    featured
-                    delay={index}
-                  />
-                ))}
-            </div>
-          </section>
-
-          {/* Video Tutorials */}
-          <section className="px-8 pb-8 animate-fade-in stagger-3">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">Video Tutorials</h3>
-              <button className="text-sm text-primary font-medium flex items-center gap-1 btn-press">
-                View all
-                <ChevronRight className="w-4 h-4" />
+        {/* Learn Tab */}
+        {activeTab === "learn" && (
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+            {articles.slice(0, 4).map((article, index) => (
+              <button
+                key={article.id}
+                className={`w-full flex items-center gap-3 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-left ${
+                  index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                }`}
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#008A00]/10 flex items-center justify-center">
+                  <BookOpen className="w-5 h-5 text-[#008A00]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-900 dark:text-white text-sm">{article.title}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{article.description}</p>
+                </div>
+                <div className="text-xs text-gray-400">{article.readTime}</div>
+                <ChevronRight className="w-4 h-4 text-gray-400" />
               </button>
-            </div>
-            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-              {videos.map((video, index) => (
-                <VideoCard key={video.id} video={video} delay={index} />
-              ))}
-            </div>
-          </section>
-
-          {/* All Articles */}
-          <section className="px-8 pb-8 animate-fade-in stagger-4">
-            <h3 className="font-semibold text-foreground mb-4">All Articles</h3>
-            <div className="space-y-3">
-              {articles
-                .filter((a) => !a.featured)
-                .map((article, index) => (
-                  <ArticleCard
-                    key={article.id}
-                    article={article}
-                    delay={index}
-                  />
-                ))}
-            </div>
-          </section>
-
-          {/* Categories */}
-          <section className="px-8 pb-8 animate-fade-in stagger-5">
-            <h3 className="font-semibold text-foreground mb-4">
-              Browse by Topic
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              <CategoryCard
-                icon={<CreditCard className="w-5 h-5" />}
-                title="Credit Basics"
-                count={12}
-              />
-              <CategoryCard
-                icon={<FileText className="w-5 h-5" />}
-                title="Disputes"
-                count={8}
-              />
-              <CategoryCard
-                icon={<TrendingUp className="w-5 h-5" />}
-                title="Improving Score"
-                count={15}
-              />
-              <CategoryCard
-                icon={<Shield className="w-5 h-5" />}
-                title="Security"
-                count={6}
-              />
-            </div>
-          </section>
-        </>
-      )}
-
-      {/* Glossary Tab */}
-      {activeTab === "glossary" && (
-        <section className="px-8 animate-fade-in stagger-2">
-          {/* Search */}
-          <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search terms..."
-              value={glossarySearch}
-              onChange={(e) => setGlossarySearch(e.target.value)}
-              className="w-full h-12 pl-12 pr-4 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-            />
-          </div>
-
-          {/* Terms */}
-          <div className="space-y-3">
-            {filteredTerms.map((term, index) => (
-              <GlossaryCard
-                key={term.term}
-                term={term}
-                expanded={expandedTerm === term.term}
-                onClick={() =>
-                  setExpandedTerm(expandedTerm === term.term ? null : term.term)
-                }
-                delay={index}
-              />
             ))}
           </div>
+        )}
 
-          {filteredTerms.length === 0 && (
-            <div className="text-center py-12">
-              <HelpCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-foreground font-medium">No terms found</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Try a different search
-              </p>
-            </div>
-          )}
-        </section>
-      )}
+        {/* Glossary Tab */}
+        {activeTab === "glossary" && (
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+            {filteredTerms.slice(0, 5).map((term, index) => (
+              <div
+                key={term.term}
+                className={`p-4 ${
+                  index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                }`}
+              >
+                <p className="font-medium text-gray-900 dark:text-white text-sm">{term.term}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{term.definition}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Padding */}
+      <div className="h-24" />
+
+      {/* Live Chat Sheet */}
+      <Sheet open={showLiveChat} onOpenChange={setShowLiveChat}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <Headphones className="w-6 h-6 text-[#008A00]" />
+              Live Support
+            </SheetTitle>
+            <SheetDescription>
+              Connect with a TD Bank specialist
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {liveChatStep === 0 && (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="w-16 h-16 rounded-full bg-[#008A00]/10 flex items-center justify-center mb-4">
+                  <Headphones className="w-8 h-8 text-[#008A00]" />
+                </div>
+                <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
+                <p className="font-semibold text-gray-900 dark:text-white">Finding available agents...</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
+                  Estimated wait: less than 2 minutes
+                </p>
+              </div>
+            )}
+
+            {liveChatStep === 1 && (
+              <div className="flex flex-col items-center justify-center py-12 animate-in fade-in">
+                <div className="w-16 h-16 rounded-full bg-[#008A00]/10 flex items-center justify-center mb-4">
+                  <User className="w-8 h-8 text-[#008A00]" />
+                </div>
+                <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
+                <p className="font-semibold text-gray-900 dark:text-white">Connecting to agent...</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
+                  Sarah M. is joining the chat
+                </p>
+              </div>
+            )}
+
+            {liveChatStep === 2 && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                <div className="bg-[#008A00]/10 rounded-2xl p-4 text-center">
+                  <CheckCircle2 className="w-12 h-12 text-[#008A00] mx-auto mb-3" />
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">Connected!</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">You&apos;re now chatting with Sarah M.</p>
+                </div>
+
+                {/* Agent Info */}
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-[#008A00] flex items-center justify-center text-white font-bold">
+                      SM
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Sarah M.</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Credit Specialist • 5 years</p>
+                      <div className="flex items-center gap-1 mt-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star key={star} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        ))}
+                        <span className="text-xs text-gray-400 ml-1">4.9</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Initial Agent Message */}
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+                  <p className="text-sm text-gray-900 dark:text-white">
+                    Hi there! I&apos;m Sarah, your dedicated Clean Slate support specialist. How can I help you today with your credit monitoring?
+                  </p>
+                  <p className="text-xs text-gray-400 mt-2">Just now</p>
+                </div>
+
+                {/* Quick Topics */}
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Quick topics:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Dispute help", "Score questions", "Account issue", "Billing"].map((topic) => (
+                      <button 
+                        key={topic}
+                        className="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                        onClick={() => {
+                          setShowLiveChat(false);
+                          setLiveChatStep(0);
+                          toast.success("Topic sent!", { description: `Sarah is typing a response about "${topic}"...` });
+                        }}
+                      >
+                        {topic}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Chat Input */}
+                <div className="pt-4">
+                  <div className="flex items-center gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                    <input
+                      type="text"
+                      placeholder="Type your message..."
+                      className="flex-1 bg-transparent border-0 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none text-sm"
+                    />
+                    <Button 
+                      size="sm" 
+                      className="bg-[#008A00] hover:bg-[#006B00]"
+                      onClick={() => {
+                        setShowLiveChat(false);
+                        setLiveChatStep(0);
+                        toast.success("Message sent!", { description: "Sarah will respond shortly." });
+                      }}
+                    >
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
 
-// Sub-components
-
+// Chat Message Component
 function ChatMessage({
   message,
   onSuggestionClick,
@@ -616,53 +649,32 @@ function ChatMessage({
   message: Message;
   onSuggestionClick: (text: string) => void;
 }) {
-  const isBot = message.type === "bot";
-
   return (
-    <div
-      className={`flex items-start gap-3 ${!isBot ? "flex-row-reverse" : ""}`}
-    >
-      {isBot && (
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center flex-shrink-0">
-          <Bot className="w-4 h-4 text-primary-foreground" />
+    <div className={`flex ${message.type === "user" ? "justify-end" : "items-start gap-2"}`}>
+      {message.type === "bot" && (
+        <div className="w-7 h-7 rounded-lg bg-[#008A00] flex items-center justify-center flex-shrink-0">
+          <Bot className="w-4 h-4 text-white" />
         </div>
       )}
       <div
-        className={`max-w-[80%] ${
-          isBot
-            ? "glass-card rounded-2xl rounded-tl-none"
-            : "bg-primary text-primary-foreground rounded-2xl rounded-tr-none"
-        } p-4`}
+        className={`max-w-[80%] rounded-2xl p-3 ${
+          message.type === "user"
+            ? "bg-[#008A00] text-white rounded-br-md"
+            : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-bl-md"
+        }`}
       >
-        <p
-          className={`text-sm leading-relaxed ${isBot ? "text-foreground" : ""}`}
-        >
-          {message.content}
-        </p>
+        <p className="text-sm">{message.content}</p>
         {message.suggestions && (
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-2">
             {message.suggestions.map((suggestion) => (
               <button
                 key={suggestion}
                 onClick={() => onSuggestionClick(suggestion)}
-                className="px-3 py-1.5 rounded-full text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                className="text-xs px-2 py-1 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
               >
                 {suggestion}
               </button>
             ))}
-          </div>
-        )}
-        {isBot && (
-          <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border/50">
-            <button className="p-1.5 hover:bg-secondary rounded-lg transition-colors">
-              <ThumbsUp className="w-4 h-4 text-muted-foreground" />
-            </button>
-            <button className="p-1.5 hover:bg-secondary rounded-lg transition-colors">
-              <ThumbsDown className="w-4 h-4 text-muted-foreground" />
-            </button>
-            <span className="text-xs text-muted-foreground ml-auto">
-              {message.timestamp}
-            </span>
           </div>
         )}
       </div>
@@ -670,11 +682,12 @@ function ChatMessage({
   );
 }
 
+// Contact Card - Simplified
 function ContactCard({
   icon,
   title,
   description,
-  available = false,
+  available,
 }: {
   icon: React.ReactNode;
   title: string;
@@ -682,17 +695,14 @@ function ContactCard({
   available?: boolean;
 }) {
   return (
-    <button className="glass-card rounded-2xl p-4 text-left hover:bg-secondary/50 transition-colors group">
-      <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/15 transition-colors">
-          {icon}
-        </div>
-        {available && (
-          <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-        )}
+    <button className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${available ? "bg-[#008A00]/10 text-[#008A00]" : "bg-gray-100 dark:bg-gray-800 text-gray-400"}`}>
+        {icon}
       </div>
-      <p className="font-semibold text-foreground text-sm">{title}</p>
-      <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+      <div className="text-left">
+        <p className="font-medium text-sm text-gray-900 dark:text-white">{title}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+      </div>
     </button>
   );
 }

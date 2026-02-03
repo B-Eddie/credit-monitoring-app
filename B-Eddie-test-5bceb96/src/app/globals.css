@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* TD Brand Colors */
+  --td-green: #008A00;
+  --td-green-dark: #006B00;
+  --td-green-light: #E8F5E9;
+  --td-gray-light: #F5F5F5;
+  --td-gray: #757575;
+  --td-red: #D32F2F;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
+    --primary: 120 100% 27%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 120 20% 96%;
+    --secondary-foreground: 120 100% 27%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 120 20% 94%;
+    --accent-foreground: 120 100% 27%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 120 100% 27%;
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 120 100% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 120 10% 15%;
+    --secondary-foreground: 120 100% 45%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 120 10% 15%;
+    --accent-foreground: 120 100% 45%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 120 100% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+}
+
+/* Custom scrollbar for mobile feel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Mobile phone frame */
+.phone-frame {
+  background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  border-radius: 45px;
+  padding: 12px;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.phone-screen {
+  border-radius: 35px;
+  overflow: hidden;
+  background: white;
+}
+
+.phone-notch {
+  background: #1a1a1a;
+  border-radius: 0 0 20px 20px;
+}
+
+/* TD specific styles */
+.td-gradient {
+  background: linear-gradient(180deg, #008A00 0%, #006B00 100%);
+}
+
+/* Account card hover effect */
+.account-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-card:hover {
+  transform: translateX(4px);
+}
+
+/* Bottom nav active indicator */
+.nav-item-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: #008A00;
+  border-radius: 50%;
+}
+
+/* Quick action buttons */
+.quick-action {
+  transition: all 0.2s ease;
+}
+
+.quick-action:hover {
+  background: #E8F5E9;
+}
+
+.quick-action:active {
+  transform: scale(0.95);
+}

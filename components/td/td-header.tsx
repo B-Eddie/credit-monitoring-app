@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  Bell,
-  ChevronLeft,
-  Shield,
-  Search,
-  MessageSquare,
-  Sparkles,
-  User,
-  Settings,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Bell, ChevronLeft, Sparkles, Settings } from "lucide-react";
 import type { CleanSlateTab } from "@/app/page";
 
 interface TDHeaderProps {
@@ -33,129 +23,68 @@ export function TDHeader({
     { id: "support", label: "Help" },
   ];
 
+  // Only show header when Clean Slate is open - main TD header is in home screen now
+  if (!isCleanSlateOpen) {
+    return null;
+  }
+
   return (
-    <header className="glass sticky top-0 z-50 animate-fade-in">
-      {/* Main Header */}
-      <div className="flex items-center justify-between px-8 py-6">
-        <div className="flex items-center gap-5">
-          {isCleanSlateOpen ? (
-            <button
-              onClick={onCloseCleanSlate}
-              className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors btn-press"
-              aria-label="Back to TD Banking"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center hover:bg-accent transition-colors border border-border">
-                <ChevronLeft className="w-6 h-6" />
-              </div>
-            </button>
-          ) : (
-            <TDLogo />
-          )}
+    <header className="td-gradient pt-12 pb-4 px-4">
+      {/* Clean Slate Header */}
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={onCloseCleanSlate}
+          className="flex items-center gap-2 text-white"
+          aria-label="Back to TD Banking"
+        >
+          <ChevronLeft className="w-6 h-6" />
+          <span className="text-sm font-medium">Back</span>
+        </button>
+
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-semibold text-white">Clean Slate</span>
         </div>
 
-        {isCleanSlateOpen ? (
-          <div className="flex items-center gap-3 animate-fade-in">
-            <div className="flex items-center gap-3 mr-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] flex items-center justify-center glow-green">
-                <Sparkles className="w-5 h-5 text-[#0A0F14]" />
-              </div>
-              <span className="font-bold text-lg tracking-tight text-foreground">
-                Clean Slate
-              </span>
-            </div>
-            <button
-              onClick={() => setCleanSlateTab("notifications")}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors border btn-press relative ${
-                cleanSlateTab === "notifications"
-                  ? "bg-primary/20 border-primary/30 text-primary"
-                  : "bg-secondary border-border text-muted-foreground hover:text-foreground"
-              }`}
-              aria-label="Notifications"
-            >
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
-                3
-              </span>
-            </button>
-            <button
-              onClick={() => setCleanSlateTab("settings")}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors border btn-press ${
-                cleanSlateTab === "settings"
-                  ? "bg-primary/20 border-primary/30 text-primary"
-                  : "bg-secondary border-border text-muted-foreground hover:text-foreground"
-              }`}
-              aria-label="Settings"
-            >
-              <Settings className="w-5 h-5" />
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-4">
-            <button
-              className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center hover:bg-accent transition-colors border border-border btn-press icon-hover"
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5 text-muted-foreground" />
-            </button>
-            <button
-              className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center hover:bg-accent transition-colors border border-border relative btn-press icon-hover"
-              aria-label="Notifications"
-            >
-              <Bell className="w-5 h-5 text-muted-foreground" />
-              <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-primary rounded-full border-2 border-background animate-pulse" />
-            </button>
-            <button
-              className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-[#00B8A9]/20 flex items-center justify-center hover:from-primary/30 hover:to-[#00B8A9]/30 transition-colors border border-primary/30 btn-press icon-hover"
-              aria-label="Profile"
-            >
-              <User className="w-5 h-5 text-primary" />
-            </button>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCleanSlateTab("notifications")}
+            className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center relative"
+            aria-label="Notifications"
+          >
+            <Bell className="w-5 h-5 text-white" />
+            <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              3
+            </span>
+          </button>
+          <button
+            onClick={() => setCleanSlateTab("settings")}
+            className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center"
+            aria-label="Settings"
+          >
+            <Settings className="w-5 h-5 text-white" />
+          </button>
+        </div>
       </div>
 
-      {/* Clean Slate Sub-Navigation */}
-      {isCleanSlateOpen && (
-        <nav className="flex border-t border-border px-6 animate-slide-up">
-          {cleanSlateTabs.map((tab, index) => (
-            <button
-              key={tab.id}
-              onClick={() => setCleanSlateTab(tab.id)}
-              className={`flex-1 py-5 text-sm font-semibold transition-all relative btn-press animate-fade-in`}
-              style={{ animationDelay: `${index * 0.05}s` }}
-            >
-              <span
-                className={
-                  cleanSlateTab === tab.id
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }
-              >
-                {tab.label}
-              </span>
-              {cleanSlateTab === tab.id && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-0.5 bg-gradient-to-r from-primary/50 via-primary to-primary/50 rounded-full animate-scale-in" />
-              )}
-            </button>
-          ))}
-        </nav>
-      )}
+      {/* Clean Slate Tab Navigation */}
+      <div className="flex bg-white/20 rounded-full p-1">
+        {cleanSlateTabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setCleanSlateTab(tab.id)}
+            className={`flex-1 py-2 px-3 rounded-full text-sm font-medium transition-all ${
+              cleanSlateTab === tab.id
+                ? "bg-white text-[#008A00]"
+                : "text-white"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
     </header>
-  );
-}
-
-function TDLogo() {
-  return (
-    <div className="flex items-center gap-4 animate-pop-in">
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] flex items-center justify-center glow-green">
-        <span className="font-bold text-[#0A0F14] text-2xl tracking-tight">
-          TD
-        </span>
-      </div>
-      <div className="hidden">
-        <p className="font-bold text-foreground text-lg">TD Bank</p>
-        <p className="text-xs text-muted-foreground">Personal Banking</p>
-      </div>
-    </div>
   );
 }

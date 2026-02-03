@@ -1,8 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import {
   FileText,
   Download,
@@ -29,6 +37,10 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Minus,
+  Loader2,
+  Lightbulb,
+  Target,
+  Zap,
 } from "lucide-react";
 
 // Types
@@ -184,6 +196,16 @@ export function CleanSlateReports() {
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
+  const [showAIInsights, setShowAIInsights] = useState(false);
+  const [showLatestReport, setShowLatestReport] = useState(false);
+  const [insightsStep, setInsightsStep] = useState(0);
+
+  const startAIInsights = () => {
+    setShowAIInsights(true);
+    setInsightsStep(0);
+    setTimeout(() => setInsightsStep(1), 1500);
+    setTimeout(() => setInsightsStep(2), 3000);
+  };
 
   if (selectedReport) {
     return (
@@ -195,245 +217,410 @@ export function CleanSlateReports() {
   }
 
   return (
-    <div className="pb-32 bg-background">
+    <div className="flex-1 bg-gray-50 dark:bg-gray-950">
       {/* Header */}
-      <section className="px-8 pt-8 pb-6 animate-fade-in">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm px-4 py-4">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Reports</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Credit history & activity logs
-            </p>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Reports</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Credit history & insights</p>
           </div>
-          <Button
-            variant="outline"
-            className="h-11 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl font-medium btn-press"
-          >
-            <Download className="w-5 h-5 mr-2" />
+          <button className="flex items-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-medium text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <Download className="w-4 h-4" />
             Export
-          </Button>
+          </button>
         </div>
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Search reports & logs..."
+            placeholder="Search reports..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 pl-12 pr-4 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-100 dark:bg-gray-800 border-0 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#008A00]/50 text-sm"
           />
         </div>
-      </section>
 
-      {/* Quick Stats */}
-      <section className="px-8 pb-8 animate-fade-in stagger-1">
-        <div className="grid grid-cols-3 gap-3">
-          <div className="glass-card rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold text-primary">+44</p>
-            <p className="text-xs text-muted-foreground mt-1">Points (YTD)</p>
+        {/* Quick Stats */}
+        <div className="grid grid-cols-3 gap-2 mt-4">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-[#008A00]">+44</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">YTD Points</p>
           </div>
-          <div className="glass-card rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold text-foreground">12</p>
-            <p className="text-xs text-muted-foreground mt-1">Reports</p>
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-gray-900 dark:text-white">12</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">Reports</p>
           </div>
-          <div className="glass-card rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold text-[#00D4FF]">94%</p>
-            <p className="text-xs text-muted-foreground mt-1">Success Rate</p>
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-gray-900 dark:text-white">94%</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">Success</p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Tabs */}
-      <section className="px-8 pb-6 animate-fade-in stagger-2">
-        <div className="flex gap-2 p-1.5 bg-secondary/50 rounded-2xl">
+      {/* Content */}
+      <div className="px-4 py-4 space-y-4">
+        {/* AI Quick Actions */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={startAIInsights}
+            className="flex items-center gap-3 p-4 bg-[#008A00] text-white rounded-2xl hover:bg-[#006B00] transition-colors"
+          >
+            <BarChart3 className="w-5 h-5" />
+            <div className="text-left">
+              <p className="font-semibold text-sm">AI Insights</p>
+              <p className="text-xs text-white/70">Trend analysis</p>
+            </div>
+          </button>
+          <button
+            onClick={() => setShowLatestReport(true)}
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >
+            <FileText className="w-5 h-5 text-[#008A00]" />
+            <div className="text-left">
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">Latest Report</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">December 2024</p>
+            </div>
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 p-1 bg-gray-200 dark:bg-gray-800 rounded-xl">
           <button
             onClick={() => setActiveTab("reports")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "reports"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
-            <BarChart3 className="w-4 h-4" />
             Reports
           </button>
           <button
             onClick={() => setActiveTab("audit")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "audit"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
-            <Activity className="w-4 h-4" />
-            Audit Log
+            Activity
           </button>
         </div>
-      </section>
 
-      {/* Reports Tab */}
-      {activeTab === "reports" && (
-        <>
-          {/* Monthly Comparison */}
-          <section className="px-8 pb-8 animate-fade-in stagger-3">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">
-                Score Comparison
-              </h3>
-              <Badge
-                variant="outline"
-                className="text-xs border-border text-muted-foreground"
-              >
-                Last 3 months
-              </Badge>
-            </div>
-            <div className="glass-card rounded-3xl p-6 border border-border/50">
-              <div className="flex items-end justify-between h-32 mb-4">
-                <ComparisonBar month="Oct" score={718} maxScore={750} />
-                <ComparisonBar month="Nov" score={732} maxScore={750} />
-                <ComparisonBar month="Dec" score={742} maxScore={750} current />
-              </div>
-              <div className="flex items-center justify-center gap-6 pt-4 border-t border-border/50">
-                <div className="text-center">
-                  <p className="text-lg font-bold text-primary">+24</p>
-                  <p className="text-xs text-muted-foreground">3-month gain</p>
-                </div>
-                <div className="w-px h-8 bg-border" />
-                <div className="text-center">
-                  <p className="text-lg font-bold text-foreground">3</p>
-                  <p className="text-xs text-muted-foreground">Reports</p>
-                </div>
-                <div className="w-px h-8 bg-border" />
-                <div className="text-center">
-                  <p className="text-lg font-bold text-[#FFB800]">6</p>
-                  <p className="text-xs text-muted-foreground">Issues found</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Report Archive */}
-          <section className="px-8 pb-8 animate-fade-in stagger-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">Report Archive</h3>
-              <button className="text-sm text-primary font-medium flex items-center gap-1 btn-press">
-                View all
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="space-y-3">
-              {reports.map((report, index) => (
-                <ReportCard
+        {/* Reports Tab */}
+        {activeTab === "reports" && (
+          <>
+            {/* Report List */}
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+              {reports.slice(0, 4).map((report, index) => (
+                <button
                   key={report.id}
-                  report={report}
                   onClick={() => setSelectedReport(report)}
-                  delay={index}
-                />
+                  className={`w-full flex items-center gap-3 p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-left ${
+                    index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                  }`}
+                >
+                  <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-gray-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-gray-900 dark:text-white text-sm">{report.month} {report.year}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{report.highlights[0]}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-sm font-semibold ${report.change >= 0 ? "text-[#008A00]" : "text-red-500"}`}>
+                      {report.change >= 0 ? "+" : ""}{report.change}
+                    </p>
+                    <p className="text-xs text-gray-500">{report.score}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                </button>
               ))}
             </div>
-          </section>
+          </>
+        )}
 
-          {/* Export Options */}
-          <section className="px-8 pb-8 animate-fade-in stagger-5">
-            <h3 className="font-semibold text-foreground mb-4">
-              Export Options
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <ExportCard
-                icon={<FileText className="w-6 h-6" />}
-                title="PDF Report"
-                description="Full detailed report"
-              />
-              <ExportCard
-                icon={<FileSpreadsheet className="w-6 h-6" />}
-                title="CSV Data"
-                description="Raw data export"
-              />
-              <ExportCard
-                icon={<Printer className="w-6 h-6" />}
-                title="Print Summary"
-                description="Print-friendly view"
-              />
-              <ExportCard
-                icon={<Share2 className="w-6 h-6" />}
-                title="Share Report"
-                description="Send to email"
-              />
-            </div>
-          </section>
-        </>
-      )}
-
-      {/* Audit Log Tab */}
-      {activeTab === "audit" && (
-        <>
-          {/* Filter Pills */}
-          <section className="px-8 pb-6 animate-fade-in stagger-3">
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              <FilterPill
-                label="All"
-                active={!filterCategory}
-                onClick={() => setFilterCategory(null)}
-              />
-              <FilterPill
-                label="Disputes"
-                active={filterCategory === "dispute"}
-                onClick={() => setFilterCategory("dispute")}
-              />
-              <FilterPill
-                label="Alerts"
-                active={filterCategory === "alert"}
-                onClick={() => setFilterCategory("alert")}
-              />
-              <FilterPill
-                label="Reports"
-                active={filterCategory === "report"}
-                onClick={() => setFilterCategory("report")}
-              />
-              <FilterPill
-                label="Security"
-                active={filterCategory === "security"}
-                onClick={() => setFilterCategory("security")}
-              />
-            </div>
-          </section>
-
-          {/* Audit Entries */}
-          <section className="px-8 pb-8 animate-fade-in stagger-4">
-            <div className="space-y-3">
-              {auditLogs
-                .filter(
-                  (log) => !filterCategory || log.category === filterCategory,
-                )
-                .map((log, index) => (
-                  <AuditLogCard key={log.id} log={log} delay={index} />
-                ))}
-            </div>
-          </section>
-
-          {/* Transparency Notice */}
-          <section className="px-8 pb-8 animate-fade-in stagger-5">
-            <div className="glass-card rounded-2xl p-5 border border-primary/20 bg-primary/5">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-5 h-5 text-primary" />
+        {/* Activity Tab */}
+        {activeTab === "audit" && (
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden">
+            {auditLogs.slice(0, 5).map((log, index) => (
+              <div
+                key={log.id}
+                className={`flex items-start gap-3 p-4 ${
+                  index !== 0 ? "border-t border-gray-100 dark:border-gray-800" : ""
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                  log.category === "dispute" ? "bg-purple-100 dark:bg-purple-900/30" :
+                  log.category === "alert" ? "bg-green-100 dark:bg-green-900/30" :
+                  log.category === "security" ? "bg-red-100 dark:bg-red-900/30" :
+                  "bg-gray-100 dark:bg-gray-800"
+                }`}>
+                  {log.category === "dispute" ? <FileText className="w-4 h-4 text-purple-500" /> :
+                   log.category === "alert" ? <TrendingUp className="w-4 h-4 text-green-500" /> :
+                   log.category === "security" ? <AlertTriangle className="w-4 h-4 text-red-500" /> :
+                   <Activity className="w-4 h-4 text-gray-500" />}
                 </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">
-                    Full Transparency
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-900 dark:text-white text-sm">{log.action}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{log.details}</p>
+                  <p className="text-xs text-gray-400 mt-1">{log.timestamp}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Padding */}
+      <div className="h-24" />
+
+      {/* AI Insights Sheet */}
+      <Sheet open={showAIInsights} onOpenChange={setShowAIInsights}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <Lightbulb className="w-6 h-6 text-[#008A00]" />
+              AI Credit Insights
+            </SheetTitle>
+            <SheetDescription>
+              Smart analysis of your credit trends and patterns
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {insightsStep < 2 && (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="w-16 h-16 rounded-full bg-[#008A00]/10 flex items-center justify-center mb-4">
+                  <BarChart3 className="w-8 h-8 text-[#008A00]" />
+                </div>
+                <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
+                <p className="font-semibold text-gray-900 dark:text-white">
+                  {insightsStep === 0 ? "Analyzing 12 months of data..." : "Generating insights..."}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
+                  {insightsStep === 0 ? "Reviewing score changes and patterns" : "Creating personalized recommendations"}
+                </p>
+              </div>
+            )}
+
+            {insightsStep === 2 && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                {/* Score Trend */}
+                <div className="bg-[#008A00]/10 rounded-2xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-semibold text-gray-900 dark:text-white">Score Trend</span>
+                    <div className="flex items-center gap-1 text-[#008A00]">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="font-bold">+44 pts</span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Your score has increased steadily over the past 6 months. Keep up the great work!
                   </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Every action taken on your behalf is logged here. We never
-                    modify your credit report without your explicit consent.
-                  </p>
+                </div>
+
+                {/* Key Insights */}
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">Key Insights</p>
+                  <div className="space-y-3">
+                    <InsightItem 
+                      icon={<Target className="w-4 h-4" />}
+                      title="Utilization improved"
+                      description="Down from 45% to 28% this quarter"
+                      positive
+                    />
+                    <InsightItem 
+                      icon={<Zap className="w-4 h-4" />}
+                      title="Payment streak"
+                      description="18 consecutive on-time payments"
+                      positive
+                    />
+                    <InsightItem 
+                      icon={<AlertTriangle className="w-4 h-4" />}
+                      title="Hard inquiry detected"
+                      description="New inquiry from Dec 2024"
+                      positive={false}
+                    />
+                  </div>
+                </div>
+
+                {/* Predictions */}
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">Predictions</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Next month estimate</span>
+                      <span className="font-bold text-[#008A00]">747 (+5)</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">6 month outlook</span>
+                      <span className="font-bold text-[#008A00]">770+</span>
+                    </div>
+                  </div>
+                </div>
+
+                <Button 
+                  className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                  onClick={() => {
+                    setShowAIInsights(false);
+                    setInsightsStep(0);
+                    toast.success("Insights saved!", { description: "Check your email for the full report." });
+                  }}
+                >
+                  Share Full Report
+                </Button>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Latest Report Sheet */}
+      <Sheet open={showLatestReport} onOpenChange={setShowLatestReport}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <FileText className="w-6 h-6 text-[#008A00]" />
+              December 2024 Report
+            </SheetTitle>
+            <SheetDescription>
+              Your latest credit report summary
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {/* Score Summary */}
+            <div className="bg-[#008A00]/10 rounded-2xl p-5 text-center">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Credit Score</p>
+              <p className="text-5xl font-bold text-[#008A00]">742</p>
+              <div className="flex items-center justify-center gap-1 mt-2 text-[#008A00]">
+                <TrendingUp className="w-4 h-4" />
+                <span className="font-semibold">+12 from last month</span>
+              </div>
+            </div>
+
+            {/* Bureau Breakdown */}
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+              <p className="font-semibold text-gray-900 dark:text-white mb-3">Bureau Scores</p>
+              <div className="space-y-3">
+                <BureauRow bureau="Equifax" score={738} change={+8} />
+                <BureauRow bureau="TransUnion" score={745} change={+12} />
+                <BureauRow bureau="Experian" score={743} change={+15} />
+              </div>
+            </div>
+
+            {/* Report Highlights */}
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+              <p className="font-semibold text-gray-900 dark:text-white mb-3">Highlights</p>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <CheckCircle2 className="w-4 h-4 text-[#008A00]" />
+                  <span>All accounts in good standing</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <CheckCircle2 className="w-4 h-4 text-[#008A00]" />
+                  <span>Credit utilization at 28%</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <AlertTriangle className="w-4 h-4 text-orange-500" />
+                  <span>1 new inquiry this month</span>
                 </div>
               </div>
             </div>
-          </section>
-        </>
-      )}
+
+            <div className="pt-2 space-y-3">
+              <Button 
+                className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                onClick={() => {
+                  setShowLatestReport(false);
+                  toast.success("Report downloaded!", { description: "Check your downloads folder." });
+                }}
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download Full Report (PDF)
+              </Button>
+              <Button 
+                variant="outline"
+                className="w-full h-12 rounded-xl"
+                onClick={() => setShowLatestReport(false)}
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share Report
+              </Button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+}
+
+// Helper components for sheets
+function InsightItem({ icon, title, description, positive }: { icon: React.ReactNode; title: string; description: string; positive: boolean }) {
+  return (
+    <div className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${positive ? 'bg-[#008A00]/10 text-[#008A00]' : 'bg-orange-100 dark:bg-orange-900/30 text-orange-500'}`}>
+        {icon}
+      </div>
+      <div>
+        <p className="font-medium text-gray-900 dark:text-white text-sm">{title}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function BureauRow({ bureau, score, change }: { bureau: string; score: number; change: number }) {
+  return (
+    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+      <span className="text-sm font-medium text-gray-900 dark:text-white">{bureau}</span>
+      <div className="flex items-center gap-3">
+        <span className="font-bold text-gray-900 dark:text-white">{score}</span>
+        <span className="text-sm text-[#008A00] font-medium">+{change}</span>
+      </div>
+    </div>
+  );
+}
+
+// Report Detail Component
+function ReportDetail({
+  report,
+  onBack,
+}: {
+  report: Report;
+  onBack: () => void;
+}) {
+  return (
+    <div className="flex-1 bg-gray-50 dark:bg-gray-950">
+      <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm px-4 py-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-gray-500 dark:text-gray-400 mb-4"
+        >
+          <ChevronRight className="w-4 h-4 rotate-180" />
+          <span className="text-sm">Back</span>
+        </button>
+        <h1 className="text-xl font-bold text-gray-900 dark:text-white">{report.month} {report.year}</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Score: {report.score}</p>
+      </div>
+      <div className="px-4 py-4 space-y-4">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+          <p className="font-semibold text-gray-900 dark:text-white mb-3">Highlights</p>
+          <div className="space-y-2">
+            {report.highlights.map((highlight, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                <CheckCircle2 className="w-4 h-4 text-[#008A00]" />
+                {highlight}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="h-24" />
     </div>
   );
 }
@@ -676,163 +863,6 @@ function AuditLogCard({ log, delay = 0 }: { log: AuditLog; delay?: number }) {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-// Report Detail View
-function ReportDetail({
-  report,
-  onBack,
-}: {
-  report: Report;
-  onBack: () => void;
-}) {
-  return (
-    <div className="pb-32 bg-background">
-      {/* Header */}
-      <section className="px-8 pt-8 pb-6 animate-fade-in">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 btn-press"
-        >
-          <ChevronRight className="w-5 h-5 rotate-180" />
-          <span className="text-sm font-medium">Back to Reports</span>
-        </button>
-
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">
-              {report.month} {report.year}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">{report.date}</p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-10 w-10 p-0 border-border hover:bg-secondary bg-transparent rounded-xl btn-press"
-            >
-              <Share2 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-10 w-10 p-0 border-border hover:bg-secondary bg-transparent rounded-xl btn-press"
-            >
-              <Download className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Score Summary */}
-      <section className="px-8 pb-8 animate-fade-in stagger-1">
-        <div className="glass-card rounded-3xl p-6 border border-primary/20">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <p className="text-sm text-muted-foreground mb-1">Credit Score</p>
-              <p className="text-5xl font-bold text-foreground">
-                {report.score}
-              </p>
-            </div>
-            <div
-              className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-                report.change >= 0
-                  ? "bg-primary/15 text-primary"
-                  : "bg-destructive/15 text-destructive"
-              }`}
-            >
-              {report.change >= 0 ? (
-                <TrendingUp className="w-5 h-5" />
-              ) : (
-                <TrendingDown className="w-5 h-5" />
-              )}
-              <span className="font-semibold">
-                {report.change >= 0 ? "+" : ""}
-                {report.change} pts
-              </span>
-            </div>
-          </div>
-
-          {/* Score breakdown */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-secondary/50">
-              <p className="text-xs text-muted-foreground mb-1">Equifax</p>
-              <p className="text-xl font-bold text-foreground">738</p>
-            </div>
-            <div className="p-4 rounded-xl bg-secondary/50">
-              <p className="text-xs text-muted-foreground mb-1">TransUnion</p>
-              <p className="text-xl font-bold text-foreground">745</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Highlights */}
-      <section className="px-8 pb-8 animate-fade-in stagger-2">
-        <h3 className="font-semibold text-foreground mb-4">Key Highlights</h3>
-        <div className="space-y-3">
-          {report.highlights.map((highlight, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 glass-card rounded-xl p-4"
-            >
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Info className="w-4 h-4 text-primary" />
-              </div>
-              <p className="text-sm text-foreground">{highlight}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Discrepancies */}
-      {report.discrepancies > 0 && (
-        <section className="px-8 pb-8 animate-fade-in stagger-3">
-          <h3 className="font-semibold text-foreground mb-4">
-            Issues Found ({report.discrepancies})
-          </h3>
-          <div className="glass-card rounded-2xl p-5 border border-[#FFB800]/20 bg-[#FFB800]/5">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#FFB800]/20 flex items-center justify-center flex-shrink-0">
-                <AlertTriangle className="w-5 h-5 text-[#FFB800]" />
-              </div>
-              <div className="flex-1">
-                <p className="font-medium text-foreground mb-1">
-                  {report.discrepancies} discrepancies detected
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Review and dispute these items to improve your score
-                </p>
-                <Button
-                  size="sm"
-                  className="mt-4 h-10 bg-[#FFB800] hover:bg-[#FFB800]/90 text-black rounded-xl font-semibold btn-press"
-                >
-                  View Discrepancies
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Download Options */}
-      <section className="px-8 pb-8 animate-fade-in stagger-4">
-        <div className="space-y-3">
-          <Button className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-semibold btn-press">
-            <Download className="w-5 h-5 mr-2" />
-            Download Full Report (PDF)
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full h-14 border-border text-foreground hover:bg-secondary bg-transparent rounded-2xl font-semibold btn-press"
-          >
-            <FileSpreadsheet className="w-5 h-5 mr-2" />
-            Export Data (CSV)
-          </Button>
-        </div>
-      </section>
     </div>
   );
 }

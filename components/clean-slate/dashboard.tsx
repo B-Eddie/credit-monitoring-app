@@ -1,29 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import {
   TrendingUp,
-  TrendingDown,
   ChevronRight,
   AlertTriangle,
   CheckCircle2,
   Clock,
-  Zap,
   Shield,
   Eye,
   EyeOff,
   RefreshCw,
-  Info,
   Sparkles,
-  Lock,
-  CreditCard,
-  FileWarning,
   AlertCircle,
-  CircleCheck,
   Activity,
+  FileText,
+  Zap,
+  X,
+  Brain,
+  Target,
+  TrendingDown,
+  Loader2,
 } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 // Types
 interface Discrepancy {
@@ -57,22 +64,12 @@ const discrepancies: Discrepancy[] = [
   },
   {
     id: "DISC-002",
-    type: "Duplicate Account",
+    type: "Unauthorized Inquiry",
     bureau: "TransUnion",
     severity: "medium",
-    description:
-      "Same credit card appearing twice with different account numbers",
-    detectedDate: "Dec 12, 2024",
-    status: "reviewing",
-  },
-  {
-    id: "DISC-003",
-    type: "Unauthorized Inquiry",
-    bureau: "Equifax",
-    severity: "high",
-    description: "Hard inquiry from 'QuickLoans Inc.' - not authorized by you",
+    description: "Hard inquiry from 'QuickLoans Inc.' - not authorized",
     detectedDate: "Dec 10, 2024",
-    status: "disputed",
+    status: "reviewing",
   },
 ];
 
@@ -80,672 +77,632 @@ const creditFactors: CreditFactor[] = [
   {
     name: "Payment History",
     impact: "positive",
-    description: "100% on-time payments for 24 months",
+    description: "100% on-time payments",
     weight: 35,
   },
   {
     name: "Credit Utilization",
     impact: "negative",
-    description: "Currently at 42% - aim for under 30%",
+    description: "42% - aim for under 30%",
     weight: 30,
   },
   {
     name: "Credit Age",
     impact: "positive",
-    description: "Average account age: 6.2 years",
+    description: "Average age: 6.2 years",
     weight: 15,
   },
-  {
-    name: "Credit Mix",
-    impact: "neutral",
-    description: "2 credit cards, 1 auto loan",
-    weight: 10,
-  },
-  {
-    name: "New Credit",
-    impact: "positive",
-    description: "No new accounts in 12 months",
-    weight: 10,
-  },
-];
-
-const trendData = [
-  { month: "Jul", score: 698 },
-  { month: "Aug", score: 705 },
-  { month: "Sep", score: 712 },
-  { month: "Oct", score: 718 },
-  { month: "Nov", score: 732 },
-  { month: "Dec", score: 742 },
 ];
 
 export function CleanSlateDashboard() {
-  const [showScoreDetails, setShowScoreDetails] = useState(true);
+  const [showScore, setShowScore] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lastRefresh] = useState("2 hours ago");
+  const [showAIAnalysis, setShowAIAnalysis] = useState(false);
+  const [showAutoDispute, setShowAutoDispute] = useState(false);
+  const [analysisStep, setAnalysisStep] = useState(0);
+  const [disputeStep, setDisputeStep] = useState(0);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
     setTimeout(() => setIsRefreshing(false), 2000);
   };
 
-  return (
-    <div className="pb-32 bg-background relative">
-      {/* Hero Section - Credit Score */}
-      <section className="relative px-8 pt-8 pb-12 overflow-hidden">
-        {/* Ambient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[100px] animate-breathe" />
+  const startAIAnalysis = () => {
+    setShowAIAnalysis(true);
+    setAnalysisStep(0);
+    // Simulate analysis steps
+    setTimeout(() => setAnalysisStep(1), 1000);
+    setTimeout(() => setAnalysisStep(2), 2000);
+    setTimeout(() => setAnalysisStep(3), 3000);
+  };
 
-        {/* Refresh indicator */}
-        <div className="flex items-center justify-between mb-8 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 text-sm">
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-muted-foreground">
-                Live monitoring active
-              </span>
-            </div>
+  const startAutoDispute = () => {
+    setShowAutoDispute(true);
+    setDisputeStep(0);
+  };
+
+  return (
+    <div className="flex-1 bg-gray-50 dark:bg-gray-950">
+      {/* Credit Score Hero Card */}
+      <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm pb-6">
+        {/* Status Bar */}
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#008A00] animate-pulse" />
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              Live monitoring active
+            </span>
           </div>
           <button
             onClick={handleRefresh}
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors btn-press"
+            className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400"
           >
             <RefreshCw
-              className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`}
+              className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`}
             />
-            <span>Updated {lastRefresh}</span>
+            <span>Updated 2h ago</span>
           </button>
         </div>
 
         {/* Main Score Display */}
-        <div className="glass-card rounded-3xl p-8 relative border border-primary/20 animate-fade-in">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-3">
-              <h2 className="text-lg font-semibold text-foreground">
-                Credit Score
-              </h2>
-              <button
-                onClick={() => setShowScoreDetails(!showScoreDetails)}
-                className="p-2 rounded-full hover:bg-secondary/50 transition-colors"
-              >
-                {showScoreDetails ? (
-                  <Eye className="w-5 h-5 text-muted-foreground" />
-                ) : (
-                  <EyeOff className="w-5 h-5 text-muted-foreground" />
-                )}
-              </button>
+        <div className="px-4">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Your Credit Score
+              </p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">
+                Powered by TransUnion
+              </p>
             </div>
-            <Badge className="bg-primary/15 text-primary border-0 text-sm h-8 px-4 font-semibold">
-              <TrendingUp className="w-4 h-4 mr-1.5" />
-              +10 this month
-            </Badge>
+            <button
+              onClick={() => setShowScore(!showScore)}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              {showScore ? (
+                <Eye className="w-5 h-5 text-gray-400" />
+              ) : (
+                <EyeOff className="w-5 h-5 text-gray-400" />
+              )}
+            </button>
           </div>
 
-          <div className="flex flex-col items-center py-8">
-            <CreditScoreGauge
-              score={showScoreDetails ? 742 : 0}
-              hidden={!showScoreDetails}
-            />
-            <div className="flex items-center gap-6 mt-6">
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                  Range
-                </p>
-                <p className="text-sm font-semibold text-foreground mt-1">
-                  300-900
-                </p>
+          {/* Score Circle */}
+          <div className="flex flex-col items-center py-4">
+            <div className="relative w-48 h-48">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                {/* Background circle */}
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="none"
+                  stroke="#E5E7EB"
+                  strokeWidth="8"
+                  className="dark:stroke-gray-800"
+                />
+                {/* Progress arc */}
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="none"
+                  stroke="url(#scoreGradient)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={`${((742 - 300) / 600) * 264} 264`}
+                />
+                <defs>
+                  <linearGradient
+                    id="scoreGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" stopColor="#008A00" />
+                    <stop offset="100%" stopColor="#00B87A" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-5xl font-bold text-gray-900 dark:text-white">
+                  {showScore ? "742" : "•••"}
+                </span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  out of 900
+                </span>
               </div>
-              <div className="w-px h-8 bg-border" />
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                  Next Update
-                </p>
-                <p className="text-sm font-semibold text-foreground mt-1">
-                  22 hours
-                </p>
-              </div>
-              <div className="w-px h-8 bg-border" />
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                  Since Jan
-                </p>
-                <p className="text-sm font-semibold text-primary mt-1">
-                  +44 pts
-                </p>
-              </div>
+            </div>
+
+            {/* Score Status */}
+            <div className="flex items-center gap-2 mt-4 px-4 py-2 bg-green-50 dark:bg-green-900/20 rounded-full">
+              <TrendingUp className="w-4 h-4 text-[#008A00]" />
+              <span className="text-sm font-medium text-[#008A00]">
+                +12 pts this month
+              </span>
             </div>
           </div>
 
-          {/* Score category indicator */}
-          <div className="mt-4 p-4 rounded-2xl bg-primary/5 border border-primary/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-primary" />
+          {/* Quick Stats */}
+          <div className="grid grid-cols-3 gap-3 mt-4">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 dark:text-gray-400">Rating</p>
+              <p className="font-semibold text-gray-900 dark:text-white">
+                Good
+              </p>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Percentile
+              </p>
+              <p className="font-semibold text-gray-900 dark:text-white">
+                Top 35%
+              </p>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                YTD Change
+              </p>
+              <p className="font-semibold text-[#008A00]">+44 pts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Sections */}
+      <div className="px-4 py-4 space-y-4">
+        {/* AI Quick Actions - Simplified */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={startAIAnalysis}
+            className="flex items-center gap-3 p-4 bg-[#008A00] text-white rounded-2xl hover:bg-[#006B00] transition-colors"
+          >
+            <Sparkles className="w-5 h-5" />
+            <div className="text-left">
+              <p className="font-semibold text-sm">AI Analysis</p>
+              <p className="text-xs text-white/70">Get recommendations</p>
+            </div>
+          </button>
+          <button
+            onClick={startAutoDispute}
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >
+            <Shield className="w-5 h-5 text-[#008A00]" />
+            <div className="text-left">
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">Auto Dispute</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Fix 2 issues</p>
+            </div>
+          </button>
+        </div>
+
+        {/* Discrepancies Alert */}
+        {discrepancies.filter((d) => d.status !== "resolved").length > 0 && (
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-orange-500" />
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  Issues Found
+                </span>
+                <span className="text-xs bg-orange-100 dark:bg-orange-900/30 text-orange-600 px-2 py-0.5 rounded-full">
+                  {discrepancies.filter((d) => d.status !== "resolved").length}
+                </span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-gray-400" />
+            </div>
+            <div className="space-y-2">
+              {discrepancies.slice(0, 2).map((d) => (
+                <div
+                  key={d.id}
+                  className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl"
+                >
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      d.severity === "high"
+                        ? "bg-red-500"
+                        : d.severity === "medium"
+                          ? "bg-orange-500"
+                          : "bg-yellow-500"
+                    }`}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {d.type}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {d.bureau}
+                    </p>
+                  </div>
+                  <StatusBadge status={d.status} />
                 </div>
-                <div>
-                  <p className="font-semibold text-foreground">Good Standing</p>
-                  <p className="text-sm text-muted-foreground">
-                    Top 35% of Canadians
+              ))}
+            </div>
+            <button className="mt-3 w-full py-2.5 text-sm font-medium text-[#008A00] bg-green-50 dark:bg-green-900/20 rounded-xl hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
+              Review All Issues
+            </button>
+          </div>
+        )}
+
+        {/* Credit Factors */}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Activity className="w-5 h-5 text-[#008A00]" />
+              <span className="font-semibold text-gray-900 dark:text-white">
+                Credit Factors
+              </span>
+            </div>
+            <span className="text-2xl font-bold text-[#008A00]">94%</span>
+          </div>
+          <div className="space-y-3">
+            {creditFactors.map((factor, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    factor.impact === "positive"
+                      ? "bg-green-100 dark:bg-green-900/30"
+                      : factor.impact === "negative"
+                        ? "bg-red-100 dark:bg-red-900/30"
+                        : "bg-gray-100 dark:bg-gray-800"
+                  }`}
+                >
+                  {factor.impact === "positive" ? (
+                    <CheckCircle2 className="w-4 h-4 text-[#008A00]" />
+                  ) : factor.impact === "negative" ? (
+                    <AlertCircle className="w-4 h-4 text-red-500" />
+                  ) : (
+                    <Clock className="w-4 h-4 text-gray-500" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      {factor.name}
+                    </span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {factor.weight}%
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {factor.description}
                   </p>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Bureau Comparison */}
-      <section className="px-8 pb-10 animate-fade-in stagger-1">
-        <div className="flex items-center justify-between mb-5">
-          <h3 className="font-semibold text-foreground text-lg">
-            Bureau Scores
-          </h3>
-          <button className="text-sm text-primary font-medium flex items-center gap-1 btn-press">
-            Compare
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <BureauScoreCard
-            bureau="Equifax"
-            score={showScoreDetails ? 738 : 0}
-            change={8}
-            lastUpdated="Dec 18"
-            hidden={!showScoreDetails}
-            delay={0}
-          />
-          <BureauScoreCard
-            bureau="TransUnion"
-            score={showScoreDetails ? 745 : 0}
-            change={12}
-            lastUpdated="Dec 17"
-            hidden={!showScoreDetails}
-            delay={1}
-          />
-        </div>
-      </section>
-
-      {/* Credit Health Score */}
-      <section className="px-8 pb-10 animate-fade-in stagger-2">
-        <div className="glass-card rounded-3xl p-7 border border-primary/20">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center">
-                <Activity className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground text-lg">
-                  Credit Health
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Overall assessment
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-4xl font-bold text-primary">94%</p>
-              <p className="text-xs text-muted-foreground">Excellent</p>
-            </div>
-          </div>
-
-          {/* Health factors */}
-          <div className="space-y-4">
-            {creditFactors.slice(0, 3).map((factor, index) => (
-              <CreditFactorRow key={index} factor={factor} />
             ))}
           </div>
-
-          <Button
-            variant="outline"
-            className="w-full mt-6 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-2xl h-12 text-sm font-semibold btn-press"
-          >
-            View All Factors
-            <ChevronRight className="w-4 h-4 ml-2" />
-          </Button>
         </div>
-      </section>
 
-      {/* 12-Month Trend */}
-      <section className="px-8 pb-10 animate-fade-in stagger-3">
-        <div className="flex items-center justify-between mb-5">
-          <h3 className="font-semibold text-foreground text-lg">Score Trend</h3>
-          <Badge
-            variant="outline"
-            className="text-xs border-border text-muted-foreground"
-          >
-            Last 6 months
-          </Badge>
-        </div>
-        <div className="glass-card rounded-3xl p-6 border border-border/50">
-          <TrendChart data={trendData} />
-        </div>
-      </section>
-
-      {/* Active Discrepancies */}
-      <section className="px-8 pb-10 animate-fade-in stagger-4">
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-3">
-            <h3 className="font-semibold text-foreground text-lg">
-              Active Discrepancies
-            </h3>
-            <Badge className="bg-destructive/15 text-destructive border-0 text-xs h-6 px-3">
-              {discrepancies.filter((d) => d.status !== "resolved").length}{" "}
-              found
-            </Badge>
+        {/* Bureau Comparison */}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-semibold text-gray-900 dark:text-white">
+              Bureau Scores
+            </span>
+            <button className="text-sm text-[#008A00] font-medium">
+              Compare
+            </button>
           </div>
-          <button className="text-sm text-primary font-medium flex items-center gap-1 btn-press">
-            View all
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          {discrepancies.slice(0, 2).map((discrepancy, index) => (
-            <DiscrepancyCard
-              key={discrepancy.id}
-              discrepancy={discrepancy}
-              delay={index}
+          <div className="grid grid-cols-2 gap-3">
+            <BureauCard
+              bureau="Equifax"
+              score={showScore ? 738 : 0}
+              change={8}
             />
-          ))}
-        </div>
-
-        <Button
-          variant="outline"
-          className="w-full mt-6 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-2xl h-14 text-sm font-semibold btn-press"
-        >
-          <Sparkles className="w-5 h-5 mr-2" />
-          AI Dispute All Discrepancies
-        </Button>
-      </section>
-
-      {/* Quick Stats */}
-      <section className="px-8 pb-10 animate-fade-in stagger-5">
-        <div className="grid grid-cols-3 gap-4">
-          <StatCard
-            icon={<AlertTriangle className="w-6 h-6 text-[#FFB800]" />}
-            value="3"
-            label="Active Issues"
-            delay={0}
-          />
-          <StatCard
-            icon={<Clock className="w-6 h-6 text-[#00D4FF]" />}
-            value="1"
-            label="Under Review"
-            delay={1}
-          />
-          <StatCard
-            icon={<CheckCircle2 className="w-6 h-6 text-primary" />}
-            value="12"
-            label="Resolved"
-            delay={2}
-          />
-        </div>
-      </section>
-
-      {/* Credit Recommendations */}
-      <section className="px-8 pb-10 animate-fade-in stagger-6">
-        <h3 className="font-semibold text-foreground text-lg mb-5">
-          AI Recommendations
-        </h3>
-        <div className="space-y-4">
-          <RecommendationCard
-            icon={<CreditCard className="w-6 h-6" />}
-            title="Pay Down Credit Card"
-            description="Reduce TD Visa balance by $500 to improve utilization ratio to 28%"
-            impact="+12 points"
-            timeframe="60 days"
-            priority="high"
-          />
-          <RecommendationCard
-            icon={<FileWarning className="w-6 h-6" />}
-            title="Dispute Unauthorized Inquiry"
-            description="Remove the QuickLoans inquiry you didn't authorize"
-            impact="+5 points"
-            timeframe="30 days"
-            priority="medium"
-          />
-        </div>
-      </section>
-
-      {/* Fraud Alert Section */}
-      <section className="px-8 pb-8 animate-fade-in stagger-7">
-        <div className="rounded-3xl p-7 border-l-4 border-l-destructive bg-destructive/5 card-interactive">
-          <div className="flex items-start gap-5">
-            <div className="w-14 h-14 rounded-2xl bg-destructive/15 flex items-center justify-center flex-shrink-0">
-              <AlertTriangle className="w-7 h-7 text-destructive animate-pulse" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <p className="font-bold text-foreground text-lg">Fraud Alert</p>
-                <Badge className="bg-destructive text-destructive-foreground text-xs">
-                  Urgent
-                </Badge>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                1 unauthorized hard inquiry detected from "QuickLoans Inc." on
-                Dec 10, 2024
-              </p>
-              <div className="flex gap-3 mt-5">
-                <Button
-                  size="sm"
-                  className="bg-destructive hover:bg-destructive/90 text-destructive-foreground h-11 text-sm rounded-xl px-5 font-semibold btn-press"
-                >
-                  <Lock className="w-4 h-4 mr-2" />
-                  Freeze Credit
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="h-11 text-sm bg-transparent border-border text-foreground hover:bg-secondary rounded-xl px-5 font-medium btn-press"
-                >
-                  Review Details
-                </Button>
-              </div>
-            </div>
+            <BureauCard
+              bureau="TransUnion"
+              score={showScore ? 745 : 0}
+              change={12}
+            />
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Bottom Padding */}
+      <div className="h-24" />
+
+      {/* AI Analysis Sheet */}
+      <Sheet open={showAIAnalysis} onOpenChange={setShowAIAnalysis}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <Brain className="w-6 h-6 text-[#008A00]" />
+              AI Credit Analysis
+            </SheetTitle>
+            <SheetDescription>
+              Analyzing your credit report for personalized recommendations
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {/* Analysis Progress */}
+            <div className="space-y-3">
+              <AnalysisStep 
+                title="Scanning Credit Report" 
+                description="Checking all accounts and payment history"
+                completed={analysisStep >= 1}
+                active={analysisStep === 0}
+              />
+              <AnalysisStep 
+                title="Identifying Issues" 
+                description="Found 2 potential discrepancies"
+                completed={analysisStep >= 2}
+                active={analysisStep === 1}
+              />
+              <AnalysisStep 
+                title="Generating Recommendations" 
+                description="Creating personalized action plan"
+                completed={analysisStep >= 3}
+                active={analysisStep === 2}
+              />
+            </div>
+
+            {/* Results */}
+            {analysisStep >= 3 && (
+              <div className="space-y-4 pt-4 animate-in fade-in slide-in-from-bottom-4">
+                <div className="bg-[#008A00]/10 rounded-2xl p-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Target className="w-5 h-5 text-[#008A00]" />
+                    <span className="font-semibold text-gray-900 dark:text-white">Score Potential</span>
+                  </div>
+                  <p className="text-3xl font-bold text-[#008A00] mb-1">+45 points</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Achievable within 60 days</p>
+                </div>
+
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">Top Recommendations</p>
+                  <div className="space-y-3">
+                    <RecommendationItem 
+                      title="Dispute incorrect TD Visa balance"
+                      impact="+15 pts"
+                      priority="high"
+                    />
+                    <RecommendationItem 
+                      title="Lower credit utilization to 30%"
+                      impact="+20 pts"
+                      priority="medium"
+                    />
+                    <RecommendationItem 
+                      title="Remove unauthorized inquiry"
+                      impact="+10 pts"
+                      priority="high"
+                    />
+                  </div>
+                </div>
+
+                <Button 
+                  className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                  onClick={() => {
+                    setShowAIAnalysis(false);
+                    toast.success("Action plan saved!", { description: "Check your disputes tab to get started." });
+                  }}
+                >
+                  Start Action Plan
+                </Button>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Auto Dispute Sheet */}
+      <Sheet open={showAutoDispute} onOpenChange={setShowAutoDispute}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <Shield className="w-6 h-6 text-[#008A00]" />
+              Auto-Dispute Issues
+            </SheetTitle>
+            <SheetDescription>
+              Review and submit disputes for detected issues
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {disputeStep === 0 && (
+              <>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Select issues to dispute:</p>
+                <div className="space-y-3">
+                  {discrepancies.map((d) => (
+                    <DisputeItem key={d.id} discrepancy={d} />
+                  ))}
+                </div>
+                <div className="pt-4 space-y-3">
+                  <Button 
+                    className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                    onClick={() => setDisputeStep(1)}
+                  >
+                    Generate Dispute Letters
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="w-full h-12 rounded-xl"
+                    onClick={() => setShowAutoDispute(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </>
+            )}
+
+            {disputeStep === 1 && (
+              <div className="space-y-4 animate-in fade-in">
+                <div className="flex flex-col items-center justify-center py-8">
+                  <Loader2 className="w-12 h-12 text-[#008A00] animate-spin mb-4" />
+                  <p className="font-semibold text-gray-900 dark:text-white">Generating Dispute Letters</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">AI is crafting personalized letters...</p>
+                </div>
+                {setTimeout(() => setDisputeStep(2), 2500) && null}
+              </div>
+            )}
+
+            {disputeStep === 2 && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                <div className="bg-[#008A00]/10 rounded-2xl p-4 text-center">
+                  <CheckCircle2 className="w-12 h-12 text-[#008A00] mx-auto mb-3" />
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">Letters Generated!</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">2 dispute letters ready to send</p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-gray-900 dark:text-white">Equifax - Incorrect Balance</span>
+                      <FileText className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Formal dispute letter with supporting evidence request</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-gray-900 dark:text-white">TransUnion - Unauthorized Inquiry</span>
+                      <FileText className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Inquiry removal request with identity verification</p>
+                  </div>
+                </div>
+
+                <div className="pt-4 space-y-3">
+                  <Button 
+                    className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                    onClick={() => {
+                      setShowAutoDispute(false);
+                      setDisputeStep(0);
+                      toast.success("Disputes Submitted!", { description: "You'll receive updates within 30 days." });
+                    }}
+                  >
+                    Submit All Disputes
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="w-full h-12 rounded-xl"
+                    onClick={() => {
+                      setShowAutoDispute(false);
+                      setDisputeStep(0);
+                    }}
+                  >
+                    Save for Later
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
 
-// Components
-
-function CreditScoreGauge({
-  score,
-  hidden,
-}: {
-  score: number;
-  hidden?: boolean;
-}) {
-  const percentage = hidden ? 0 : ((score - 300) / (900 - 300)) * 100;
-
+// Helper Components
+function AnalysisStep({ title, description, completed, active }: { title: string; description: string; completed: boolean; active: boolean }) {
   return (
-    <div className="relative w-64 h-36 overflow-hidden">
-      <svg viewBox="0 0 200 100" className="w-full h-full">
-        {/* Background arc */}
-        <path
-          d="M 20 100 A 80 80 0 0 1 180 100"
-          fill="none"
-          stroke="var(--border)"
-          strokeWidth="14"
-          strokeLinecap="round"
-        />
-        {/* Score arc */}
-        <path
-          d="M 20 100 A 80 80 0 0 1 180 100"
-          fill="none"
-          stroke="url(#scoreGradient)"
-          strokeWidth="14"
-          strokeLinecap="round"
-          strokeDasharray={`${percentage * 2.51} 251`}
-          className="transition-all duration-1000 ease-out"
-        />
-        <defs>
-          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#FF4757" />
-            <stop offset="50%" stopColor="#FFB800" />
-            <stop offset="100%" stopColor="#00D9A4" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-end">
-        <span className="text-6xl font-bold text-foreground tabular-nums">
-          {hidden ? "•••" : score}
-        </span>
-        <span className="text-sm text-primary font-medium mt-1">
-          {hidden ? "Hidden" : "Good"}
-        </span>
+    <div className={`flex items-center gap-3 p-3 rounded-xl transition-all ${active ? 'bg-[#008A00]/10' : 'bg-gray-50 dark:bg-gray-800'}`}>
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${completed ? 'bg-[#008A00]' : active ? 'bg-[#008A00]/20' : 'bg-gray-200 dark:bg-gray-700'}`}>
+        {completed ? (
+          <CheckCircle2 className="w-5 h-5 text-white" />
+        ) : active ? (
+          <Loader2 className="w-5 h-5 text-[#008A00] animate-spin" />
+        ) : (
+          <div className="w-2 h-2 rounded-full bg-gray-400" />
+        )}
+      </div>
+      <div>
+        <p className={`font-medium text-sm ${completed || active ? 'text-gray-900 dark:text-white' : 'text-gray-400'}`}>{title}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
       </div>
     </div>
   );
 }
 
-function BureauScoreCard({
+function RecommendationItem({ title, impact, priority }: { title: string; impact: string; priority: 'high' | 'medium' | 'low' }) {
+  return (
+    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+      <div className="flex items-center gap-3">
+        <div className={`w-2 h-2 rounded-full ${priority === 'high' ? 'bg-red-500' : priority === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'}`} />
+        <span className="text-sm text-gray-900 dark:text-white">{title}</span>
+      </div>
+      <span className="text-sm font-semibold text-[#008A00]">{impact}</span>
+    </div>
+  );
+}
+
+function DisputeItem({ discrepancy }: { discrepancy: Discrepancy }) {
+  const [selected, setSelected] = useState(true);
+  return (
+    <button 
+      onClick={() => setSelected(!selected)}
+      className={`w-full text-left p-4 rounded-xl border-2 transition-all ${selected ? 'border-[#008A00] bg-[#008A00]/5' : 'border-gray-200 dark:border-gray-700'}`}
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className={`w-2 h-2 rounded-full ${discrepancy.severity === 'high' ? 'bg-red-500' : 'bg-orange-500'}`} />
+            <span className="font-medium text-gray-900 dark:text-white">{discrepancy.type}</span>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{discrepancy.bureau}</p>
+          <p className="text-xs text-gray-400 mt-1">{discrepancy.description}</p>
+        </div>
+        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selected ? 'border-[#008A00] bg-[#008A00]' : 'border-gray-300'}`}>
+          {selected && <CheckCircle2 className="w-4 h-4 text-white" />}
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const styles = {
+    new: "bg-blue-100 dark:bg-blue-900/30 text-blue-600",
+    reviewing: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600",
+    disputed: "bg-purple-100 dark:bg-purple-900/30 text-purple-600",
+    resolved: "bg-green-100 dark:bg-green-900/30 text-green-600",
+  };
+  return (
+    <span
+      className={`text-xs px-2 py-0.5 rounded-full font-medium ${styles[status as keyof typeof styles] || styles.new}`}
+    >
+      {status.charAt(0).toUpperCase() + status.slice(1)}
+    </span>
+  );
+}
+
+function BureauCard({
   bureau,
   score,
   change,
-  lastUpdated,
-  hidden,
-  delay = 0,
 }: {
   bureau: string;
   score: number;
   change: number;
-  lastUpdated: string;
-  hidden?: boolean;
-  delay?: number;
 }) {
   return (
-    <div
-      className="glass-card rounded-2xl p-5 card-interactive animate-fade-in-scale"
-      style={{ animationDelay: `${delay * 0.1}s` }}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <p className="text-sm text-muted-foreground font-medium">{bureau}</p>
-        <span
-          className={`text-xs flex items-center gap-1 font-semibold ${change >= 0 ? "text-primary" : "text-destructive"}`}
-        >
-          {change >= 0 ? (
-            <TrendingUp className="w-3 h-3" />
-          ) : (
-            <TrendingDown className="w-3 h-3" />
-          )}
-          {change >= 0 ? "+" : ""}
-          {change}
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{bureau}</p>
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-gray-900 dark:text-white">
+          {score > 0 ? score : "•••"}
         </span>
-      </div>
-      <p className="text-3xl font-bold text-foreground tabular-nums mb-2">
-        {hidden ? "•••" : score}
-      </p>
-      <p className="text-xs text-muted-foreground">Updated {lastUpdated}</p>
-    </div>
-  );
-}
-
-function CreditFactorRow({ factor }: { factor: CreditFactor }) {
-  const impactConfig = {
-    positive: {
-      color: "text-primary",
-      icon: <CircleCheck className="w-4 h-4" />,
-    },
-    negative: {
-      color: "text-destructive",
-      icon: <AlertCircle className="w-4 h-4" />,
-    },
-    neutral: {
-      color: "text-muted-foreground",
-      icon: <Info className="w-4 h-4" />,
-    },
-  };
-
-  const config = impactConfig[factor.impact];
-
-  return (
-    <div className="flex items-center gap-4 p-3 rounded-xl hover:bg-secondary/30 transition-colors">
-      <div className={`${config.color}`}>{config.icon}</div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between">
-          <p className="font-medium text-foreground text-sm">{factor.name}</p>
-          <span className="text-xs text-muted-foreground">
-            {factor.weight}%
-          </span>
+        <div className="flex items-center gap-1 text-[#008A00]">
+          <TrendingUp className="w-3 h-3" />
+          <span className="text-xs font-medium">+{change}</span>
         </div>
-        <p className="text-xs text-muted-foreground truncate">
-          {factor.description}
-        </p>
       </div>
     </div>
   );
 }
 
-function TrendChart({ data }: { data: { month: string; score: number }[] }) {
-  const maxScore = Math.max(...data.map((d) => d.score));
-  const minScore = Math.min(...data.map((d) => d.score));
-  const range = maxScore - minScore || 1;
-
-  return (
-    <div className="h-32 flex items-end justify-between gap-2">
-      {data.map((item, index) => {
-        const height = ((item.score - minScore) / range) * 80 + 20;
-        return (
-          <div key={index} className="flex-1 flex flex-col items-center gap-2">
-            <div
-              className="w-full bg-gradient-to-t from-primary to-primary/50 rounded-t-lg transition-all duration-500"
-              style={{
-                height: `${height}%`,
-                animationDelay: `${index * 0.1}s`,
-              }}
-            />
-            <span className="text-xs text-muted-foreground">{item.month}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function DiscrepancyCard({
-  discrepancy,
-  delay = 0,
-}: {
-  discrepancy: Discrepancy;
-  delay?: number;
-}) {
-  const severityConfig = {
-    high: {
-      bg: "bg-destructive/10",
-      border: "border-destructive/30",
-      badge: "bg-destructive text-destructive-foreground",
-    },
-    medium: {
-      bg: "bg-[#FFB800]/10",
-      border: "border-[#FFB800]/30",
-      badge: "bg-[#FFB800] text-black",
-    },
-    low: {
-      bg: "bg-[#00D4FF]/10",
-      border: "border-[#00D4FF]/30",
-      badge: "bg-[#00D4FF] text-black",
-    },
-  };
-
-  const statusConfig = {
-    new: { color: "text-destructive", label: "New" },
-    reviewing: { color: "text-[#FFB800]", label: "Reviewing" },
-    disputed: { color: "text-[#00D4FF]", label: "Disputed" },
-    resolved: { color: "text-primary", label: "Resolved" },
-  };
-
-  const config = severityConfig[discrepancy.severity];
-  const status = statusConfig[discrepancy.status];
-
-  return (
-    <div
-      className={`rounded-2xl p-5 ${config.bg} border ${config.border} card-interactive animate-fade-in`}
-      style={{ animationDelay: `${delay * 0.1}s` }}
-    >
-      <div className="flex items-start justify-between gap-4 mb-3">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="font-semibold text-foreground">
-              {discrepancy.type}
-            </span>
-            <Badge className={`${config.badge} text-xs h-5 px-2 font-medium`}>
-              {discrepancy.severity.toUpperCase()}
-            </Badge>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {discrepancy.description}
-          </p>
-        </div>
-        <Badge className="bg-secondary text-muted-foreground border-0 text-xs h-6 px-2 flex-shrink-0">
-          {discrepancy.bureau}
-        </Badge>
-      </div>
-      <div className="flex items-center justify-between pt-2">
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
-          <span>{discrepancy.detectedDate}</span>
-          <span className={status.color}>{status.label}</span>
-        </div>
-        <Button
-          size="sm"
-          className="h-9 text-sm bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-4 font-semibold btn-press"
-        >
-          Dispute
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({
+function QuickActionButton({
   icon,
-  value,
   label,
-  delay = 0,
 }: {
   icon: React.ReactNode;
-  value: string;
   label: string;
-  delay?: number;
 }) {
   return (
-    <div
-      className="glass-card rounded-2xl p-5 text-center card-interactive animate-pop-in"
-      style={{ animationDelay: `${delay * 0.08}s` }}
-    >
-      <div className="flex justify-center mb-3">{icon}</div>
-      <p className="text-3xl font-bold text-foreground">{value}</p>
-      <p className="text-xs text-muted-foreground mt-2 font-medium">{label}</p>
-    </div>
-  );
-}
-
-function RecommendationCard({
-  icon,
-  title,
-  description,
-  impact,
-  timeframe,
-  priority,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  impact: string;
-  timeframe: string;
-  priority: "high" | "medium" | "low";
-}) {
-  const priorityConfig = {
-    high: "border-l-primary",
-    medium: "border-l-[#FFB800]",
-    low: "border-l-[#00D4FF]",
-  };
-
-  return (
-    <div
-      className={`glass-card rounded-2xl p-5 border-l-4 ${priorityConfig[priority]} card-interactive`}
-    >
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-          {icon}
-        </div>
-        <div className="flex-1">
-          <p className="font-semibold text-foreground mb-1">{title}</p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {description}
-          </p>
-          <div className="flex items-center gap-4 mt-3">
-            <Badge className="bg-primary/15 text-primary border-0 text-xs h-6 px-3">
-              {impact}
-            </Badge>
-            <span className="text-xs text-muted-foreground">{timeframe}</span>
-          </div>
-        </div>
-        <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-      </div>
-    </div>
+    <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+      <div className="text-[#008A00]">{icon}</div>
+      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+        {label}
+      </span>
+    </button>
   );
 }

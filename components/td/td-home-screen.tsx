@@ -3,22 +3,20 @@
 import React from "react";
 import {
   ChevronRight,
-  Shield,
   Eye,
   EyeOff,
   Plus,
-  CreditCard,
-  ArrowDownLeft,
-  ArrowUpRight,
-  Sparkles,
+  AlertCircle,
+  TrendingUp,
   Send,
-  QrCode,
+  ArrowLeftRight,
   Receipt,
-  Sun,
-  Moon,
+  Bell,
+  Landmark,
+  CreditCard,
+  Sparkles,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
 
 interface TDHomeScreenProps {
   onOpenCleanSlate: () => void;
@@ -26,343 +24,255 @@ interface TDHomeScreenProps {
 
 export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
   const [showBalance, setShowBalance] = useState(true);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [greeting, setGreeting] = useState("Good Morning");
 
   useEffect(() => {
-    setMounted(true);
+    const hour = new Date().getHours();
+    setGreeting(
+      hour < 12
+        ? "Good Morning"
+        : hour < 18
+          ? "Good Afternoon"
+          : "Good Evening",
+    );
   }, []);
 
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-CA", {
+      style: "currency",
+      currency: "CAD",
+    }).format(amount);
+  };
+
   return (
-    <div className="pb-12">
-      {/* Welcome & Balance Section */}
-      <section className="px-8 pt-8 pb-10 animate-fade-in">
-        <div className="flex items-center justify-between mb-1">
-          <p className="text-muted-foreground text-sm font-medium tracking-wide">
-            Good morning, Ryan
-          </p>
-          <div className="flex items-center gap-2">
+    <div className="flex-1 flex flex-col bg-white dark:bg-gray-950">
+      {/* TD Green Header */}
+      <div className="td-gradient pt-12 pb-4 px-4">
+        {/* Banking/Investing Toggle */}
+        <div className="flex items-center justify-center mb-4">
+          <div className="flex bg-white/20 rounded-full p-1">
             <button
-              onClick={() =>
-                mounted && setTheme(theme === "dark" ? "light" : "dark")
-              }
-              className="flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors p-2 btn-press"
-              aria-label="Toggle theme"
+              type="button"
+              className="px-4 py-1.5 rounded-full text-sm font-medium bg-white text-[#008A00]"
             >
-              {mounted ? (
-                theme === "dark" ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )
-              ) : (
-                <span className="w-5 h-5 inline-block" aria-hidden />
-              )}
+              Banking
             </button>
             <button
-              onClick={() => setShowBalance(!showBalance)}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors p-2 -mr-2 btn-press"
-              aria-label={showBalance ? "Hide balance" : "Show balance"}
+              type="button"
+              className="px-4 py-1.5 rounded-full text-sm font-medium text-white"
             >
-              {showBalance ? (
-                <Eye className="w-5 h-5" />
-              ) : (
-                <EyeOff className="w-5 h-5" />
-              )}
+              Investing
             </button>
           </div>
         </div>
-        <p className="text-muted-foreground/60 text-xs uppercase tracking-widest mb-4">
-          Total Balance
-        </p>
-        <div className="flex items-baseline gap-2 animate-fade-in-up">
-          <span className="text-muted-foreground text-4xl font-light">$</span>
-          <h1 className="text-7xl font-semibold text-foreground tracking-tight">
-            {showBalance ? "117,368" : "••••••"}
-          </h1>
-          <span className="text-muted-foreground text-2xl font-light">.67</span>
-        </div>
-        <p className="text-muted-foreground text-sm mt-4 animate-fade-in stagger-2">
-          Available across 3 accounts
-        </p>
-      </section>
 
-      {/* Quick Actions - Primary */}
-      <section className="px-8 pb-10">
-        <div className="grid grid-cols-4 gap-6">
-          <QuickAction
-            icon={<Send className="w-6 h-6" />}
-            label="Send"
-            delay={0}
-          />
-          <QuickAction
-            icon={<QrCode className="w-6 h-6" />}
-            label="Scan"
-            delay={1}
-          />
-          <QuickAction
-            icon={<Receipt className="w-6 h-6" />}
-            label="Pay Bills"
-            delay={2}
-          />
-          <QuickAction
-            icon={<Plus className="w-6 h-6" />}
-            label="More"
-            delay={3}
-          />
-        </div>
-      </section>
-
-      {/* Cards Section */}
-      <section className="pb-10 animate-fade-in stagger-3">
-        <div className="px-8 flex items-center justify-between mb-6">
-          <h2 className="text-foreground font-semibold text-lg tracking-tight">
-            My Cards
-          </h2>
-          <button className="flex items-center gap-2 text-primary text-sm font-medium hover:text-primary/80 transition-colors btn-press">
-            <span>Manage</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="flex gap-5 overflow-x-auto pb-2 px-8 scrollbar-hide">
-          <GlassCard
-            type="VISA"
-            name="TD Everyday"
-            balance={showBalance ? "$4,523.18" : "••••••"}
-            lastFour="1550"
-            expiry="04/27"
-            gradient="from-[#00B8A9] to-[#00D9A4]"
-            isPrimary
-            delay={0}
-          />
-          <GlassCard
-            type="VISA"
-            name="TD Cash Back"
-            balance={showBalance ? "$8,500.00" : "••••••"}
-            lastFour="6670"
-            expiry="09/26"
-            gradient="from-secondary to-muted"
-            delay={1}
-          />
-          <GlassCard
-            type="VISA"
-            name="Savings"
-            balance={showBalance ? "$4,345.24" : "••••••"}
-            lastFour="3350"
-            expiry="12/28"
-            gradient="from-secondary to-muted"
-            delay={2}
-          />
-        </div>
-      </section>
-
-      {/* Clean Slate AI Feature Card */}
-      <section className="px-8 pb-10 animate-fade-in stagger-4">
-        <button
-          onClick={onOpenCleanSlate}
-          className="w-full text-left btn-press"
-        >
-          <div className="rounded-3xl p-7 border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 group relative overflow-hidden card-interactive">
-            {/* Decorative gradient orb */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-breathe pointer-events-none" />
-
-            <div className="flex items-start gap-5 mb-8 relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] flex items-center justify-center glow-green flex-shrink-0 animate-pulse-glow">
-                <Sparkles className="w-8 h-8 text-[#0A0F14]" />
-              </div>
-              <div className="flex-1 pt-1 min-w-0">
-                <div className="flex items-center gap-3 mb-2 flex-wrap">
-                  <span className="font-bold text-foreground text-xl tracking-tight">
-                    Clean Slate AI
-                  </span>
-                  <span className="text-[10px] bg-primary text-primary-foreground px-3 py-1 rounded-full font-bold uppercase tracking-wide animate-pulse">
-                    New
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  AI-powered credit monitoring & dispute resolution
-                </p>
-              </div>
-              <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all mt-1 flex-shrink-0" />
-            </div>
-
-            <div className="flex items-end gap-6 sm:gap-10 relative z-10">
-              <div className="flex-shrink-0">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
-                  Credit Score
-                </p>
-                <p className="text-4xl sm:text-5xl font-bold text-foreground tracking-tight">
-                  742
-                </p>
-              </div>
-              <div className="h-16 w-px bg-border flex-shrink-0" />
-              <div className="flex-shrink-0">
-                <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
-                  Health
-                </p>
-                <p className="text-4xl sm:text-5xl font-bold text-primary tracking-tight">
-                  94<span className="text-2xl sm:text-3xl">%</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </button>
-      </section>
-
-      {/* Transaction History */}
-      <section className="px-8 pb-8 animate-fade-in stagger-5">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-foreground font-semibold text-lg tracking-tight">
-            Recent Activity
-          </h2>
-          <button className="text-sm text-primary font-medium hover:text-primary/80 transition-colors flex items-center gap-1 btn-press">
-            View all
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          <TransactionItem
-            merchant="Wise Transfer"
-            date="Today, 4:30 PM"
-            amount="+$20.00"
-            type="Transfer"
-            isPositive
-            delay={0}
-          />
-          <TransactionItem
-            merchant="Interac e-Transfer"
-            date="Today, 3:34 PM"
-            amount="+$240.00"
-            type="Received"
-            isPositive
-            delay={1}
-          />
-          <TransactionItem
-            merchant="Apple Pay - Starbucks"
-            date="Today, 2:15 PM"
-            amount="-$8.45"
-            type="Purchase"
-            delay={2}
-          />
-          <TransactionItem
-            merchant="Netflix Subscription"
-            date="Yesterday"
-            amount="-$22.99"
-            type="Subscription"
-            delay={3}
-          />
-        </div>
-      </section>
-
-      {/* Insights Section */}
-      <section className="px-8 pb-8 animate-fade-in stagger-6">
-        <h2 className="text-foreground font-semibold text-lg tracking-tight mb-6">
-          Insights
-        </h2>
-        <div className="grid grid-cols-2 gap-4">
-          <InsightCard
-            title="Monthly Spending"
-            value="$2,458"
-            subtitle="15% less than last month"
-            positive
-            delay={0}
-          />
-          <InsightCard
-            title="Savings Goal"
-            value="68%"
-            subtitle="$3,400 of $5,000"
-            delay={1}
-          />
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function InsightCard({
-  title,
-  value,
-  subtitle,
-  positive,
-  delay = 0,
-}: {
-  title: string;
-  value: string;
-  subtitle: string;
-  positive?: boolean;
-  delay?: number;
-}) {
-  return (
-    <div
-      className="glass-card rounded-2xl p-5 card-interactive animate-fade-in-scale"
-      style={{ animationDelay: `${delay * 0.1}s` }}
-    >
-      <p className="text-xs text-muted-foreground uppercase tracking-widest mb-3">
-        {title}
-      </p>
-      <p className="text-2xl font-bold text-foreground mb-2">{value}</p>
-      <p
-        className={`text-xs ${positive ? "text-primary" : "text-muted-foreground"}`}
-      >
-        {subtitle}
-      </p>
-    </div>
-  );
-}
-
-function GlassCard({
-  type,
-  name,
-  balance,
-  lastFour,
-  expiry,
-  gradient,
-  isPrimary = false,
-  delay = 0,
-}: {
-  type: string;
-  name: string;
-  balance: string;
-  lastFour: string;
-  expiry: string;
-  gradient: string;
-  isPrimary?: boolean;
-  delay?: number;
-}) {
-  return (
-    <div
-      className={`flex-shrink-0 w-56 h-36 rounded-3xl bg-gradient-to-br ${gradient} p-6 relative overflow-hidden ${isPrimary ? "glow-green animate-pulse-glow" : ""} card-interactive animate-slide-in-right`}
-      style={{ animationDelay: `${delay * 0.1}s` }}
-    >
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-full translate-y-12 -translate-x-12" />
-
-      <div className="relative h-full flex flex-col justify-between">
-        <div className="flex items-start justify-between">
+        {/* Greeting */}
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-[10px] text-white/70 font-bold uppercase tracking-widest">
-              {type}
-            </p>
-            <p className="text-sm text-white font-semibold mt-1">{name}</p>
+            <p className="text-white/80 text-sm">{greeting},</p>
+            <h1 className="text-white text-xl font-semibold">Ryan</h1>
           </div>
-          {isPrimary && (
-            <span className="text-[8px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold uppercase">
-              Primary
-            </span>
-          )}
+          <button
+            type="button"
+            className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center"
+          >
+            <Bell className="w-5 h-5 text-white" />
+          </button>
         </div>
-        <div>
-          <p className="text-2xl font-bold text-white tracking-tight">
-            {balance}
-          </p>
-          <div className="flex items-center justify-between mt-2">
-            <p className="text-[11px] text-white/60 font-medium">
-              •••• {lastFour}
-            </p>
-            <p className="text-[11px] text-white/60 font-medium">{expiry}</p>
+
+        {/* Quick Actions */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
+          <QuickActionPill
+            icon={<ArrowLeftRight className="w-4 h-4" />}
+            label="Move Money"
+          />
+          <QuickActionPill
+            icon={<Send className="w-4 h-4" />}
+            label="Transfer"
+          />
+          <QuickActionPill
+            icon={<Receipt className="w-4 h-4" />}
+            label="Pay a Bill"
+          />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-y-auto px-4 py-4">
+        {/* My Accounts Section */}
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            My Accounts
+          </h2>
+          <button
+            type="button"
+            className="flex items-center gap-1 text-[#008A00] text-sm font-medium"
+          >
+            <span>View All</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Banking Section */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Banking
+            </span>
+            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+              {showBalance ? "$8,459.82" : "••••••"}
+            </span>
+          </div>
+          <div className="space-y-2">
+            <AccountCard
+              type="chequing"
+              name="TD Every Day Chequing"
+              balance={5234.56}
+              accountNumber="••7892"
+              showBalance={showBalance}
+              onToggleBalance={() => setShowBalance(!showBalance)}
+            />
+            <AccountCard
+              type="savings"
+              name="TD High Interest Savings"
+              balance={3225.26}
+              accountNumber="••4521"
+              showBalance={showBalance}
+              onToggleBalance={() => setShowBalance(!showBalance)}
+            />
+          </div>
+        </div>
+
+        {/* Credit Card Section */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Credit Card
+            </span>
+            <span className="text-sm font-semibold text-red-600">
+              {showBalance ? "-$2,456.77" : "••••••"}
+            </span>
+          </div>
+          <div className="space-y-2">
+            <AccountCard
+              type="credit"
+              name="TD Cash Back Visa"
+              balance={-2456.77}
+              accountNumber="••1403"
+              creditLimit={10000}
+              showBalance={showBalance}
+              onToggleBalance={() => setShowBalance(!showBalance)}
+            />
+          </div>
+        </div>
+
+        {/* Investing Section */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Investing
+            </span>
+            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+              {showBalance ? "$15,846.26" : "••••••"}
+            </span>
+          </div>
+          <div className="space-y-2">
+            <AccountCard
+              type="investing"
+              name="TD Direct Investing TFSA"
+              balance={15846.26}
+              showBalance={showBalance}
+              onToggleBalance={() => setShowBalance(!showBalance)}
+            />
+          </div>
+        </div>
+
+        {/* Add Account Button */}
+        {/* <button
+          type="button"
+          className="w-full flex items-center gap-3 p-4 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl text-[#008A00] hover:bg-[#E8F5E9] dark:hover:bg-[#008A00]/10 transition-colors mb-6"
+        >
+          <Plus className="w-5 h-5" />
+          <span className="font-medium">Add Account and Services</span>
+        </button> */}
+
+        {/* Need to Know Section */}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+            Need to know
+          </h3>
+
+          <div className="space-y-3">
+            {/* Alert Card */}
+            {/* <div className="bg-[#FFF3E0] dark:bg-orange-900/20 rounded-xl p-4">
+              <div className="flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-medium text-gray-900 dark:text-white text-sm">
+                    Your new Access Card is on its way
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    Expected delivery in 5-7 business days
+                  </p>
+                </div>
+              </div>
+            </div> */}
+
+            {/* Credit Score Card */}
+            <button
+              onClick={onOpenCleanSlate}
+              className="w-full bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800 hover:shadow-md transition-all text-left"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-[#008A00]" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-gray-900 dark:text-white text-sm">
+                    Your credit score is looking good
+                  </p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xl font-bold text-[#008A00]">
+                      {showBalance ? "742" : "•••"}
+                    </span>
+                    <span className="text-xs text-green-600 bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
+                      +12 pts
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400" />
+              </div>
+            </button>
+
+            {/* Clean Slate AI Promo */}
+            <button
+              onClick={onOpenCleanSlate}
+              className="w-full rounded-xl p-4 text-left relative overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #008A00 0%, #006B00 100%)",
+              }}
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-8 translate-x-8" />
+              <div className="relative z-10 flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-semibold text-white">
+                      Clean Slate AI
+                    </span>
+                    <span className="text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold uppercase">
+                      New
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/80">
+                    AI-powered credit monitoring & disputes
+                  </p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-white/60" />
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -370,124 +280,109 @@ function GlassCard({
   );
 }
 
-function QuickAction({
+function QuickActionPill({
   icon,
   label,
-  onClick,
-  highlight,
-  delay = 0,
 }: {
   icon: React.ReactNode;
   label: string;
-  onClick?: () => void;
-  highlight?: boolean;
-  delay?: number;
 }) {
   return (
     <button
-      onClick={onClick}
-      className="flex flex-col items-center gap-3 group animate-pop-in btn-press"
-      style={{ animationDelay: `${delay * 0.08}s` }}
+      type="button"
+      className="quick-action flex items-center gap-2 px-3 py-2 bg-white/20 rounded-full text-white text-sm whitespace-nowrap hover:bg-white/30 active:scale-95 transition-all"
     >
-      <div
-        className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-200 icon-hover ${
-          highlight
-            ? "bg-gradient-to-br from-[#00D9A4] to-[#00B8A9] text-[#0A0F14] glow-green"
-            : "bg-secondary border border-border text-muted-foreground group-hover:bg-accent group-hover:border-primary/20 group-hover:text-foreground"
-        }`}
-      >
-        {icon}
-      </div>
-      <span className="text-xs text-muted-foreground font-medium tracking-wide group-hover:text-foreground transition-colors">
-        {label}
-      </span>
+      {icon}
+      <span>{label}</span>
     </button>
   );
 }
 
-function TransactionItem({
-  merchant,
-  date,
-  amount,
+const icons = {
+  chequing: Landmark,
+  savings: Landmark,
+  credit: CreditCard,
+  investing: TrendingUp,
+};
+
+const colors = {
+  chequing: "bg-[#008A00]",
+  savings: "bg-[#2E7D32]",
+  credit: "bg-[#1565C0]",
+  investing: "bg-[#7B1FA2]",
+};
+
+function AccountCard({
   type,
-  isPositive = false,
-  delay = 0,
+  name,
+  balance,
+  accountNumber,
+  creditLimit,
+  showBalance,
+  onToggleBalance,
 }: {
-  merchant: string;
-  date: string;
-  amount: string;
-  type: string;
-  isPositive?: boolean;
-  delay?: number;
+  type: "chequing" | "savings" | "credit" | "investing";
+  name: string;
+  balance: number;
+  accountNumber?: string;
+  creditLimit?: number;
+  showBalance: boolean;
+  onToggleBalance: () => void;
 }) {
+  const Icon = icons[type];
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-CA", {
+      style: "currency",
+      currency: "CAD",
+    }).format(amount);
+  };
+
   return (
-    <div
-      className="glass-card rounded-2xl p-5 flex items-center justify-between hover:bg-accent/50 transition-all duration-200 card-interactive animate-fade-in-up"
-      style={{ animationDelay: `${delay * 0.08}s` }}
-    >
-      <div className="flex items-center gap-4">
-        <div
-          className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-colors ${
-            isPositive ? "bg-primary/10" : "bg-secondary"
-          }`}
-        >
-          {isPositive ? (
-            <ArrowDownLeft className="w-6 h-6 text-primary" />
-          ) : (
-            <ArrowUpRight className="w-6 h-6 text-muted-foreground" />
+    <div className="account-card w-full flex items-center gap-3 p-4 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:shadow-sm text-left cursor-pointer transition-all">
+      <div
+        className={`w-10 h-10 rounded-full ${colors[type]} flex items-center justify-center`}
+      >
+        <Icon className="w-5 h-5 text-white" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <p className="font-medium text-gray-900 dark:text-white truncate">
+            {name}
+          </p>
+          {accountNumber && (
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              {accountNumber}
+            </span>
           )}
         </div>
-        <div>
-          <p className="font-semibold text-foreground text-[15px]">
-            {merchant}
+        <div className="flex items-center gap-2">
+          <p
+            className={`text-lg font-semibold ${balance < 0 ? "text-red-600" : "text-gray-900 dark:text-white"}`}
+          >
+            {showBalance ? formatCurrency(balance) : "••••••"}
           </p>
-          <p className="text-sm text-muted-foreground mt-1">{date}</p>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleBalance();
+            }}
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+          >
+            {showBalance ? (
+              <Eye className="w-4 h-4" />
+            ) : (
+              <EyeOff className="w-4 h-4" />
+            )}
+          </button>
         </div>
+        {creditLimit && (
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Available: {formatCurrency(creditLimit - Math.abs(balance))}
+          </p>
+        )}
       </div>
-      <div className="text-right">
-        <p
-          className={`font-bold text-lg ${isPositive ? "text-primary" : "text-foreground"}`}
-        >
-          {amount}
-        </p>
-        <p className="text-sm text-muted-foreground mt-1">{type}</p>
-      </div>
+      <ChevronRight className="w-5 h-5 text-gray-400" />
     </div>
-  );
-}
-
-function Star() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
-
-function ChartIcon() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="20" x2="18" y2="10" />
-      <line x1="12" y1="20" x2="12" y2="4" />
-      <line x1="6" y1="20" x2="6" y2="14" />
-    </svg>
   );
 }

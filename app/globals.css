@@ -4,98 +4,99 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Futuristic TD Bank Colors */
-  --td-green: #00d9a4;
-  --td-green-light: #00ffb8;
-  --td-green-dark: #00a67e;
-  --td-cyan: #00e5cc;
-  --td-teal: #00b8a9;
+  /* TD Bank Brand Colors */
+  --td-green: #008a00;
+  --td-green-dark: #006b00;
+  --td-green-light: #e8f5e9;
+  --td-gray-light: #f5f5f5;
+  --td-gray: #757575;
+  --td-red: #d32f2f;
 
-  /* Default to Dark Theme Base (since app defaults to dark) */
-  --background: #0a0f14;
-  --foreground: #ffffff;
-  --card: #111820;
-  --card-foreground: #ffffff;
-  --popover: #111820;
-  --popover-foreground: #ffffff;
-  --primary: #00d9a4;
-  --primary-foreground: #0a0f14;
-  --secondary: #1a232d;
-  --secondary-foreground: #ffffff;
-  --muted: #1a232d;
-  --muted-foreground: rgba(255, 255, 255, 0.5);
-  --accent: rgba(0, 217, 164, 0.15);
-  --accent-foreground: #00d9a4;
-  --destructive: #ff4757;
+  /* Default to Light Theme Base (matching real TD app) */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #008a00;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f5f5f5;
+  --muted-foreground: #757575;
+  --accent: #e8f5e9;
+  --accent-foreground: #008a00;
+  --destructive: #d32f2f;
   --destructive-foreground: #ffffff;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: #00d9a4;
-  --chart-1: #00d9a4;
-  --chart-2: #00e5cc;
-  --chart-3: #00ff9d;
-  --chart-4: #ffb800;
-  --chart-5: #ff4757;
-  --radius: 1rem;
-  --sidebar: #111820;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00d9a4;
-  --sidebar-primary-foreground: #0a0f14;
-  --sidebar-accent: rgba(0, 217, 164, 0.15);
-  --sidebar-accent-foreground: #00d9a4;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #00d9a4;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #008a00;
+  --chart-1: #008a00;
+  --chart-2: #2e7d32;
+  --chart-3: #4caf50;
+  --chart-4: #f59e0b;
+  --chart-5: #d32f2f;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #008a00;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8f5e9;
+  --sidebar-accent-foreground: #008a00;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #008a00;
 
   /* Semantic Colors */
-  --success: #00ff9d;
-  --warning: #ffb800;
-  --error: #ff4757;
-  --info: #00d4ff;
+  --success: #4caf50;
+  --warning: #f59e0b;
+  --error: #d32f2f;
+  --info: #1565c0;
 }
 
 /* Light Theme */
 .light {
-  --background: #f8fafb;
-  --foreground: #1a1a2e;
+  --background: #ffffff;
+  --foreground: #1a1a1a;
   --card: #ffffff;
-  --card-foreground: #1a1a2e;
+  --card-foreground: #1a1a1a;
   --popover: #ffffff;
-  --popover-foreground: #1a1a2e;
-  --primary: #00a67e;
+  --popover-foreground: #1a1a1a;
+  --primary: #008a00;
   --primary-foreground: #ffffff;
-  --secondary: #f0f4f7;
-  --secondary-foreground: #1a1a2e;
-  --muted: #f0f4f7;
-  --muted-foreground: rgba(26, 26, 46, 0.6);
-  --accent: rgba(0, 166, 126, 0.1);
-  --accent-foreground: #00a67e;
-  --destructive: #e53e3e;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f5f5f5;
+  --muted-foreground: #757575;
+  --accent: #e8f5e9;
+  --accent-foreground: #008a00;
+  --destructive: #d32f2f;
   --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.08);
-  --input: rgba(0, 0, 0, 0.06);
-  --ring: #00a67e;
-  --chart-1: #00a67e;
-  --chart-2: #00b8a9;
-  --chart-3: #00d9a4;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #008a00;
+  --chart-1: #008a00;
+  --chart-2: #2e7d32;
+  --chart-3: #4caf50;
   --chart-4: #f59e0b;
-  --chart-5: #e53e3e;
+  --chart-5: #d32f2f;
   --sidebar: #ffffff;
-  --sidebar-foreground: #1a1a2e;
-  --sidebar-primary: #00a67e;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #008a00;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(0, 166, 126, 0.1);
-  --sidebar-accent-foreground: #00a67e;
-  --sidebar-border: rgba(0, 0, 0, 0.08);
-  --sidebar-ring: #00a67e;
+  --sidebar-accent: #e8f5e9;
+  --sidebar-accent-foreground: #008a00;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #008a00;
 
   /* Semantic Colors */
-  --success: #10b981;
+  --success: #4caf50;
   --warning: #f59e0b;
-  --error: #e53e3e;
-  --info: #3b82f6;
+  --error: #d32f2f;
+  --info: #1565c0;
 }
 
-/* Dark Theme (explicit class for consistency) */
+/* Dark Theme */
 .dark {
   --background: #0a0f14;
   --foreground: #ffffff;
@@ -103,38 +104,38 @@
   --card-foreground: #ffffff;
   --popover: #111820;
   --popover-foreground: #ffffff;
-  --primary: #00d9a4;
-  --primary-foreground: #0a0f14;
+  --primary: #00b87a;
+  --primary-foreground: #ffffff;
   --secondary: #1a232d;
   --secondary-foreground: #ffffff;
   --muted: #1a232d;
   --muted-foreground: rgba(255, 255, 255, 0.5);
-  --accent: rgba(0, 217, 164, 0.15);
-  --accent-foreground: #00d9a4;
-  --destructive: #ff4757;
+  --accent: rgba(0, 138, 0, 0.15);
+  --accent-foreground: #00b87a;
+  --destructive: #d32f2f;
   --destructive-foreground: #ffffff;
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.08);
-  --ring: #00d9a4;
-  --chart-1: #00d9a4;
-  --chart-2: #00e5cc;
-  --chart-3: #00ff9d;
-  --chart-4: #ffb800;
-  --chart-5: #ff4757;
+  --ring: #00b87a;
+  --chart-1: #00b87a;
+  --chart-2: #2e7d32;
+  --chart-3: #4caf50;
+  --chart-4: #f59e0b;
+  --chart-5: #d32f2f;
   --sidebar: #111820;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00d9a4;
-  --sidebar-primary-foreground: #0a0f14;
-  --sidebar-accent: rgba(0, 217, 164, 0.15);
-  --sidebar-accent-foreground: #00d9a4;
+  --sidebar-primary: #00b87a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(0, 138, 0, 0.15);
+  --sidebar-accent-foreground: #00b87a;
   --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #00d9a4;
+  --sidebar-ring: #00b87a;
 
   /* Semantic Colors */
-  --success: #00ff9d;
-  --warning: #ffb800;
-  --error: #ff4757;
-  --info: #00d4ff;
+  --success: #4caf50;
+  --warning: #f59e0b;
+  --error: #d32f2f;
+  --info: #1565c0;
 }
 
 @theme inline {
@@ -184,39 +185,81 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+      Cantarell, sans-serif;
   }
 }
 
-/* Glassmorphism utilities - Default to dark theme */
-.glass {
-  background: rgba(17, 24, 32, 0.8);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* TD Gradient Header */
+.td-gradient {
+  background: linear-gradient(180deg, #008a00 0%, #006b00 100%);
 }
 
-.light .glass {
-  background: rgba(255, 255, 255, 0.8);
+/* Custom scrollbar for mobile feel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Account card hover effect */
+.account-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.account-card:hover {
+  transform: translateX(4px);
+}
+
+/* Quick action buttons */
+.quick-action {
+  transition: all 0.2s ease;
+}
+
+.quick-action:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.quick-action:active {
+  transform: scale(0.95);
+}
+
+/* Glassmorphism utilities - Default to light theme */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass {
+  background: rgba(17, 24, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
   background: linear-gradient(
     135deg,
-    rgba(17, 24, 32, 0.9) 0%,
-    rgba(26, 35, 45, 0.8) 100%
-  );
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.light .glass-card {
-  background: linear-gradient(
-    135deg,
     rgba(255, 255, 255, 0.95) 0%,
     rgba(248, 250, 251, 0.9) 100%
   );
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+}
+
+.dark .glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(17, 24, 32, 0.9) 0%,
+    rgba(26, 35, 45, 0.8) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
 }
 
 .glow-green {

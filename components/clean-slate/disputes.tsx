@@ -1,8 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import {
   FileText,
   Clock,
@@ -30,6 +38,9 @@ import {
   Building2,
   User,
   Mail,
+  Loader2,
+  Wand2,
+  CheckCheck,
 } from "lucide-react";
 
 // Types
@@ -156,6 +167,22 @@ export function CleanSlateDisputes() {
   const [selectedDispute, setSelectedDispute] = useState<Dispute | null>(null);
   const [showNewDispute, setShowNewDispute] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAutoGenerate, setShowAutoGenerate] = useState(false);
+  const [showSubmitAll, setShowSubmitAll] = useState(false);
+  const [generateStep, setGenerateStep] = useState(0);
+  const [submitStep, setSubmitStep] = useState(0);
+
+  const startAutoGenerate = () => {
+    setShowAutoGenerate(true);
+    setGenerateStep(0);
+    setTimeout(() => setGenerateStep(1), 1500);
+    setTimeout(() => setGenerateStep(2), 3000);
+  };
+
+  const startSubmitAll = () => {
+    setShowSubmitAll(true);
+    setSubmitStep(0);
+  };
 
   if (showNewDispute) {
     return <NewDisputeFlow onBack={() => setShowNewDispute(false)} />;
@@ -175,191 +202,400 @@ export function CleanSlateDisputes() {
   );
 
   return (
-    <div className="pb-32 bg-background">
-      {/* Header */}
-      <section className="px-8 pt-8 pb-6 animate-fade-in">
-        <div className="flex items-center justify-between mb-6">
+    <div className="flex-1 bg-gray-50 dark:bg-gray-950">
+      {/* Header Card */}
+      <div className="bg-white dark:bg-gray-900 rounded-b-3xl shadow-sm px-4 py-4">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">Disputes</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Track and manage your credit disputes
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              Disputes
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Manage your credit disputes
             </p>
           </div>
-          <Button
+          <button
             onClick={() => setShowNewDispute(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 px-5 rounded-xl font-semibold btn-press"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#008A00] text-white rounded-xl font-medium text-sm hover:bg-[#006B00] transition-colors"
           >
-            <Plus className="w-5 h-5 mr-2" />
+            <Plus className="w-4 h-4" />
             New
-          </Button>
+          </button>
         </div>
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder="Search disputes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 pl-12 pr-4 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+            className="w-full h-10 pl-10 pr-10 rounded-xl bg-gray-100 dark:bg-gray-800 border-0 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#008A00]/50 text-sm"
           />
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2 hover:bg-secondary rounded-lg transition-colors">
-            <Filter className="w-5 h-5 text-muted-foreground" />
+          <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg">
+            <Filter className="w-4 h-4 text-gray-400" />
           </button>
         </div>
-      </section>
 
-      {/* Summary Cards */}
-      <section className="px-8 pb-8 animate-fade-in stagger-1">
-        <div className="grid grid-cols-4 gap-3">
-          <SummaryCard
-            value={activeDisputes.length.toString()}
-            label="Active"
-            color="text-[#00D4FF]"
-          />
-          <SummaryCard value="1" label="Pending" color="text-[#FFB800]" />
-          <SummaryCard value="12" label="Resolved" color="text-primary" />
-          <SummaryCard value="94%" label="Success" color="text-foreground" />
+        {/* Summary Stats */}
+        <div className="grid grid-cols-4 gap-2 mt-4">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-gray-900 dark:text-white">
+              {activeDisputes.length}
+            </p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              Active
+            </p>
+          </div>
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-yellow-500">1</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              Pending
+            </p>
+          </div>
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-[#008A00]">12</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              Resolved
+            </p>
+          </div>
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-2.5 text-center">
+            <p className="text-lg font-bold text-gray-900 dark:text-white">
+              94%
+            </p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">
+              Success
+            </p>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Tabs */}
-      <section className="px-8 pb-6 animate-fade-in stagger-2">
-        <div className="flex gap-2 p-1.5 bg-secondary/50 rounded-2xl">
+      {/* Content */}
+      <div className="px-4 py-4 space-y-4">
+        {/* AI Quick Actions - At Top */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={startAutoGenerate}
+            className="flex items-center gap-3 p-4 bg-[#008A00] text-white rounded-2xl hover:bg-[#006B00] transition-colors"
+          >
+            <Bot className="w-5 h-5" />
+            <div className="text-left">
+              <p className="font-semibold text-sm">Auto-Generate</p>
+              <p className="text-xs text-white/70">AI dispute letters</p>
+            </div>
+          </button>
+          <button
+            onClick={startSubmitAll}
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          >
+            <Send className="w-5 h-5 text-[#008A00]" />
+            <div className="text-left">
+              <p className="font-semibold text-sm text-gray-900 dark:text-white">Submit All</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">3 ready to send</p>
+            </div>
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 p-1 bg-gray-200 dark:bg-gray-800 rounded-xl">
           <button
             onClick={() => setActiveTab("active")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all ${
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "active"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
             Active ({activeDisputes.length})
           </button>
           <button
             onClick={() => setActiveTab("history")}
-            className={`flex-1 py-3 px-4 rounded-xl text-sm font-semibold transition-all ${
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === "history"
-                ? "bg-primary text-primary-foreground shadow-lg"
-                : "text-muted-foreground hover:text-foreground"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400"
             }`}
           >
             History
           </button>
         </div>
-      </section>
 
-      {/* Dispute List */}
-      <section className="px-8 pb-10 animate-fade-in stagger-3">
-        <div className="space-y-4">
+        {/* Dispute List */}
+        <div className="space-y-3">
           {(activeTab === "active" ? disputes : resolvedDisputes).map(
-            (dispute, index) => (
+            (dispute) => (
               <DisputeCard
                 key={dispute.id}
                 dispute={dispute}
                 onClick={() => setSelectedDispute(dispute)}
-                delay={index}
               />
             ),
           )}
         </div>
-      </section>
 
-      {/* AI Bulk Actions */}
-      {activeTab === "active" && (
-        <section className="px-8 pb-10 animate-fade-in stagger-4">
-          <div className="glass-card rounded-3xl p-6 border border-primary/20">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-[#00B8A9] flex items-center justify-center flex-shrink-0">
-                <Sparkles className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-semibold text-foreground">
-                  AI Quick Actions
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Let AI handle your disputes automatically
-                </p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Button
-                variant="outline"
-                className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press justify-center"
-                onClick={() =>
-                  alert(
-                    "Generating AI dispute letters for all active disputes...",
-                  )
-                }
-              >
-                <Bot className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span className="truncate">Auto-Generate Letters</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-12 border-primary/20 text-primary hover:bg-primary/10 bg-transparent rounded-xl text-sm font-medium btn-press justify-center"
-                onClick={() =>
-                  alert("Submitting all pending disputes to bureaus...")
-                }
-              >
-                <Send className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span className="truncate">Submit All Pending</span>
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Quick Actions */}
-      <section className="px-8 pb-10 animate-fade-in stagger-5">
-        <h3 className="font-semibold text-foreground mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <ActionCard
-            icon={<Upload className="w-6 h-6" />}
-            title="Upload Documents"
-            description="Add supporting files"
-            onClick={() => alert("Opening document upload...")}
-          />
-          <ActionCard
-            icon={<MessageSquare className="w-6 h-6" />}
-            title="Message Specialist"
-            description="Get expert help"
-            onClick={() => alert("Opening chat with specialist...")}
-          />
-          <ActionCard
-            icon={<Phone className="w-6 h-6" />}
-            title="Call Support"
-            description="1-800-TD-HELP"
-            onClick={() => window.open("tel:1-800-843-4357")}
-          />
-          <ActionCard
-            icon={<FileSpreadsheet className="w-6 h-6" />}
-            title="View Templates"
-            description="Dispute letter templates"
-            onClick={() => alert("Opening dispute letter templates...")}
-          />
-        </div>
-      </section>
-
-      {/* Tips */}
-      <section className="px-8 pb-8 animate-fade-in stagger-6">
-        <div className="glass-card rounded-2xl p-5 border border-[#00D4FF]/20 bg-[#00D4FF]/5">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-[#00D4FF]/20 flex items-center justify-center flex-shrink-0">
-              <Shield className="w-5 h-5 text-[#00D4FF]" />
-            </div>
+        {/* Pro Tip */}
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4">
+          <div className="flex items-start gap-3">
+            <Shield className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground mb-1">Pro Tip</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="font-medium text-gray-900 dark:text-white text-sm">
+                Pro Tip
+              </p>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
                 Disputes with supporting documents are 3x more likely to be
-                resolved in your favor. Always attach bank statements and
-                payment confirmations.
+                resolved in your favor.
               </p>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Bottom Padding */}
+      <div className="h-24" />
+
+      {/* Auto-Generate Sheet */}
+      <Sheet open={showAutoGenerate} onOpenChange={setShowAutoGenerate}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <Wand2 className="w-6 h-6 text-[#008A00]" />
+              Auto-Generate Dispute Letters
+            </SheetTitle>
+            <SheetDescription>
+              AI will create personalized dispute letters for each issue
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {generateStep === 0 && (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="w-16 h-16 rounded-full bg-[#008A00]/10 flex items-center justify-center mb-4">
+                  <Bot className="w-8 h-8 text-[#008A00]" />
+                </div>
+                <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
+                <p className="font-semibold text-gray-900 dark:text-white">Analyzing Your Issues</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
+                  Reviewing credit report discrepancies...
+                </p>
+              </div>
+            )}
+
+            {generateStep === 1 && (
+              <div className="flex flex-col items-center justify-center py-12 animate-in fade-in">
+                <div className="w-16 h-16 rounded-full bg-[#008A00]/10 flex items-center justify-center mb-4">
+                  <FileText className="w-8 h-8 text-[#008A00]" />
+                </div>
+                <Loader2 className="w-8 h-8 text-[#008A00] animate-spin mb-4" />
+                <p className="font-semibold text-gray-900 dark:text-white">Drafting Letters</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
+                  Creating legally compliant dispute letters...
+                </p>
+              </div>
+            )}
+
+            {generateStep === 2 && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                <div className="bg-[#008A00]/10 rounded-2xl p-4 text-center">
+                  <CheckCircle2 className="w-12 h-12 text-[#008A00] mx-auto mb-3" />
+                  <p className="font-semibold text-gray-900 dark:text-white text-lg">3 Letters Generated!</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Ready for your review</p>
+                </div>
+
+                <div className="space-y-3">
+                  <GeneratedLetterCard 
+                    bureau="Equifax"
+                    issue="Incorrect Balance"
+                    summary="Formal request to correct TD Visa balance from $2,400 to actual $1,200"
+                  />
+                  <GeneratedLetterCard 
+                    bureau="TransUnion"
+                    issue="Unauthorized Inquiry"
+                    summary="Request to remove unauthorized hard inquiry from QuickLoans Inc."
+                  />
+                  <GeneratedLetterCard 
+                    bureau="Experian"
+                    issue="Late Payment Error"
+                    summary="Dispute of incorrectly reported late payment from March 2024"
+                  />
+                </div>
+
+                <div className="pt-4 space-y-3">
+                  <Button 
+                    className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                    onClick={() => {
+                      setShowAutoGenerate(false);
+                      setGenerateStep(0);
+                      toast.success("Letters Saved!", { description: "Your dispute letters are ready in the drafts section." });
+                    }}
+                  >
+                    Save All Letters
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="w-full h-12 rounded-xl"
+                    onClick={() => {
+                      setShowAutoGenerate(false);
+                      setGenerateStep(0);
+                    }}
+                  >
+                    Edit Letters First
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Submit All Sheet */}
+      <Sheet open={showSubmitAll} onOpenChange={setShowSubmitAll}>
+        <SheetContent side="bottom" className="h-[85vh] rounded-t-3xl">
+          <SheetHeader className="text-left pb-4">
+            <SheetTitle className="flex items-center gap-2 text-xl">
+              <Send className="w-6 h-6 text-[#008A00]" />
+              Submit All Disputes
+            </SheetTitle>
+            <SheetDescription>
+              Review and submit your pending disputes to credit bureaus
+            </SheetDescription>
+          </SheetHeader>
+          
+          <div className="flex-1 overflow-auto px-4 space-y-4">
+            {submitStep === 0 && (
+              <>
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4">
+                  <p className="text-sm text-blue-800 dark:text-blue-200">
+                    <strong>Note:</strong> Bureaus have 30 days to investigate and respond to your disputes.
+                  </p>
+                </div>
+
+                <p className="text-sm text-gray-500 dark:text-gray-400">3 disputes ready to submit:</p>
+
+                <div className="space-y-3">
+                  {disputes.slice(0, 3).map((dispute) => (
+                    <SubmitDisputeCard key={dispute.id} dispute={dispute} />
+                  ))}
+                </div>
+
+                <div className="pt-4 space-y-3">
+                  <Button 
+                    className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                    onClick={() => setSubmitStep(1)}
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    Submit All 3 Disputes
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="w-full h-12 rounded-xl"
+                    onClick={() => setShowSubmitAll(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </>
+            )}
+
+            {submitStep === 1 && (
+              <div className="flex flex-col items-center justify-center py-12">
+                <Loader2 className="w-12 h-12 text-[#008A00] animate-spin mb-4" />
+                <p className="font-semibold text-gray-900 dark:text-white">Submitting Disputes</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-1">
+                  Securely sending to credit bureaus...
+                </p>
+                {setTimeout(() => setSubmitStep(2), 2500) && null}
+              </div>
+            )}
+
+            {submitStep === 2 && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                <div className="bg-[#008A00]/10 rounded-2xl p-6 text-center">
+                  <CheckCheck className="w-16 h-16 text-[#008A00] mx-auto mb-4" />
+                  <p className="font-bold text-gray-900 dark:text-white text-xl">All Disputes Submitted!</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    Confirmation emails sent to your inbox
+                  </p>
+                </div>
+
+                <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
+                  <p className="font-semibold text-gray-900 dark:text-white mb-3">What happens next?</p>
+                  <div className="space-y-3">
+                    <TimelineItem 
+                      step="1"
+                      title="Bureaus receive disputes"
+                      description="Within 24 hours"
+                    />
+                    <TimelineItem 
+                      step="2"
+                      title="Investigation begins"
+                      description="Bureaus contact creditors"
+                    />
+                    <TimelineItem 
+                      step="3"
+                      title="Resolution"
+                      description="Results within 30 days"
+                    />
+                  </div>
+                </div>
+
+                <Button 
+                  className="w-full h-12 bg-[#008A00] hover:bg-[#006B00] text-white rounded-xl"
+                  onClick={() => {
+                    setShowSubmitAll(false);
+                    setSubmitStep(0);
+                    toast.success("Tracking enabled!", { description: "We'll notify you of any updates." });
+                  }}
+                >
+                  Track My Disputes
+                </Button>
+              </div>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+}
+
+// Helper components for sheets
+function GeneratedLetterCard({ bureau, issue, summary }: { bureau: string; issue: string; summary: string }) {
+  return (
+    <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
+      <div className="flex items-center justify-between mb-2">
+        <span className="font-medium text-gray-900 dark:text-white">{bureau}</span>
+        <span className="text-xs px-2 py-1 rounded-full bg-[#008A00]/10 text-[#008A00]">{issue}</span>
+      </div>
+      <p className="text-sm text-gray-500 dark:text-gray-400">{summary}</p>
+      <button className="text-sm text-[#008A00] font-medium mt-2">Preview Letter →</button>
+    </div>
+  );
+}
+
+function SubmitDisputeCard({ dispute }: { dispute: Dispute }) {
+  return (
+    <div className="bg-white dark:bg-gray-900 rounded-xl p-4 border border-gray-100 dark:border-gray-800">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="font-medium text-gray-900 dark:text-white">{dispute.type}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{dispute.bureau}</p>
+        </div>
+        <CheckCircle2 className="w-5 h-5 text-[#008A00]" />
+      </div>
+    </div>
+  );
+}
+
+function TimelineItem({ step, title, description }: { step: string; title: string; description: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="w-6 h-6 rounded-full bg-[#008A00] text-white text-xs font-bold flex items-center justify-center flex-shrink-0">
+        {step}
+      </div>
+      <div>
+        <p className="font-medium text-gray-900 dark:text-white text-sm">{title}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
+      </div>
     </div>
   );
 }
@@ -376,14 +612,117 @@ function SummaryCard({
   color: string;
 }) {
   return (
-    <div className="glass-card rounded-2xl p-4 text-center">
-      <p className={`text-2xl font-bold ${color}`}>{value}</p>
-      <p className="text-xs text-muted-foreground mt-1">{label}</p>
+    <div className="bg-white dark:bg-gray-900 rounded-xl p-3 text-center border border-gray-100 dark:border-gray-800">
+      <p className={`text-xl font-bold ${color}`}>{value}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{label}</p>
     </div>
   );
 }
 
 function DisputeCard({
+  dispute,
+  onClick,
+}: {
+  dispute: Dispute;
+  onClick: () => void;
+}) {
+  const statusConfig = {
+    submitted: {
+      color: "text-blue-600",
+      bg: "bg-blue-100 dark:bg-blue-900/30",
+      label: "Submitted",
+    },
+    investigating: {
+      color: "text-yellow-600",
+      bg: "bg-yellow-100 dark:bg-yellow-900/30",
+      label: "Investigating",
+    },
+    resolved: {
+      color: "text-green-600",
+      bg: "bg-green-100 dark:bg-green-900/30",
+      label: "Resolved",
+    },
+    rejected: {
+      color: "text-red-600",
+      bg: "bg-red-100 dark:bg-red-900/30",
+      label: "Rejected",
+    },
+    pending_docs: {
+      color: "text-orange-600",
+      bg: "bg-orange-100 dark:bg-orange-900/30",
+      label: "Needs Docs",
+    },
+  };
+
+  const config = statusConfig[dispute.status] || statusConfig.submitted;
+
+  return (
+    <button
+      onClick={onClick}
+      className="w-full bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800 text-left hover:shadow-md transition-all"
+    >
+      <div className="flex items-start justify-between mb-2">
+        <div className="flex-1 min-w-0">
+          <p className="font-semibold text-gray-900 dark:text-white text-sm">
+            {dispute.type}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {dispute.bureau} • {dispute.submittedDate}
+          </p>
+        </div>
+        <span
+          className={`text-xs px-2 py-1 rounded-full font-medium ${config.bg} ${config.color}`}
+        >
+          {config.label}
+        </span>
+      </div>
+      <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 mb-3">
+        {dispute.description}
+      </p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+            <Clock className="w-3 h-3" />
+            <span>
+              {dispute.daysRemaining > 0
+                ? `${dispute.daysRemaining} days left`
+                : "Completed"}
+            </span>
+          </div>
+          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+            <FileText className="w-3 h-3" />
+            <span>{dispute.documents} docs</span>
+          </div>
+        </div>
+        <ChevronRight className="w-4 h-4 text-gray-400" />
+      </div>
+    </button>
+  );
+}
+
+function QuickAction({
+  icon,
+  title,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex flex-col items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+    >
+      <div className="text-[#008A00]">{icon}</div>
+      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+        {title}
+      </span>
+    </button>
+  );
+}
+
+function DisputeCard_Old({
   dispute,
   onClick,
   delay = 0,
