@@ -15,6 +15,9 @@ import {
   Landmark,
   CreditCard,
   Sparkles,
+  Shield,
+  Users,
+  FileCheck,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -271,6 +274,44 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
                   </p>
                 </div>
                 <ChevronRight className="w-5 h-5 text-white/60" />
+              </div>
+            </button>
+
+            {/* Financial Inclusion Initiative */}
+            <button
+              onClick={onOpenCleanSlate}
+              className="w-full rounded-xl p-4 text-left relative overflow-hidden border-2 border-[#008A00]/20 bg-linear-to-r from-[#E8F5E9] to-white dark:from-[#008A00]/10 dark:to-gray-900"
+            >
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 rounded-xl bg-[#008A00]/10 dark:bg-[#008A00]/20 flex items-center justify-center shrink-0">
+                  <Shield className="w-6 h-6 text-[#008A00]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="font-semibold text-gray-900 dark:text-white text-sm">
+                      Transparency for All
+                    </span>
+                    <span className="text-[10px] bg-[#008A00] text-white px-2 py-0.5 rounded-full font-bold uppercase">
+                      CSR Initiative
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                    Credit errors affect marginalized communities at 40% higher rates. 
+                    Clean Slate Portal protects newcomers, low-income families & racialized 
+                    Canadians with real-time monitoring.
+                  </p>
+                  <div className="flex items-center gap-3 text-[10px]">
+                    <span className="flex items-center gap-1 text-[#008A00] font-medium">
+                      <Users className="w-3 h-3" />
+                      Free dispute resolution
+                    </span>
+                    <span className="flex items-center gap-1 text-[#008A00] font-medium">
+                      <FileCheck className="w-3 h-3" />
+                      Bank-issued proof
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400 shrink-0" />
               </div>
             </button>
           </div>
