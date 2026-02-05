@@ -296,9 +296,9 @@ export function TDHomeScreen({ onOpenCleanSlate }: TDHomeScreenProps) {
                     </span>
                   </div>
                   <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-                    Credit errors affect marginalized communities at 40% higher rates. 
-                    Clean Slate Portal protects newcomers, low-income families & racialized 
-                    Canadians with real-time monitoring.
+                    Credit errors affect marginalized communities at 40% higher
+                    rates. Clean Slate Portal protects newcomers, low-income
+                    families & racialized Canadians with real-time monitoring.
                   </p>
                   <div className="flex items-center gap-3 text-[10px]">
                     <span className="flex items-center gap-1 text-[#008A00] font-medium">
